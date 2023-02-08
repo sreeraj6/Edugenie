@@ -6,4 +6,6 @@ router.get('', function(req, res, next) {
   res.render('admin/login.hbs')
 });
 
+
+
 module.exports = router;
