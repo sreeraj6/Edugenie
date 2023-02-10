@@ -16,12 +16,11 @@ module.exports = {
             Email:staffData.email,
             Gender:staffData.gender
         }
-        console.log(staff);
 
         return new Promise(async (resolve, reject) => {
             let response = {}
             let find = null;
-            //find = await db.get().collection('staff').findOne({email: DataTransfer.email})
+            find = await db.get().collection(process.env.STAFFDB).findOne({email: staff.email})
 
             if(find){
                 response.user = true
