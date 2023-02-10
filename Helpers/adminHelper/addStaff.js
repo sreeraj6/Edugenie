@@ -20,7 +20,7 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             let response = {}
             let find = null;
-            find = await db.get().collection(process.env.STAFFDB).findOne({email: staff.email})
+            find = await db.get().collection(process.env.STAFFDB).findOne({Email: staff.email})
 
             if(find){
                 response.user = true
