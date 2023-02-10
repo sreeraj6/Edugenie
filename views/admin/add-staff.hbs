@@ -1,21 +1,76 @@
-<form>
+<form method="post">
   <h1 class="text-center">STAFF</h1>
+  {{!-- Staff name --}}
   <div class="form-group">
     <label for="exampleFormControlInput1">Staff Name</label>
-    <input type="name"  name="sfName"class="form-control" id="exampleFormControlInput1" placeholder="name">
+    <input type="name" name="sfName" class="form-control" id="exampleFormControlInput1" placeholder="name">
   </div>
+
+  {{!-- phone --}}
+  <div class="form-group">
+    <label for="exampleFormControlInput1">Mobile No</label>
+    <input type="number" name="phone" class="form-control" id="exampleFormControlInput1" placeholder="Mobile">
+  </div>
+
+  {{!-- email --}}
+  <div class="form-group">
+    <label for="exampleFormControlInput1">Email</label>
+    <input type="email" name="email" class="form-control" id="exampleFormControlInput1" placeholder="email@gmail.com">
+  </div>
+
+  {{!-- experience --}}
+  <div class="form-group">
+    <label for="exampleFormControlInput1">Experience in teaching Field</label>
+    <input type="number" name="experience" class="form-control" id="exampleFormControlInput1" placeholder="5">
+  </div>
+
+  {{!-- date of joining --}}
+  <div class="form-group">
+    <label for="exampleFormControlInput1">Date of Joining</label>
+    <input type="date" name="date" class="form-control" id="exampleFormControlInput1" placeholder="DD-MM-YYYY">
+  </div>
+
+  {{!-- Qualification --}}
+  <div class="form-group">
+    <label for="exampleFormControlInput1">Qualification</label>
+    <input type="text" name="qualification" class="form-control" id="exampleFormControlInput1" placeholder="NET">
+  </div>
+
+  {{!-- address --}}
+  <div class="form-group">
+    <label for="exampleFormControlInput1">Address</label>
+    <input type="text" name="address" class="form-control" id="exampleFormControlInput1" placeholder="abc villa">
+  </div>
+
   <div class="form-group">
     <label for="exampleFormControlSelect1">Department</label>
     <select class="form-control" name="sfDept" id="exampleFormControlSelect1">
       <option>BCA</option>
       <option>BCom</option>
       <option>English</option>
-     
+
     </select>
   </div>
+  <br>
+  {{!-- Gender --}}
   <div class="form-group">
+    <label for="exampleFormControlSelect1">Gender</label>
+    {{!-- radio start --}}
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="gender" id="inlineRadio1" value="Male" />
+      <label class="form-check-label" for="inlineRadio1">Male</label>
+    </div>
+
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="gender" id="inlineRadio2" value="Female" />
+      <label class="form-check-label" for="inlineRadio2">Female</label>
+    </div>
+    {{!-- radio end --}}
+  </div>
+
+  {{!-- <div class="form-group">
     <label for="exampleFormControlSelect2">Semester</label>
-    <select class="form-control" name="Sem"id="exampleFormControlSelect1">
+    <select class="form-control" name="Sem" id="exampleFormControlSelect1">
       <option>1</option>
       <option>2</option>
       <option>3</option>
@@ -23,7 +78,13 @@
       <option>5</option>
       <option>6</option>
     </select>
+  </div> --}}
+  <br>
+
+  {{#if staffexist}}
+  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <strong>Invalid Username or Password</strong><br> Check your credentials
   </div>
+  {{/if}}
   <button type="submit" class="btn btn-primary">Submit</button>
-   
 </form>

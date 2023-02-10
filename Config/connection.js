@@ -1,19 +1,29 @@
-const mongoClient = require('mongodb').MongoClient;
+const { MongoClient } = require("mongodb");
+
+// Connection URI
+const uri = process.env.MONGO_URL;
+const dbname = process.env.DBNAME;
+// Create a new MongoClient
+const client = new MongoClient(uri);
 const state = {
     db:null
 }
+async function run() {
+  try {
+    // Connect the client to the server (optional starting in v4.7)
+    await client.connect();
+    // Establish and verify connection
+    await client.db(dbname).command({ ping: 1 });
+    console.log("Connected successfully to server");
+    state.db = client.db(dbname)
+  }
+  catch{
+    console.log("error occured");
+  }
 
-module.exports.connect=(done)=>{
-    const url = process.env.MONGO_URL
-    const dbnmae = process.env.DBNAME
-
-    mongoClient.connect(url, (err, data) => {
-        if(err) return done(err)
-        state.db = data.db(dbnmae)
-        done()
-    })
 }
+run()
 
-module.exports.get=()=>{
+module.exports.get = ()=> {
     return state.db
 }
