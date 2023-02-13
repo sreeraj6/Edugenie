@@ -6,7 +6,7 @@ var router = express.Router();
 //GET admin login form
 //route admin/login
 router.get('/', (req, res) => {
-    res.render('admin/home.hbs')
+    res.render('admin/home.hbs',{admin:true})
 })
 
 //GET admin login form

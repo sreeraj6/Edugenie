@@ -6,6 +6,7 @@ var logger = require('morgan');
 require('dotenv').config()
 var session = require('express-session');
 var app = express();
+ var hbs=require('express-handlebars')
 var db = require('./Config/connection');
 
 app.use(session({
@@ -30,7 +31,8 @@ const { setEngine } = require('crypto');
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
-
+app.engine('hbs',hbs.engine({extname:'hbs',defaultLayout:'layout',layoutsDir:__dirname+'/views/layout/',partialsDir:__dirname +'/views/partials/'}))
+ 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
