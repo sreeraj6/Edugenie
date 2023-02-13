@@ -1,6 +1,7 @@
 const { response } = require('express');
 var express = require('express');
 var staffController = require('../Helpers/adminHelper/addStaff');
+var departmentController=require('../Helpers/adminHelper/aboutDept')
 var router = express.Router();
 
 //GET admin login form
@@ -27,7 +28,7 @@ router.post('/login', (req, res) => {
 //GET admin add staff form
 //route admin/add-staff
 router.get('/add-staff', (req, res) => {
-    res.render('admin/add-staff.hbs', { 'staffExist': req.session.staff });
+    res.render('admin/add-staff.hbs', { 'staffExist': req.session.staff ,admin:true});
     req.session.staff = false;
 });
 
@@ -37,17 +38,24 @@ router.post('/add-staff', (req, res) => {
     staffController.addStaff(req.body).then((response) => {
         if (response.user) {
             req.session.staff = true;
-            res.redirect('/admin/addstaff')
+            res.redirect('/admin/add-staff')
         }
         else{
             res.redirect('/admin');
         }
     })
 })
+
+router.get('/staff-data',(req,res)=>{
+    staffController.getstaffData().then((staffData)=>{
+        res.render('admin/staff-data',{staffdata:staffData,admin:true})
+})
+    });
+    
 //GET admin add student form
 //route admin/add-student
 router.get('/add-student', (req, res) => {
-    res.render('admin/add-student.hbs')
+    res.render('admin/add-student.hbs',{admin:true})
 })
 
 
@@ -64,10 +72,19 @@ router.post('/add-student', (req, res) => {
 //route admin/add-dept
 router.get('/add-dept', (req,res) => { //required : name, capacity, semester, 
 //for assigning hod take all the staff of the current dept and display in dropdown
+res.render('admin/add-dept',{admin:true})
 })
 
 router.post('/add-dept', (req,res) => { 
-
+ departmentController.addDept(req.body).then((response)=>{
+    if (response.user) {
+        
+        res.redirect('/admin/add-dept')
+    }
+    else{
+        res.redirect('/admin');
+    }
+ })
 })
 
 //monitor student attendance

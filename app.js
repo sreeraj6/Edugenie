@@ -22,8 +22,8 @@ app.use(session({
 // })
 
 var adminRouter = require('./routes/admin')
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var indexRouter = require('./routes/staff');
+var usersRouter = require('./routes/student');
 const { Console } = require('console');
 const { setEngine } = require('crypto');
 
@@ -43,7 +43,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/admin', adminRouter);
-app.use('/users', usersRouter);
+app.use('/staff', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

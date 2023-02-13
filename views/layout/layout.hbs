@@ -36,9 +36,13 @@
    
    {{>admin-header}}
 
-   {{else if  }}
+   {{else if student }}
 
    {{>staff-header}}
+
+   {{else  }}
+
+   {{>student-header}}
 
 {{/if}} 
     {{{body}}}

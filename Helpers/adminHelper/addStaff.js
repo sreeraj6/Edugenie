@@ -35,5 +35,15 @@ module.exports = {
                 })
             }
         })
-    }
+    },
+    getstaffData: () => {
+        return new Promise(async (resolve, reject) => {
+          let staffData = await db
+            .get()
+            .collection(process.env.STAFFDB)
+            .find()
+            .toArray();
+          resolve(staffData);
+        });
+      },
 }
