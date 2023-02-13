@@ -2,6 +2,7 @@ const { response } = require('express');
 var express = require('express');
 var staffController = require('../Helpers/adminHelper/addStaff');
 var departmentController=require('../Helpers/adminHelper/aboutDept')
+var studentController=require('../Helpers/adminHelper/addStudent')
 var router = express.Router();
 
 //GET admin login form
@@ -63,7 +64,16 @@ router.get('/add-student', (req, res) => {
 //@route admin/add-student
 router.post('/add-student', (req, res) => {
     
-    console.log(req.body);
+    studentController.addStudent(req.body).then((response) => {
+        if (response.user) {
+            req.session.student = true;
+            res.redirect('/admin/add-student')
+        }
+        else{
+            res.redirect('/admin');
+        }
+    })
+     
 })
 
 
