@@ -29,14 +29,21 @@ module.exports = {
                     }
                 )
             } catch (error) {
-                console.log(error);
                 response.status = false
                 resolve(response);
             }
             
         })
     },
+    //get 
+    getStaff: (dept)=>{
 
+        return new Promise((resolve, reject) => {
+            var staff = db.get().collection(process.env.STAFFDB).find({Department: dept.Department}).toArray();
+            console.log(staff);
+            resolve(staff)
+        })
+    },
     //delete department
     delDept: (deptData) => {
 
@@ -45,6 +52,14 @@ module.exports = {
             then((response)=>{
                 resolve(response);
             })
+        })
+    },
+
+    getDepartment: () => {
+        var response = {}
+        return new Promise( async (resolve, reject) => {
+            var dept = await db.get().collection(process.env.DEPTDB).find().toArray();
+            resolve(dept);
         })
     },
 

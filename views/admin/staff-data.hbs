@@ -1,36 +1,35 @@
- <div class="card mt-5">
-            <div class="card-body">
-              <h5 class="card-title">Staff details</h5>
-              <p>details of Staff that they work in various departments.</p>
-              <!-- Active Table -->
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Department</th>
-                    <th scope="col">Qualification</th>
-                    <th scope="col">Contact Number</th>
-                    <th scope="col">DateofJoining</th>
-                  </tr>
-                </thead>
-                <tbody>
+<div class="card mt-5">
+  <div class="card-body">
+    <h5 class="card-title">Staff details</h5>
+    <p>details of Staff that they work in various departments.</p>
+    <!-- Active Table -->
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Department</th>
+          <th scope="col">Qualification</th>
+          <th scope="col">Contact Number</th>
+          <th scope="col">DateofJoining</th>
+        </tr>
+      </thead>
+      <tbody>
 
-                    {{#each staffdata}}
-                  <tr>
-                    <th scope="row">{{@index}}</th>
-                    <td>{{this.Name}}</td>
-                    <td>{{this.Department}}</td>
-                    <td>{{this.Qualification}}</td> 
-                     <td>{{this.Phone}}</td>
-                    <td>{{this.DateOfJoining}}</td>
-                  </tr>
-                  
-                  {{/each}}
-                </tbody>
-              </table>
-              <!-- End Active Table -->
+        {{#each staffdata}}
+        <tr>
+          <th scope="row">{{@index}}</th>
+          <td>{{this.Name}}</td>
+          <td>{{this.Department}}</td>
+          <td>{{this.Qualification}}</td>
+          <td>{{this.Phone}}</td>
+          <td>{{this.DateOfJoining}}</td>
+        </tr>
 
-            </div>
-          </div>
-          
+        {{/each}}
+      </tbody>
+    </table>
+    <!-- End Active Table -->
+
+  </div>
+</div>

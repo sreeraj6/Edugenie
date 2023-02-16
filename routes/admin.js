@@ -3,6 +3,7 @@ var express = require('express');
 var staffController = require('../Helpers/adminHelper/addStaff');
 var departmentController=require('../Helpers/adminHelper/aboutDept')
 var studentController=require('../Helpers/adminHelper/addStudent')
+var subjectController = require('../Helpers/adminHelper/subjectHelper');
 var router = express.Router();
 
 //GET admin login form
@@ -97,6 +98,10 @@ router.post('/add-dept', (req,res) => {
  })
 })
 
+//show department and current hods
+router.get('/get-dept', (req, res) => {
+    res.render('admin/department-data');
+})
 //monitor student attendance
 
 
@@ -107,10 +112,32 @@ router.post('/add-dept', (req,res) => {
 
 //delete dept
 
+//@DESC get add subj form
+//@GET add-subject
+router.get('/add-sub', (req, res) => {
+    departmentController.getDepartment().then((dept) =>{
+        res.render('admin/add-sub',{dept});
+    })
+   
+})
 
 
+//@POST /admin/add-sub
+router.post('/add-sub', (req, res) => {
+    subjectController.addSubject(req.body).then((response) => {
+        if(response.status){
+            res.redirect('/admin/add-sub');
+        }
+        else{
+            console.log(response);
+            res.render('error',{message:response.code});
+        }
+    })
+})
 //addsyllabus
-
+router.get('/add-syllab',(req, res) => {
+    res.render()
+})
 
 //exam hall allocation
 //1.Add halls and capacity
