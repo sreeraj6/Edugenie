@@ -136,7 +136,10 @@ router.post('/add-sub', (req, res) => {
 })
 //addsyllabus
 router.get('/add-syllab',(req, res) => {
-    res.render()
+    departmentController.getDepartment().then((dept)=>{
+    console.log(dept);
+    })
+    res.render('admin/add-sub',{dept:dept})
 })
 
 //exam hall allocation
