@@ -1,7 +1,7 @@
 const db = require('../../Config/connection');
 const bcrypt = require('bcrypt');
-const { ObjectId } = require('mongodb')
-const { response } = require('../../app')
+const { response } = require('../../app');
+const objectId = require('mongodb').ObjectId;
 
 module.exports = {
     //add new department
@@ -62,7 +62,19 @@ module.exports = {
             resolve(dept);
         })
     },
-
+    
+    //departmnet
+    getDepartment:(deptId) =>{
+        return new Promise(async(resolve,reject) => {
+            let dept = await db.get().collection(process.env.DEPTDB).findOne({_id: objectId(deptId)});
+            console.log(dept);
+            // db.get().collection(process.env.DEPTDB).findOne({_id: objectId(deptId) })
+            // .then((response) =>{
+            //     console.log(response);
+            //     resolve(response);
+            // })
+        })
+    },
     //add syllabus
     addSyllabus: (deptSyllab) => {
 

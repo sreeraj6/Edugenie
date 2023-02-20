@@ -29,14 +29,18 @@ router.post('/login', (req, res) => {
 
 //GET admin add staff form
 //route admin/add-staff
-router.get('/add-staff', (req, res) => {
-    res.render('admin/add-staff.hbs', { 'staffExist': req.session.staff ,admin:true});
+router.get('/add-staff',async (req, res) => {
+    var dept = await departmentController.getDepartment();
+    res.render('admin/add-staff.hbs', { 'staffExist': req.session.staff ,admin:true, dept});
     req.session.staff = false;
 });
 
 //POST admin add staff form
 //@DESC store staff data
 router.post('/add-staff', (req, res) => {
+    var dept = req.body.sfDept.split(",");
+    req.body.deptId = dept[0];
+    req.body.deptName = dept[1];
     staffController.addStaff(req.body).then((response) => {
         if (response.user) {
             req.session.staff = true;
@@ -47,8 +51,12 @@ router.post('/add-staff', (req, res) => {
         }
     })
 })
-
+router.get('/check',(req,res)=>{
+    // console.log(Date.UTC());
+    res.send(new Date)
+})
 router.get('/staff-data',(req,res)=>{
+    
     staffController.getstaffData().then((staffData)=>{
         res.render('admin/staff-data',{staffdata:staffData,admin:true})
 })
@@ -100,8 +108,22 @@ router.post('/add-dept', (req,res) => {
 
 //show department and current hods
 router.get('/get-dept', (req, res) => {
-    res.render('admin/department-data');
+    departmentController.getDepartment().then((deptdata) => {
+        res.render('admin/department-data',{deptdata});
+    }) 
 })
+
+
+//update department
+router.get('/update-dept/:id',async (req, res) => {
+    var staff = await staffController.getDeptStaff(req.params.id);
+    departmentController.getDepartment(req.params.id).then((response)=>{
+        console.log(response);
+    })
+    // res.send(req.params.id);
+
+})
+
 //monitor student attendance
 
 
@@ -136,7 +158,7 @@ router.post('/add-sub', (req, res) => {
 })
 //addsyllabus
 router.get('/add-syllab',(req, res) => {
-    res.render()
+    res.render('admin/add-syllab')
 })
 
 //exam hall allocation
