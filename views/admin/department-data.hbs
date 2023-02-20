@@ -1,0 +1,36 @@
+<div class="card mt-5">
+  <div class="card-body">
+    <h5 class="card-title">Department Details</h5>
+    <!-- Active Table -->
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Department</th>
+          <th scope="col">Capacity</th>
+          <th scope="col">Semesters</th>
+          <th scope="col">HOD</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+
+        {{#each deptdata}}
+        <tr>
+          <th scope="row">{{@index}}</th>
+          <td>{{this.Name}}</td>
+          <td>{{this.Capacity}}</td>
+          <td>{{this.Semesters}}</td>
+          <td>{{this.Hod}}</td>
+          <td>
+            <a class="btn btn-danger" href="/admin/update-dept/{{this._id}}">Update</a>
+            <button type="button" class="btn btn-warning">Warning</button>
+          </td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    <!-- End Active Table -->
+
+  </div>
+</div>

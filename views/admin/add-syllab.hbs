@@ -1,0 +1,29 @@
+<form method="post">
+    <h5 class="card-title">Subject</h5>
+
+    <div class="form-group">
+        <label for="exampleFormControlInput1">Select Department</label>
+        <select id="selstaff" name="Dept" class="form-select" aria-label="Default select example">
+            <option value='' selected>Select Department</option>
+            {{#each dept}}
+            <option value='{{this._id}}'>{{this.Name}}</option>
+            {{/each}}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="exampleFormControlInput1">Select Subject</label>
+        <select id="selstaff" name="Dept" class="form-select" aria-label="Default select example">
+            <option value='' selected>Subject</option>
+            {{#each dept}}
+            <option value='{{this._id}}'>{{this.Name}}</option>
+            {{/each}}
+        </select>
+    </div>
+    {{#if found}}
+    <div class="alert alert-danger" role="alert">
+        This is a danger alert—check it out!
+    </div>
+    {{/if}}
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>

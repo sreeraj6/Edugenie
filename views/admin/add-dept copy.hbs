@@ -1,0 +1,43 @@
+<form method="post"  action="/admin/add-dept">
+  <h1 class="text-center">DEPARTMENT</h1>
+
+  <div class="form-group">
+    <label for="exampleFormControlInput1">Department Name</label>
+    <input type="name" class="form-control" name="name"  id="exampleFormControlInput1" placeholder="name">
+  </div>
+
+  {{!--  --}}
+  <div class="form-group">
+    <label for="exampleFormControlInput1">Capacity</label>
+    <input type="number" class="form-control" name="capacity" id="exampleFormControlInput1" placeholder="U2******">
+  </div>
+
+  {{!--  --}}
+  <div class="form-group">
+    <label for="exampleFormControlSelect1">semester</label>
+    <select class="form-control" name="semester" id="exampleFormControlSelect1">
+      <option>1</option>
+      <option>2</ption>
+      <option>3</option>
+      <option>4</option>
+      <option>5</ption>
+      <option>6</option>
+     
+    </select>
+  </div>
+  
+  {{!--  --}}
+  <div class="form-group">
+    <label for="exampleFormControlSelect1">HOD</label>
+    <select class="form-control" name="hod" id="exampleFormControlSelect1">
+      <option>1</option>
+      <option>2</ption>
+      <option>3</option>
+      <option>4</option>
+      <option>5</ption>
+      <option>6</option>
+    </select>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
