@@ -1,6 +1,7 @@
 const db = require('../../Config/connection');
 const bcrypt = require('bcrypt');
 const { response } = require('../../app');
+const { ObjectId } = require('mongodb');
 const objectId = require('mongodb').ObjectId;
 
 module.exports = {
@@ -64,15 +65,41 @@ module.exports = {
     },
     
     //departmnet
-    getDepartment:(deptId) =>{
+    getDepartmentId:(deptId) =>{
         return new Promise(async(resolve,reject) => {
-            let dept = await db.get().collection(process.env.DEPTDB).findOne({_id: objectId(deptId)});
-            console.log(dept);
-            // db.get().collection(process.env.DEPTDB).findOne({_id: objectId(deptId) })
-            // .then((response) =>{
-            //     console.log(response);
-            //     resolve(response);
-            // })
+            db.get().collection(process.env.DEPTDB).findOne({_id: new ObjectId(deptId) })
+            .then((response) =>{
+                resolve(response);
+            })
+        })
+    },
+
+
+    //update department
+    updateDept:(deptId,deptData) => {
+
+        var dept = {
+            Capacity : deptData.capacity,
+            Semesters : deptData.semester,
+            HodId : deptData.hodId,
+            HodName : deptData.hodName
+        }
+
+        return new Promise(async(resolve, reject) => {
+
+            db.get().collection(process.env.DEPTDB).updateOne({
+                _id : new ObjectId(deptId)
+            }, {
+                $set: {
+                    Capacity:dept.Capacity,
+                    Semesters: dept.Semesters,
+                    HodId : dept.HodId,
+                    HodName : dept.HodName
+                }
+            }).
+            then((response) =>{
+                resolve(response);
+            })
         })
     },
     //add syllabus

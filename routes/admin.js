@@ -64,8 +64,10 @@ router.get('/staff-data',(req,res)=>{
     
 //GET admin add student form
 //route admin/add-student
-router.get('/add-student', (req, res) => {
-    res.render('admin/add-student.hbs',{admin:true})
+router.get('/add-student',async (req, res) => {
+    var dept = await departmentController.getDepartment();
+    console.log(dept);
+    res.render('admin/add-student.hbs',{admin:true,dept})
 })
 
 
@@ -85,7 +87,12 @@ router.post('/add-student', (req, res) => {
      
 })
 
-
+//get student
+router.get('/get-student', (req, res) => {
+    studentController.getStudent().then((students)=>{
+        res.render('admin/student-data',{students});
+    })
+})
 //dept -> add-dept, add-syllab,
 //GET admin add dept form and assign hod
 //route admin/add-dept
@@ -117,11 +124,22 @@ router.get('/get-dept', (req, res) => {
 //update department
 router.get('/update-dept/:id',async (req, res) => {
     var staff = await staffController.getDeptStaff(req.params.id);
-    departmentController.getDepartment(req.params.id).then((response)=>{
-        console.log(response);
+    departmentController.getDepartmentId(req.params.id).then((deptInfo)=>{
+        res.render('admin/edit-dept',{deptInfo,staff})
     })
-    // res.send(req.params.id);
+})
 
+
+//update department
+router.post('/update-dept/:id',async (req, res) => {
+    var staff = req.body.hod.split(",");
+    req.body.hodId = staff[0];
+    req.body.hodName = staff[1];
+
+    departmentController.updateDept(req.params.id,req.body).then((response) => {
+        res.redirect('/admin/get-dept')
+    })
+    
 })
 
 //monitor student attendance
@@ -157,10 +175,17 @@ router.post('/add-sub', (req, res) => {
     })
 })
 //addsyllabus
-router.get('/add-syllab',(req, res) => {
-    res.render('admin/add-syllab')
+router.get('/add-syllab',async(req, res) => {
+    var dept = await departmentController.getDepartment();
+    res.render('admin/add-syllab',{dept})
 })
 
+
+router.get('/get-sub/:id', async (req,res) => {
+    var subect = await subjectController.getSubject(req.params.id);
+    res.json(subect);
+    // subjectController.getSubject(req.body.parent_value)
+})
 //exam hall allocation
 //1.Add halls and capacity
 //2.select dept,hall,mixwithK(no:of students in a bench) and allocate exam hall  

@@ -3,7 +3,8 @@
 
     <div class="form-group">
         <label for="exampleFormControlInput1">Select Department</label>
-        <select id="selstaff" name="Dept" class="form-select" aria-label="Default select example">
+        <select id="selstaff" id="Dept" name="Dept" onchange="GetSubject(this)" class="form-select"
+            aria-label="Default select example">
             <option value='' selected>Select Department</option>
             {{#each dept}}
             <option value='{{this._id}}'>{{this.Name}}</option>
@@ -13,11 +14,8 @@
 
     <div class="form-group">
         <label for="exampleFormControlInput1">Select Subject</label>
-        <select id="selstaff" name="Dept" class="form-select" aria-label="Default select example">
+        <select id="selstaff" id="subject" name="subject" class="form-select" aria-label="Default select example">
             <option value='' selected>Subject</option>
-            {{#each dept}}
-            <option value='{{this._id}}'>{{this.Name}}</option>
-            {{/each}}
         </select>
     </div>
     {{#if found}}
@@ -27,3 +25,40 @@
     {{/if}}
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+
+<script>
+    function GetSelectedTextValue(ddlFruits) {
+        var selectedText = ddlFruits.options[ddlFruits.selectedIndex].innerHTML;
+        var selectedValue = ddlFruits.value;
+        alert("Selected Text: " + selectedText + " Value: " + selectedValue);
+    }
+
+    function GetSubject(deptId) {
+        var id = deptId.value;
+
+        //alert(id);
+        selectSub(id);
+    }
+
+    function selectSub(deptId) {
+        alert("iam");
+        var id = deptId
+        $.ajax({
+            url: '/admin/get-sub/' + id,
+            method: "GET",
+            success: ((response) => {
+                if (response) {
+                    alert("assigned");
+                    var select = document.getElementById("subject");
+                    for (var i = 0; i < response.length; i++){
+                        alert("assigned"+i);
+                    }
+                }else {
+        alert(123);
+    }
+                
+                
+            })
+        })
+   }
+</script>

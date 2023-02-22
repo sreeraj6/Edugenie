@@ -11,9 +11,9 @@
   <div class="form-group">
     <label for="exampleFormControlSelect1">Department</label>
     <select class="form-control" name="StuDept" id="exampleFormControlSelect1">
-      <option>BCA</option>
-      <option>BCom</option>
-      <option>English</option>
+      {{#each dept}}
+      <option value='{{this._id}},{{this.Name}}'>{{this.Name}}</option>
+      {{/each}}
      
     </select>
   </div>

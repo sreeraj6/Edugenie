@@ -33,5 +33,15 @@ module.exports = {
                 })
             }
         })
-    }
+    },
+
+    getStudent: () => {
+        
+        return new Promise(async(resolve, reject) => {
+            var student = await db.get().collection(process.env.STUDENTDB).find().toArray()
+            resolve(student);
+        })
+    },
+
+    
 }

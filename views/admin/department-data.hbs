@@ -21,7 +21,11 @@
           <td>{{this.Name}}</td>
           <td>{{this.Capacity}}</td>
           <td>{{this.Semesters}}</td>
-          <td>{{this.Hod}}</td>
+          {{#if this.HodName}}
+          <td>{{this.HodName}}</td>
+          {{else}}
+          <td>Not assigned</td> 
+          {{/if}}
           <td>
             <a class="btn btn-danger" href="/admin/update-dept/{{this._id}}">Update</a>
             <button type="button" class="btn btn-warning">Warning</button>
