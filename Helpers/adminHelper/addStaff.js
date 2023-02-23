@@ -12,9 +12,11 @@ module.exports = {
             DateOfJoining:staffData.date,
             Qualification:staffData.qualification,
             Address:staffData.address,
-            Department:staffData.sfDept,
+            Dept_Id:staffData.deptId,
+            Dept_Name:staffData.deptName,
             Email:staffData.email,
-            Gender:staffData.gender
+            Gender:staffData.gender,
+            createdAt: Date
         }
 
         return new Promise(async (resolve, reject) => {
@@ -46,4 +48,13 @@ module.exports = {
           resolve(staffData);
         });
       },
+
+    //get 
+    getDeptStaff: (deptId)=>{
+        
+        return new Promise(async(resolve, reject) => {
+            var staff = await db.get().collection(process.env.STAFFDB).find({Dept_Id: deptId}).toArray();
+            resolve(staff)
+        })
+    },
 }

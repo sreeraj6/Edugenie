@@ -1,0 +1,40 @@
+<section>
+ 
+
+  
+<form action="/staff/mark-Assignment/{{this._id}}"  method="post"  enctype="multipart/form-data">
+<div class="mb-3">
+  <label for="exampleFormControlInput1" class="form-label">Name</label>
+  <input type="text" name="assigNAME" value="{{CheckAssignment.NameofAssignment}}" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+</div>
+
+<div class="mb-3">
+  <label for="formFile" class="form-label">Upload your Assignments(current:{{CheckAssignment.Assignment}}:)</label>
+  <input class="form-control" value="{{CheckAssignment.Assignment}}" id="imageView"  onchange="viewImage(event)"  name="assignment"type="file" id="formFile">
+</div>
+
+  
+
+<div class="mb-3">
+  <input type="checkbox" onchange="check">
+  <button onclick="myFunction()">Check Checkbox</button>
+   <p id="demo"></p>
+
+
+</div>
+
+  
+ <button type="submit" class="btn btn-primary">Submit</button>
+ 
+
+
+
+</form>
+<script>
+function myFunction() {
+  var x = document.getElementById("myCheck").checked;
+  document.getElementById("demo").innerHTML = x;
+}
+</script>
+
+</section>

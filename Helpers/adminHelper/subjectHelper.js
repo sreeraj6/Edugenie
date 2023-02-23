@@ -1,5 +1,5 @@
+const { ObjectId } = require('mongodb');
 const db = require('../../Config/connection');
-
 module.exports = {
 
     addSubject: (subjectData) => {
@@ -31,6 +31,18 @@ module.exports = {
                     resolve(response);
                 })
             }
+
+        })
+    },
+
+    getSubject : (deptId) => {
+
+        return new Promise(async (resolve,reject) => {
+            var id = new ObjectId(deptId);
+            console.log(id);
+            var subject = await db.get().collection(process.env.SUBJECTDB).find({_id: new ObjectId(deptId)}).toArray();
+            console.log(subject);
+            resolve(subject);
 
         })
     }

@@ -29,14 +29,18 @@ router.post('/login', (req, res) => {
 
 //GET admin add staff form
 //route admin/add-staff
-router.get('/add-staff', (req, res) => {
-    res.render('admin/add-staff.hbs', { 'staffExist': req.session.staff ,admin:true});
+router.get('/add-staff',async (req, res) => {
+    var dept = await departmentController.getDepartment();
+    res.render('admin/add-staff.hbs', { 'staffExist': req.session.staff ,admin:true, dept});
     req.session.staff = false;
 });
 
 //POST admin add staff form
 //@DESC store staff data
 router.post('/add-staff', (req, res) => {
+    var dept = req.body.sfDept.split(",");
+    req.body.deptId = dept[0];
+    req.body.deptName = dept[1];
     staffController.addStaff(req.body).then((response) => {
         if (response.user) {
             req.session.staff = true;
@@ -47,8 +51,12 @@ router.post('/add-staff', (req, res) => {
         }
     })
 })
-
+router.get('/check',(req,res)=>{
+    // console.log(Date.UTC());
+    res.send(new Date)
+})
 router.get('/staff-data',(req,res)=>{
+    
     staffController.getstaffData().then((staffData)=>{
         res.render('admin/staff-data',{staffdata:staffData,admin:true})
 })
@@ -56,8 +64,10 @@ router.get('/staff-data',(req,res)=>{
     
 //GET admin add student form
 //route admin/add-student
-router.get('/add-student', (req, res) => {
-    res.render('admin/add-student.hbs',{admin:true})
+router.get('/add-student',async (req, res) => {
+    var dept = await departmentController.getDepartment();
+    console.log(dept);
+    res.render('admin/add-student.hbs',{admin:true,dept})
 })
 
 
@@ -77,7 +87,12 @@ router.post('/add-student', (req, res) => {
      
 })
 
-
+//get student
+router.get('/get-student', (req, res) => {
+    studentController.getStudent().then((students)=>{
+        res.render('admin/student-data',{students});
+    })
+})
 //dept -> add-dept, add-syllab,
 //GET admin add dept form and assign hod
 //route admin/add-dept
@@ -100,8 +115,33 @@ router.post('/add-dept', (req,res) => {
 
 //show department and current hods
 router.get('/get-dept', (req, res) => {
-    res.render('admin/department-data');
+    departmentController.getDepartment().then((deptdata) => {
+        res.render('admin/department-data',{deptdata});
+    }) 
 })
+
+
+//update department
+router.get('/update-dept/:id',async (req, res) => {
+    var staff = await staffController.getDeptStaff(req.params.id);
+    departmentController.getDepartmentId(req.params.id).then((deptInfo)=>{
+        res.render('admin/edit-dept',{deptInfo,staff})
+    })
+})
+
+
+//update department
+router.post('/update-dept/:id',async (req, res) => {
+    var staff = req.body.hod.split(",");
+    req.body.hodId = staff[0];
+    req.body.hodName = staff[1];
+
+    departmentController.updateDept(req.params.id,req.body).then((response) => {
+        res.redirect('/admin/get-dept')
+    })
+    
+})
+
 //monitor student attendance
 
 
@@ -135,13 +175,25 @@ router.post('/add-sub', (req, res) => {
     })
 })
 //addsyllabus
+ 
 router.get('/add-syllab',(req, res) => {
     departmentController.getDepartment().then((dept)=>{
     console.log(dept);
     })
     res.render('admin/add-sub',{dept:dept})
+
+router.get('/add-syllab',async(req, res) => {
+    var dept = await departmentController.getDepartment();
+    res.render('admin/add-syllab',{dept})
+
 })
 
+
+router.get('/get-sub/:id', async (req,res) => {
+    var subect = await subjectController.getSubject(req.params.id);
+    res.json(subect);
+    // subjectController.getSubject(req.body.parent_value)
+})
 //exam hall allocation
 //1.Add halls and capacity
 //2.select dept,hall,mixwithK(no:of students in a bench) and allocate exam hall  
@@ -150,6 +202,6 @@ router.get('/add-syllab',(req, res) => {
 //2.3 insert the shuffled into hall and remove from the queue
 //3.Generate excel or pdf from the allocation
 
-
+})
 
 module.exports = router;

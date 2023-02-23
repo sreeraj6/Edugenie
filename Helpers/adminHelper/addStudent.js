@@ -1,6 +1,7 @@
 const db = require('../../Config/connection');
 const bcrypt = require('bcrypt');
-const { ObjectId } = require('mongodb')
+const { ObjectId } = require('mongodb');
+const objectId = require('mongodb').ObjectId;
 const { response } = require('../../app')
 
 
@@ -33,5 +34,15 @@ module.exports = {
                 })
             }
         })
-    }
+    },
+
+    getStudent: () => {
+        
+        return new Promise(async(resolve, reject) => {
+            var student = await db.get().collection(process.env.STUDENTDB).find().toArray()
+            resolve(student);
+        })
+    },
+
+    
 }

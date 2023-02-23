@@ -45,10 +45,10 @@
   <div class="form-group">
     <label for="exampleFormControlSelect1">Department</label>
     <select class="form-control" name="sfDept" id="exampleFormControlSelect1">
-      <option>BCA</option>
-      <option>BCom</option>
-      <option>English</option>
-
+      <option value='' selected>Select Department</option>
+      {{#each dept}}
+      <option value='{{this._id}},{{this.Name}}'>{{this.Name}}</option>
+      {{/each}}
     </select>
   </div>
   <br>

@@ -1,7 +1,8 @@
 const db = require('../../Config/connection');
 const bcrypt = require('bcrypt');
-const { ObjectId } = require('mongodb')
-const { response } = require('../../app')
+const { response } = require('../../app');
+const { ObjectId } = require('mongodb');
+const objectId = require('mongodb').ObjectId;
 
 module.exports = {
     //add new department
@@ -62,7 +63,45 @@ module.exports = {
             resolve(dept);
         })
     },
+    
+    //departmnet
+    getDepartmentId:(deptId) =>{
+        return new Promise(async(resolve,reject) => {
+            db.get().collection(process.env.DEPTDB).findOne({_id: new ObjectId(deptId) })
+            .then((response) =>{
+                resolve(response);
+            })
+        })
+    },
 
+
+    //update department
+    updateDept:(deptId,deptData) => {
+
+        var dept = {
+            Capacity : deptData.capacity,
+            Semesters : deptData.semester,
+            HodId : deptData.hodId,
+            HodName : deptData.hodName
+        }
+
+        return new Promise(async(resolve, reject) => {
+
+            db.get().collection(process.env.DEPTDB).updateOne({
+                _id : new ObjectId(deptId)
+            }, {
+                $set: {
+                    Capacity:dept.Capacity,
+                    Semesters: dept.Semesters,
+                    HodId : dept.HodId,
+                    HodName : dept.HodName
+                }
+            }).
+            then((response) =>{
+                resolve(response);
+            })
+        })
+    },
     //add syllabus
     addSyllabus: (deptSyllab) => {
 
