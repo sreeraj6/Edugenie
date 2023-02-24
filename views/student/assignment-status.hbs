@@ -1,7 +1,7 @@
 <div class="card mt-5">
   <div class="card-body">
     <h5 class="card-title">view-assignments</h5>
-    <p> Assignments of Students.</p>
+    <p> Assignments Status.</p>
     <!-- Active Table -->
     <table class="table">
       <thead>
@@ -10,6 +10,8 @@
           <th scope="col">Name</th>
           <th scope="col">AssignmentName</th>
           <th scope="col">Assignment  </th>
+          <th scope="col">CheckAssignment</th>
+          <th scope="col">AssignmentStatus</th>
            
         </tr>
       </thead>
@@ -22,8 +24,13 @@
           <td>{{this.NameofStudent}}</td>
           <td>{{this.NameofAssignment}}</td>
           <td>{{this.Assignment}}</td>
-           <td> <a href="/staff/mark-Assignment/{{this._id}}"  class="btn btn-primary ">check</a></td>
-           
+           <td> <a href="/staff/mark-Assignment/{{this._id}}"  class="btn btn-primary ">Edit Your Assignment</a></td>
+         {{#if checkedState}}
+           <td><i class="fa-solid fa-check"></i>{{this.checkedState}}</td>
+          {{else}}
+          <td>Pending</td>
+
+          {{/if}}
         </tr>
        
 

@@ -28,7 +28,10 @@ getAssignmentDetails: (AssignmentId) => {
     });
   },
     markAssignments: (assign,id ) => {
-        return new Promise((resolve, reject) => {
+        return new Promise(async(resolve, reject) => {
+      let studentName= await db.get().collection(process.env.STUDENTDB).findOne({ })
+        console.log("studentname is",studentName.Name);
+      
           db.get()
             .collection(process.env.ASSIGNMENT)
             .updateOne(
@@ -36,11 +39,12 @@ getAssignmentDetails: (AssignmentId) => {
               {
                 $set: {
                  
-                    // NameofStudent:id,
+                     NameofStudent:studentName,
                     NameofAssignment:assign.assigNAME,
-                    Assignment:assign.Assignment
-                 
+                    Assignment:assign.Assignment,
+                     checkedState:assign.checked
                 },
+                
                 
               },
              
