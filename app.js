@@ -8,6 +8,7 @@ var session = require('express-session');
 var app = express();
  var hbs=require('express-handlebars')
 var db = require('./Config/connection');
+const fileUpload = require('express-fileupload');
 
 app.use(session({
   secret:'key',
@@ -38,12 +39,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(fileUpload( ));
 
 
 app.use('/', indexRouter);
 app.use('/admin', adminRouter);
-app.use('/staff', usersRouter);
+app.use('/staff', indexRouter);
+ 
+app.use('/student', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

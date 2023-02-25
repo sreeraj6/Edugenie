@@ -11,6 +11,7 @@
             {{/each}}
         </select>
     </div>
+
     {{!-- <div id="dropdown-container" class="form-group">
         <label for="exampleFormControlInput1">Select Subject</label>
     </div> --}}
@@ -27,16 +28,19 @@
     {{/if}}
 
 
+
     <div id="modules" class="form-group">
         <label for="exampleFormControlTextarea3">Rounded corners</label>
         <textarea class="form-control" id="exampleFormControlTextarea3" rows="7"></textarea>
     </div>
 
     <br><br>
+
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 
 <script>
+
 
     function GetSubject(deptId) {
         var id = deptId.value;
@@ -46,6 +50,7 @@
     }
 
     function selectSub(deptId) {
+
         var id = deptId
         $.ajax({
             url: '/admin/get-sub/' + id,

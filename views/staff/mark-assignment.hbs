@@ -1,0 +1,42 @@
+<section>
+ 
+
+  
+<form action="/staff/mark-Assignment/{{CheckAssignment._id}}"  method="post"   >
+<div class="mb-3">
+  <label for="exampleFormControlInput1" class="form-label">Name</label>
+  <input type="text" name="assigNAME" value="{{CheckAssignment.NameofAssignment}}" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+</div>
+
+<div class="mb-3">
+  <label for="formFile" class="form-label">Correct assignment file(current:{{CheckAssignment.Assignment}}:)</label>
+  <input class="form-control" value="{{CheckAssignment.Assignment}}" id="imageView"  onchange="viewImage(event)"  name="assignment"type="file" id="formFile">
+</div>
+  <input type="checkbox" id="my-checkbox" name="checked"  onclick=" return isChecked()" value="marked" <%= rentals.checkbox.indexOf("marked") !== -1 ? "checked" : "" %>   
+  
+ 
+
+  <p id="message"> </p>
+ 
+ 
+
+  
+ <button type="submit" class="btn btn-primary">Submit</button>
+ 
+
+
+
+</form>
+ 
+<script>
+    function isChecked(){
+    if(document.getElementById("my-checkbox").checked){
+        document.getElementById("message").textContent="marked"
+ 
+    }
+    else{
+        document.getElementById("message").textContent = "Not Checked";
+    }
+}
+    </script>
+</section>

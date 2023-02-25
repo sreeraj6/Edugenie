@@ -33,7 +33,6 @@ router.post('/login', (req, res) => {
 router.get('/add-staff',async (req, res) => {
     var dept = await departmentController.getDepartment();
     res.render('admin/add-staff.hbs', { 'staffExist': req.session.staff ,admin:true, dept});
-    req.session.staff = false;
 });
 
 //POST admin add staff form
@@ -178,6 +177,7 @@ router.post('/add-sub', (req, res) => {
 
 
 //addsyllabus
+
 router.get('/add-syllab',async(req, res) => {
     var dept = await departmentController.getDepartment();
     res.render('admin/add-syllab',{dept})
@@ -186,7 +186,7 @@ router.get('/add-syllab',async(req, res) => {
 
 router.get('/get-sub/:id', async (req,res) => {
     var subect = await subjectController.getSubject(req.params.id);
-    console.log(subect);
+
     res.json(subect);
     // subjectController.getSubject(req.body.parent_value)
 })
@@ -219,7 +219,6 @@ router.get('/generate-allocation',(req, res) => {
 //2.2 if occupy mixwithK
 //2.3 insert the shuffled into hall and remove from the queue
 //3.Generate excel or pdf from the allocation
-
 
 
 module.exports = router;

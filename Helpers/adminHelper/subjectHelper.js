@@ -42,7 +42,6 @@ module.exports = {
             var subject = await db.get().collection(process.env.SUBJECTDB).find({Dept_Id: deptId}).toArray();
             console.log(subject);
             resolve(subject);
-
         })
     }
 }
