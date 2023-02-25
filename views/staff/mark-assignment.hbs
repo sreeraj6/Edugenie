@@ -10,7 +10,7 @@
 
 <div class="mb-3">
   <label for="formFile" class="form-label">Correct assignment file(current:{{CheckAssignment.Assignment}}:)</label>
-  <input class="form-control" value="{{CheckAssignment.Assignment}}" id="imageView"  onchange="viewImage(event)"  name="assignment"type="file" id="formFile">
+  <input class="form-control" value="{{CheckAssignment.Assignment}}" id="imageView"  onchange="viewImage(event)"  name="assignFile" type="file" id="formFile">
 </div>
   <input type="checkbox" id="my-checkbox" name="checked"  onclick=" return isChecked()" value="marked" <%= rentals.checkbox.indexOf("marked") !== -1 ? "checked" : "" %>   
   

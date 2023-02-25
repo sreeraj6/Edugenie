@@ -22,6 +22,7 @@ router.get('/mark-Assignment/:id',async(req,res)=>{
 
 router.post('/mark-Assignment/:id',(req,res)=>{
   let userid=req.params.id;
+  console.log("checked file is",req.body.assignFile);
   var checkedState = req.body.checked
   if(checkedState==undefined){
     console.log("not checked");

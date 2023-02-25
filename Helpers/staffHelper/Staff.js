@@ -39,9 +39,9 @@ getAssignmentDetails: (AssignmentId) => {
               {
                 $set: {
                  
-                     NameofStudent:studentName,
+               
                     NameofAssignment:assign.assigNAME,
-                    Assignment:assign.Assignment,
+                    Assignment:assign.assignFile,
                      checkedState:assign.checked
                 },
                 
