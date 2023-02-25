@@ -1,0 +1,64 @@
+<section>
+<div class="card">
+            <div class="card-body">
+              <h5 class="card-title">upload daily Attendence</h5>
+              <p><code><th scope="col">Date :{{date}} </th></code>add Attendance  for UG students .</p>
+              <!-- Bordered Table -->
+              <table class=" table table-bordered border-primary">
+                <thead>
+           
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Student Name</th>
+                    <th scope="col">Candidate Code</th>
+                   
+                    <th scope="col">1<sup>st</sup> hour </th>
+                    <th scope="col">2<sup>st</sup> hour</th>
+                    <th scope="col">3<sup>st</sup> hour</th>
+                    <th scope="col">4<sup>st</sup> hour</th>
+                    <th scope="col">5<sup>st</sup> hour</th>
+                    <th scope="col">Total Hour</th>
+                  </tr>
+                </thead>
+                <tbody>   
+                      {{#each studentDetails}}
+                  <tr>
+             
+                    <th scope="row">{{@index}}</th>
+                    <td>{{this.Name}}</td>
+                    <td>{{this.candidateCode}}</td>
+                  
+                   
+                     
+                    <td><input type="radio"   name="radio">
+                         <label  for="Present" >Present</label> <br>  
+                         <input type="radio" name="radio">
+                        <label for="absent">Absent</label></td>
+                        
+                     
+                      <td><input type="radio"   name="radio">
+                         <label  for="Present" >Present</label> <br>  
+                         <input type="radio" name="radio">
+                        <label for="absent">Absent</label></td>
+                        <td><input type="radio"   name="radio">
+                         <label  for="Present" >Present</label> <br>  
+                         <input type="radio" name="radio">
+                        <label for="absent">Absent</label></td>
+                        <td><input type="radio"   name="radio">
+                         <label  for="Present" >Present</label> <br>  
+                         <input type="radio" name="radio">
+                        <label for="absent">Absent</label></td>
+                        <td><input type="radio"   name="radio">
+                         <label  for="Present" >Present</label> <br>  
+                         <input type="radio" name="radio">
+                        <label for="absent">Absent</label></td>
+                        <td></td>
+                  </tr>
+          
+              {{/each}}
+             
+                </tbody>
+              </table>
+            </div>
+            </div>
+</section>

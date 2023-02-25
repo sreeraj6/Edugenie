@@ -34,5 +34,19 @@ router.post('/mark-Assignment/:id',(req,res)=>{
   res.redirect('/staff')
   })
 
+});
+router.get("/add-Attendance/",(req,res)=>{
+  
+  staffController.addAttendence().then((studentDetails)=>{
+  let date=new Date()
+  var dateObj = new Date();
+var month = dateObj.getUTCMonth() + 1; 
+var day = dateObj.getUTCDate();
+var year = dateObj.getUTCFullYear();
+newdate = year + "/" + month + "/" + day;
+console.log("new date is"+newdate);
+  console.log("get date is",date.getDate())
+  res.render('staff/student-Attendance',{studentDetails:studentDetails,date:newdate})
+})
 })
 module.exports = router;

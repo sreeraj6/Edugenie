@@ -29,7 +29,7 @@ getAssignmentDetails: (AssignmentId) => {
   },
     markAssignments: (assign,id ) => {
         return new Promise(async(resolve, reject) => {
-      let studentName= await db.get().collection(process.env.STUDENTDB).findOne({ })
+      let studentName= await db.get().collection(process.env.STUDENTDB).findOne({})
         console.log("studentname is",studentName.Name);
       
           db.get()
@@ -57,5 +57,18 @@ getAssignmentDetails: (AssignmentId) => {
         });
       },
 
+      addAttendence:()=>{
+        return new Promise(async(resolve, reject) => {
+          let student=await db.get().collection(process.env.STUDENTDB).find().toArray()
+            console.log("studentname is",student.Name);
+
+            resolve(student )
+        //  var Attendance = {
+        //   NameofStudent:studentName.Name,
+        //   attentanceStatus:uploadData.assigNAME,
+        //   Assignment:uploadData.assignFile
+        //  }
+        })
+      }
       
 }
