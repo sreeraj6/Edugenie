@@ -18,7 +18,7 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             let response = {}
             let find = null;
-            find = await db.get().collection(process.env.STUDENTDB).findOne({Name: student.Name})
+            find = await db.get().collection(process.env.STUDENTDB).findOne({$and:[{candidateCode: student.candidateCode},{Department:student.Department}]});
 
             if(find){
                 response.user = true

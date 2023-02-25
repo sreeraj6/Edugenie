@@ -4,6 +4,7 @@ var staffController = require('../Helpers/adminHelper/addStaff');
 var departmentController=require('../Helpers/adminHelper/aboutDept')
 var studentController=require('../Helpers/adminHelper/addStudent')
 var subjectController = require('../Helpers/adminHelper/subjectHelper');
+var examHallController = require('../Helpers/adminHelper/ExamHallAllotHelper');
 var router = express.Router();
 
 //GET admin login form
@@ -174,6 +175,8 @@ router.post('/add-sub', (req, res) => {
         }
     })
 })
+
+
 //addsyllabus
 router.get('/add-syllab',async(req, res) => {
     var dept = await departmentController.getDepartment();
@@ -183,12 +186,35 @@ router.get('/add-syllab',async(req, res) => {
 
 router.get('/get-sub/:id', async (req,res) => {
     var subect = await subjectController.getSubject(req.params.id);
+    console.log(subect);
     res.json(subect);
     // subjectController.getSubject(req.body.parent_value)
 })
 //exam hall allocation
 //1.Add halls and capacity
+
+//DESC add hall form
+//GET /admin/add-hall
+router.get('/add-hall',(req, res) => {
+    res.render('admin/add-hall');
+})
+
+
+//DESC add hall form
+//POST /admin/add-hall
+router.post('/add-hall',(req, res) => {
+    examHallController.addHall(req.body).then((response)=>{
+        res.redirect('/admin/add-hall');
+    })
+})
+
+
 //2.select dept,hall,mixwithK(no:of students in a bench) and allocate exam hall  
+//DESC exam hall allocate form
+//GET /admin/generate-allocation
+router.get('/generate-allocation',(req, res) => {
+    res.render('admin/examHall');
+})
 //2.1 check whether number of students occupy in selected hall  T-O(students)
 //2.2 if occupy mixwithK
 //2.3 insert the shuffled into hall and remove from the queue
