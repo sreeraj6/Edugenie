@@ -206,12 +206,12 @@ router.post('/add-hall',(req, res) => {
 //GET /admin/generate-allocation
 router.get('/generate-allocation',(req, res) => {
     res.render('admin/examHall');
-})
+});
 //2.1 check whether number of students occupy in selected hall  T-O(students)
 //2.2 if occupy mixwithK
 //2.3 insert the shuffled into hall and remove from the queue
 //3.Generate excel or pdf from the allocation
 
-})
+
 
 module.exports = router;
