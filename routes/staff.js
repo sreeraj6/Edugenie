@@ -38,7 +38,10 @@ router.post('/mark-Assignment/:id',(req,res)=>{
 router.get("/add-Attendance/",(req,res)=>{
   id=req.params.id
   staffController.addAttendence().then((studentDetails)=>{
+    console.log("total detail is"+studentDetails.subjectName)
   let date=new Date()
+  
+    
   var dateObj = new Date();
 var month = dateObj.getUTCMonth() + 1; 
 var day = dateObj.getUTCDate();
@@ -47,7 +50,7 @@ newdate = year + "/" + month + "/" + day;
 console.log("new date is"+newdate);
   console.log("get date is",date.getDate())
   console.log("student id is",studentDetails._id);
-  res.render('staff/student-Attendance',{studentDetails:studentDetails,date:newdate})
+  res.render('staff/student-Attendance',{studentDetails:studentDetails.student, subjectName:studentDetails.subjectName,teacherName:studentDetails.TeacherName })
 })
 
 }),

@@ -61,8 +61,16 @@ getAssignmentDetails: (AssignmentId) => {
         return new Promise(async(resolve, reject) => {
           let student=await db.get().collection(process.env.STUDENTDB).find().toArray()
             console.log("studentname is",student.Name);
+              let subject= await db.get().collection(process.env.SUBJECTDB).findOne({})
+              console.log(subject.sub_name)
+              let Teacher= await db.get().collection(process.env.STAFFDB).findOne({})
 
-            resolve(student )
+              let display={
+                student,
+                subjectName:subject.sub_name,
+                TeacherName:Teacher.Name
+              }
+            resolve(display)
         //  var Attendance = {
         //   NameofStudent:studentName.Name,
         //   attentanceStatus:uploadData.assigNAME,
