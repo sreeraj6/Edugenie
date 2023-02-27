@@ -4,6 +4,7 @@
               <h5 class="card-title">upload daily Attendence</h5>
               <p><code><th scope="col">Date :{{date}} </th></code>add Attendance  for UG students .</p>
               <!-- Bordered Table -->
+          
               <table class=" table table-bordered border-primary">
                 <thead>
            
@@ -23,42 +24,78 @@
                 <tbody>   
                       {{#each studentDetails}}
                   <tr>
+                        <form method="post"   action="/staff/add-Attendance/{{this._id}}">
              
-                    <th scope="row">{{@index}}</th>
-                    <td>{{this.Name}}</td>
-                    <td>{{this.candidateCode}}</td>
-                  
-                   
-                     
-                    <td><input type="radio"   name="radio">
+                    <th><input name="count"  readonly="readonly" style="border:none; outline: none;" scope="row" value="{{@index}}"></th>
+                    <td   ><input name="Name"  readonly="readonly" style="border:none; outline: none;" value="{{this.Name}}"></td>
+                    <td><input name="CandidateCode" readonly="readonly" style="border:none; outline: none;" value="{{this.candidateCode}}"></td>
+
+   
+                    <td><input type="radio"  value="present{{@index}}" name="firstHour">
                          <label  for="Present" >Present</label> <br>  
-                         <input type="radio" name="radio">
+                         <input type="radio"   value="absent{{@index}}" name="firsttHour">
                         <label for="absent">Absent</label></td>
                         
-                     
-                      <td><input type="radio"   name="radio">
+                      <td><input type="radio"  value="present{{@index}}" name="secondHour">
                          <label  for="Present" >Present</label> <br>  
-                         <input type="radio" name="radio">
+                         <input type="radio"   value="absent{{@index}}" name="secondHour">
                         <label for="absent">Absent</label></td>
-                        <td><input type="radio"   name="radio">
+                        
+                          <td><input type="radio"  value="present{{@index}}" name="thirdHour">
                          <label  for="Present" >Present</label> <br>  
-                         <input type="radio" name="radio">
+                         <input type="radio"   value="absent{{@index}}" name="thirdHour">
                         <label for="absent">Absent</label></td>
-                        <td><input type="radio"   name="radio">
+                        
+                      <td><input type="radio"  value="present{{@index}}" name="fourthHour">
                          <label  for="Present" >Present</label> <br>  
-                         <input type="radio" name="radio">
+                         <input type="radio"   value="absent{{@index}}" name="fourthHour">
                         <label for="absent">Absent</label></td>
-                        <td><input type="radio"   name="radio">
+                          <td><input type="radio"  value="present{{@index}}" name="fifthHour">
                          <label  for="Present" >Present</label> <br>  
-                         <input type="radio" name="radio">
+                         <input type="radio"   value="absent{{@index}}" name="fifthHour">
                         <label for="absent">Absent</label></td>
-                        <td></td>
+                        
+                        
+                      
+                        {{!-- <td>{{#if (isset($_POST['SubmitButton'])) }} 
+
+  $_POST['IsMale'] = $_POST['IsMale'] == 'true' ? true : false;
+ </td>{{/if}} --}}
+ <td   > <button type="submit" onclick="studentAttendence({{this._id}})"   class="btn btn-primary">Submit</button></td>
+     
+  
+ </form>
                   </tr>
-          
+           
               {{/each}}
              
                 </tbody>
               </table>
+          
             </div>
             </div>
+
+            {{!-- <script>
+    function displayRadioValue() {
+        var ele = document.getElementsByName('radio');
+          
+        for(i = 0; i < ele.length; i++) {
+            if(ele[i].checked)
+            document.getElementById("result").innerHTML
+                    = ": "+ele[i].value;
+        }
+    }
+</script> --}}
+<script>
+function studentAttendence(stId) {
+        $.ajax({
+            url: "/add-Attendance/" +stId,
+            method: "post",
+            success: (response) => {
+                alert("sucess",+response)
+               
+            },
+        });
+    }
+
 </section>

@@ -57,7 +57,7 @@ getAssignmentDetails: (AssignmentId) => {
         });
       },
 
-      addAttendence:()=>{
+      addAttendence:(id)=>{
         return new Promise(async(resolve, reject) => {
           let student=await db.get().collection(process.env.STUDENTDB).find().toArray()
             console.log("studentname is",student.Name);
@@ -69,6 +69,69 @@ getAssignmentDetails: (AssignmentId) => {
         //   Assignment:uploadData.assignFile
         //  }
         })
-      }
+      },
+AttendanceRecord:(attendancedata,id)=>{
+  return new Promise(async(resolve, reject) => {
+     
+   var Attendance={
+    Date:new Date(),
+    Name:attendancedata.Name,
+    CandidateCode:attendancedata.CandidateCode,
+    Count:attendancedata.count,
+    
+     WorkingHours:{
+      Name:attendancedata.Name,
+      'Isthour':attendancedata.firstHour,
+      '2ndhour':attendancedata.secondHour,
+      '3rdhour':attendancedata.thirdHour,
+      '4thhour':attendancedata.fourthHour,
+      '5thhour':attendancedata.fifthHour,
+     },
+    
+    // TotalHours:""
+    
+      
+    
+
+   }
+
+    // run bulk operations
+
+  //  if(WorkingHours==null){
+    db.get().collection(process.env.ATTENDANCE).insertOne(Attendance).then((response) => {
+      response.user = false;
+      console.log(response);
+      resolve(response);
+      
+  })
+// }else{
+//    db.get().collection(process.env.ATTENDANCE).insertMany(WorkingHours, function(err, res) {
+//     if (err) throw err;
+//     console.log("Number of documents inserted: " + res.insertedCount);
+//     db.close();
+    
+   
+//  })
+
+// }
+
+// else{
+//   db.get().collection(process.env.ATTENDANCE).insertOne(Attendance).then((response) => {
+//     response.user = false;
+//     console.log(response);
+//     resolve(response);
+// })
+// }
+
+//.then((response) => {
+//     response.user = false;
+//     console.log(response);
+//     console.log("'count is",response.insertedCount);
+//     resolve(response);
+// })
+
+})
+
+}
       
 }

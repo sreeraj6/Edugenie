@@ -36,7 +36,7 @@ router.post('/mark-Assignment/:id',(req,res)=>{
 
 });
 router.get("/add-Attendance/",(req,res)=>{
-  
+  id=req.params.id
   staffController.addAttendence().then((studentDetails)=>{
   let date=new Date()
   var dateObj = new Date();
@@ -46,7 +46,17 @@ var year = dateObj.getUTCFullYear();
 newdate = year + "/" + month + "/" + day;
 console.log("new date is"+newdate);
   console.log("get date is",date.getDate())
+  console.log("student id is",studentDetails._id);
   res.render('staff/student-Attendance',{studentDetails:studentDetails,date:newdate})
+})
+
+}),
+
+router.post("/add-Attendance/:id",(req,res)=>{
+  id=req.params.id
+staffController.AttendanceRecord(req.body,id).then((response)=>{
+console.log(response);
+res.redirect("/staff/add-Attendance")
 })
 })
 module.exports = router;

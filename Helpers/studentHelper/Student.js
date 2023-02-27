@@ -29,11 +29,11 @@ module.exports={
             Assignment:uploadData.assignFile
            }
          
-          db.get().collection(process.env.ASSIGNMENT).insertOne(assignment).then((response) => {
-                 response.user = false;
-                 console.log(response);
-                 resolve(response);
-             })
+           db.get().collection(process.env.ASSIGNMENT).insertOne(assignment).then((response) => {
+            response.user = false;
+            console.log(response);
+            resolve(response);
+        })
          
      })
  },
