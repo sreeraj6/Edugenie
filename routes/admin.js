@@ -74,14 +74,13 @@ router.get('/add-student',async (req, res) => {
 //POST store student details
 //@route admin/add-student
 router.post('/add-student', (req, res) => {
-    
     studentController.addStudent(req.body).then((response) => {
         if (response.user) {
             req.session.student = true;
             res.redirect('/admin/add-student')
         }
         else{
-            res.redirect('/admin');
+            res.redirect('/admin/add-student');
         }
     })
      
@@ -214,6 +213,12 @@ router.post('/add-hall',(req, res) => {
 //GET /admin/generate-allocation
 router.get('/generate-allocation',(req, res) => {
     res.render('admin/examHall');
+})
+
+
+router.post('/generate-allocation', (req,res) => {
+    var arr = req.body.halls.split(",");
+    examHallController.generateAllotment(req.body,arr);
 })
 //2.1 check whether number of students occupy in selected hall  T-O(students)
 //2.2 if occupy mixwithK
