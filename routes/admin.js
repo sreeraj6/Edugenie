@@ -5,6 +5,7 @@ var departmentController=require('../Helpers/adminHelper/aboutDept')
 var studentController=require('../Helpers/adminHelper/addStudent')
 var subjectController = require('../Helpers/adminHelper/subjectHelper');
 var examHallController = require('../Helpers/adminHelper/ExamHallAllotHelper');
+var fs = require("fs");
 var router = express.Router();
 
 //GET admin login form
@@ -33,7 +34,6 @@ router.post('/login', (req, res) => {
 router.get('/add-staff',async (req, res) => {
     var dept = await departmentController.getDepartment();
     res.render('admin/add-staff.hbs', { 'staffExist': req.session.staff ,admin:true, dept});
-    req.session.staff = false;
 });
 
 //POST admin add staff form
@@ -75,14 +75,13 @@ router.get('/add-student',async (req, res) => {
 //POST store student details
 //@route admin/add-student
 router.post('/add-student', (req, res) => {
-    
     studentController.addStudent(req.body).then((response) => {
         if (response.user) {
             req.session.student = true;
             res.redirect('/admin/add-student')
         }
         else{
-            res.redirect('/admin');
+            res.redirect('/admin/add-student');
         }
     })
      
@@ -178,10 +177,19 @@ router.post('/add-sub', (req, res) => {
 
 
 //addsyllabus
-router.get('/add-syllab',(req, res) => {
-    res.render()
+
+router.get('/add-syllab',async(req, res) => {
+    var dept = await departmentController.getDepartment();
+    res.render('admin/add-syllab',{dept})
 })
 
+
+router.get('/get-sub/:id', async (req,res) => {
+    var subect = await subjectController.getSubject(req.params.id);
+
+    res.json(subect);
+    // subjectController.getSubject(req.body.parent_value)
+})
 //exam hall allocation
 //1.Add halls and capacity
 
@@ -206,12 +214,25 @@ router.post('/add-hall',(req, res) => {
 //GET /admin/generate-allocation
 router.get('/generate-allocation',(req, res) => {
     res.render('admin/examHall');
-});
+})
+
+
+router.post('/generate-allocation', (req,res) => {
+    var arr = req.body.halls.split(",");
+    examHallController.generateAllotment(req.body,arr).then((response)=>{
+        console.log(res);
+        if(response.status){
+            res.send(response.code)
+        }
+        else{
+            res.download('./output.pdf')
+        }
+    })
+})
 //2.1 check whether number of students occupy in selected hall  T-O(students)
 //2.2 if occupy mixwithK
 //2.3 insert the shuffled into hall and remove from the queue
 //3.Generate excel or pdf from the allocation
-
 
 
 module.exports = router;

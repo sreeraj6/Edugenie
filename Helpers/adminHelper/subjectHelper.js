@@ -33,5 +33,16 @@ module.exports = {
             }
 
         })
+    },
+
+    getSubject : (deptId) => {
+
+        return new Promise(async (resolve,reject) => {
+            console.log(deptId);
+            var subject = await db.get().collection(process.env.SUBJECTDB).find({Dept_Id: deptId}).toArray();
+            console.log(subject);
+            resolve(subject);
+        })
+
     }
 }

@@ -8,10 +8,12 @@ const { response } = require('../../app')
 
 module.exports = {
     addStudent: (studentData) => {
+        var dept = studentData.StuDept.split(",");
         var student = {
             Name:studentData.StuName,
             candidateCode:studentData.StuCode,
-            Department:studentData.StuDept,
+            Department:dept[1],
+            Dept_Id:dept[0],
             Semester:studentData.sem
             
         }

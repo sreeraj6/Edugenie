@@ -1,0 +1,115 @@
+In router folder js
+!.................................................................................!
+
+import openai library (npm i openai)
+const { Configuration, OpenAIApi } = require("openai");
+ 
+ sample input form 
+ !.................................................................................!
+ router.get('/form',(req,res)=>{
+  res.render('user/form')
+    
+})
+
+//post form get question
+!.................................................................................!
+
+router.post('/form-submit',(req,res)=>{
+ 
+  userHelpers.question(req.body).then((response)=>{
+    console.log(response);
+    
+  })
+   userHelpers.getquestion().then((response)=>{
+    console.log("question is",response.question.question);
+
+     var input = response.question.question
+   const config = new Configuration({
+    apiKey: "Your API key",
+  });
+ 
+ 
+  
+  const openai = new OpenAIApi(config);
+  
+  const runPrompt = async (data) => {
+   
+    const Prompt = 
+     `
+    
+   (${data}).Return response in the following parsable JSON format:
+          {
+              "Q": "question",
+              "A": "answer"
+          }
+  
+      `;
+  
+    const response = await openai.createCompletion({
+      model: "text-davinci-003",
+      prompt: Prompt,
+      max_tokens: 1000,
+      temperature: 1,
+       
+       
+    });
+    // console.log("response data",response.data.choices[0].text)
+    
+  
+    const parsableJSONresponse = response.data.choices[0].text;
+    const parsedResponse = JSON.parse(parsableJSONresponse);
+  
+    console.log("Question: ", parsedResponse.Q);
+    console.log("Answer: ", parsedResponse.A);
+    res.render('user/output',{parsedResponse})
+  };
+  
+  runPrompt(input);
+})
+
+
+
+
+//IN HELPERS
+!.................................................................................!
+
+  question: (data) => {
+    return new Promise(async (resolve, reject) => {
+      let questionkey= await db.get().collection('chat-gpt').findOne(  {} )
+     
+    if (questionkey==null) {
+   
+          db.get()
+        .collection('chat-gpt')
+        .insertOne(data)
+        .then((response) => {
+          resolve(response)
+        })
+      
+      }else {
+        db.get()
+          .collection('chat-gpt')
+          .updateOne(
+            { _id: new objectId("63ff6edd6a1e4b1cd410c619") },
+            {
+              $set:{
+              
+                question:data
+              },
+            }
+          ).then((response)=>{
+            resolve(response)
+          })
+      
+        
+      }
+    });
+  },
+
+ getquestion: () => {
+    return new Promise(async (resolve, reject) => {
+      let questionkey= await db.get().collection('chat-gpt').findOne({})
+      resolve(questionkey)
+    });
+  },
+  !.................................................................................!

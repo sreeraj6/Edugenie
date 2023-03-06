@@ -1,0 +1,94 @@
+<form method="post">
+    <h5 class="card-title">Subject</h5>
+
+    <div class="form-group">
+        <label for="exampleFormControlInput1">Select Department</label>
+        <select id="Dept" name="Dept" onchange="GetSubject(this)" class="form-select"
+            aria-label="Default select example">
+            <option value='' selected>Select Department</option>
+            {{#each dept}}
+            <option value='{{this._id}}'>{{this.Name}}</option>
+            {{/each}}
+        </select>
+    </div>
+
+    {{!-- <div id="dropdown-container" class="form-group">
+        <label for="exampleFormControlInput1">Select Subject</label>
+    </div> --}}
+    <div class="form-group">
+        <label for="exampleFormControlInput1">Select Subject</label>
+        <select id="subject" name="subject" onchange="getModule()" class="form-select" aria-label="Default select example">
+            <option value='' selected>Subject</option>
+        </select>
+    </div>
+    {{#if found}}
+    <div class="alert alert-danger" role="alert">
+        This is a danger alert—check it out!
+    </div>
+    {{/if}}
+
+
+
+    <div id="modules" class="form-group">
+        <label for="exampleFormControlTextarea3">Rounded corners</label>
+        <textarea class="form-control" id="exampleFormControlTextarea3" rows="7"></textarea>
+    </div>
+
+    <br><br>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<script>
+
+
+    function GetSubject(deptId) {
+        var id = deptId.value;
+
+        //alert(id);
+        selectSub(id);
+    }
+
+    function selectSub(deptId) {
+
+        var id = deptId
+        $.ajax({
+            url: '/admin/get-sub/' + id,
+            method: "GET",
+            success: ((response) => {
+                if(document.getElementById("subject").disabled == true){
+                    location.reload();
+                }
+                if (response.length == 0) {
+                    alert("NO subject found")
+                    document.getElementById("subject").disabled = true;
+                }
+                else if (response) {
+                    document.getElementById("subject").disabled = false;
+                    var dropdown = document.getElementById("subject");
+                    //add each options to dropdown
+                    for (var i = 0; i < response.length; i++) {
+                        var opt = document.createElement("option");
+                        opt.text = response[i].sub_name;
+                        opt.value = response[i]._id+","+response[i].modules;
+                        dropdown.options.add(opt);
+                    }
+
+                    //insert the drop generated drop down
+                    var container = document.getElementById("subject");
+                    container.appendChild(dropdown);
+                } else {
+                    alert("Something error occured");
+                }
+            })
+        })
+    }
+
+    function getModule(){
+       // var subId = subj;
+       // var sub = subId.split(",");
+       var subj = document.getElementById("subject");
+        alert(subj);
+    }
+
+</script>
