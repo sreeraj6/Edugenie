@@ -5,6 +5,7 @@ var departmentController=require('../Helpers/adminHelper/aboutDept')
 var studentController=require('../Helpers/adminHelper/addStudent')
 var subjectController = require('../Helpers/adminHelper/subjectHelper');
 var examHallController = require('../Helpers/adminHelper/ExamHallAllotHelper');
+var fs = require("fs");
 var router = express.Router();
 
 //GET admin login form
@@ -218,7 +219,15 @@ router.get('/generate-allocation',(req, res) => {
 
 router.post('/generate-allocation', (req,res) => {
     var arr = req.body.halls.split(",");
-    examHallController.generateAllotment(req.body,arr);
+    examHallController.generateAllotment(req.body,arr).then((response)=>{
+        console.log(res);
+        if(response.status){
+            res.send(response.code)
+        }
+        else{
+            res.download('./output.pdf')
+        }
+    })
 })
 //2.1 check whether number of students occupy in selected hall  T-O(students)
 //2.2 if occupy mixwithK

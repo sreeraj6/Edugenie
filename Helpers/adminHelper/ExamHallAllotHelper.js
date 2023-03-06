@@ -2,6 +2,7 @@ const { ObjectId } = require('mongodb');
 const { response } = require('../../app');
 const db = require('../../Config/connection');
 const deptController = require('./aboutDept');
+const generatePdf = require('./pdfGenerator');
 
 module.exports = {
     addHall: (hallData) => {
@@ -24,9 +25,6 @@ module.exports = {
 
 
     generateAllotment: async (studentData, hallData) => {
-        console.log(studentData);
-        console.log(hallData);
-
         let bench = studentData.studperBench;
         var halls = hallData.length;
         var dept = await deptController.getDepartment();
@@ -51,10 +49,6 @@ module.exports = {
             students[i] = await db.get().collection(process.env.STUDENTDB).find({ Department: dept[i].Name }).toArray();
             sum += students[i].length;
         }
-
-
-
-
 
         // input 2d array
         const arr2d = students
@@ -89,27 +83,35 @@ module.exports = {
             }
         }
 
-       
-        console.log(sum);
-
-
         var cnt = 0;
-
+        var examAllocate = []
         for(var i = 0; i < hall.length && cnt < flattened.length; i++){
-            console.log("I am repeated");
             var availBench = hall[i].bench;
             for(var j = 0; j < availBench && cnt < flattened.length; j++){
-                console.log("Bench "+j);
                 for(var k = 0; k < bench && cnt < flattened.length; k++){
-                    process.stdout.write(hall_no[i] + " "+ flattened[cnt].candidateCode+" "+flattened[cnt].Department+" ")
+                    var seat = {
+                        hall_no: hall_no[i],
+                        bench_no: j+1,
+                        candidateCode : flattened[cnt].candidateCode,
+                        Department: flattened[cnt].Department
+                    }
+                    examAllocate.push(seat)
                     cnt++;
                 }
-                console.log();
             }
         }
+        
+        var res = {};
+        return new Promise(async(resolve,reject) => {
 
-        if(cnt < flattened.length){
-            console.log("Class room needed");
-        }
+            if(cnt < flattened.length){
+                res.status = true;
+                res.code = 'Extra class room need'
+                resolve(res);
+            }
+            let val = await generatePdf(examAllocate);
+            console.log(val);
+            resolve(res);
+        })
     }
 }

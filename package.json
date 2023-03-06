@@ -19,7 +19,8 @@
     "hbs": "^4.2.0",
     "http-errors": "~1.6.3",
     "mongodb": "^5.0.0",
-    "morgan": "~1.9.1"
+    "morgan": "~1.9.1",
+    "pdf-creator-node": "^2.3.5"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"
