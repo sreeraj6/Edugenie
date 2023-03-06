@@ -9,9 +9,11 @@ const state = {
     db:null
 }
 async function run() {
+  
   try {
     // Connect the client to the server (optional starting in v4.7)
     await client.connect();
+      
     // Establish and verify connection
     await client.db(dbname).command({ ping: 1 });
     console.log("Connected successfully to server");
@@ -20,9 +22,13 @@ async function run() {
   catch{
     console.log("error occured");
   }
+  
 
 }
 run()
+
+
+ 
 
 module.exports.get = ()=> {
     return state.db

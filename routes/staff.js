@@ -22,6 +22,7 @@ router.get('/mark-Assignment/:id',async(req,res)=>{
 
 router.post('/mark-Assignment/:id',(req,res)=>{
   let userid=req.params.id;
+  console.log("checked file is",req.body.assignFile);
   var checkedState = req.body.checked
   if(checkedState==undefined){
     console.log("not checked");
@@ -33,5 +34,32 @@ router.post('/mark-Assignment/:id',(req,res)=>{
   res.redirect('/staff')
   })
 
+});
+router.get("/add-Attendance/",(req,res)=>{
+  id=req.params.id
+  staffController.addAttendence().then((studentDetails)=>{
+    console.log("total detail is"+studentDetails.subjectName)
+  let date=new Date()
+  
+    
+  var dateObj = new Date();
+var month = dateObj.getUTCMonth() + 1; 
+var day = dateObj.getUTCDate();
+var year = dateObj.getUTCFullYear();
+newdate = year + "/" + month + "/" + day;
+console.log("new date is"+newdate);
+  console.log("get date is",date.getDate())
+  console.log("student id is",studentDetails._id);
+  res.render('staff/student-Attendance',{studentDetails:studentDetails.student, subjectName:studentDetails.subjectName,teacherName:studentDetails.TeacherName })
+})
+
+}),
+
+router.post("/add-Attendance/:id",(req,res)=>{
+  id=req.params.id
+staffController.AttendanceRecord(req.body,id).then((response)=>{
+console.log(response);
+res.redirect("/staff/add-Attendance")
+})
 })
 module.exports = router;

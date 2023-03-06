@@ -21,7 +21,7 @@ module.exports={
          //     resolve(response);
          
         let studentName= await db.get().collection(process.env.STUDENTDB).findOne({})
-        console.log("student name is", studentName.Name);
+        console.log("student name is", studentName);
      
          var assignment = {
             NameofStudent:studentName.Name,
@@ -29,11 +29,11 @@ module.exports={
             Assignment:uploadData.assignFile
            }
          
-          db.get().collection(process.env.ASSIGNMENT).insertOne(assignment).then((response) => {
-                 response.user = false;
-                 console.log(response);
-                 resolve(response);
-             })
+           db.get().collection(process.env.ASSIGNMENT).insertOne(assignment).then((response) => {
+            response.user = false;
+            console.log(response);
+            resolve(response);
+        })
          
      })
  },
