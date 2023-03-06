@@ -25,7 +25,7 @@ router.post('/form-submit',(req,res)=>{
 
      var input = response.question.question
    const config = new Configuration({
-    apiKey: "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",
+    apiKey: "Your API key",
   });
  
  
