@@ -81,7 +81,20 @@ getAssignmentDetails: (AssignmentId) => {
 AttendanceRecord:(attendancedata,id)=>{
   return new Promise(async(resolve, reject) => {
      
-   var Attendance={
+
+    let AttendanceExist= await db.get().collection(process.env.ATTENDANCE).findOne({})
+    console.log("id is",AttendanceExist);
+if(AttendanceExist._id==null){
+  db.get().collection(process.env.ATTENDANCE).insertOne({_id:new objectId(id)})
+}else{
+    
+    db.get().collection(process.env.ATTENDANCE).updateOne(
+     { _id:AttendanceExist._id},
+
+    { 
+      $push:
+      {
+     AttendanceArray:{
     Date:new Date(),
     Name:attendancedata.Name,
     CandidateCode:attendancedata.CandidateCode,
@@ -94,24 +107,44 @@ AttendanceRecord:(attendancedata,id)=>{
       '3rdhour':attendancedata.thirdHour,
       '4thhour':attendancedata.fourthHour,
       '5thhour':attendancedata.fifthHour,
+      'totalHour':attendancedata.TotalHour,
+       "TotalHours":`${parseInt(attendancedata.TotalHour*60)}minutes`,
+       "attendancetodayavg":`${parseInt(attendancedata.TotalHours/300*100)}%`
      },
+    },
+  },
+},
+     ).then((response)=>{
+      console.log("updated succesfully");
+      resolve( response);
+     
+     })
+}
     
-    // TotalHours:""
-    
-      
-    
+   // else{
+//   db.get().collection(process.env.ATTENDANCE).insertOne(Attendance).then((response) => {
+//     response.user = false;
+//     console.log(response);
+//     resolve(response);
+// })
+// }
 
-   }
+//.then((response) => {
+//     response.user = false;
+//     console.log(response);
+//     console.log("'count is",response.insertedCount);
+//     resolve(response);
+// })
 
+    
+    
+  
+})
+  
     // run bulk operations
 
   //  if(WorkingHours==null){
-    db.get().collection(process.env.ATTENDANCE).insertOne(Attendance).then((response) => {
-      response.user = false;
-      console.log(response);
-      resolve(response);
-      
-  })
+     
 // }else{
 //    db.get().collection(process.env.ATTENDANCE).insertMany(WorkingHours, function(err, res) {
 //     if (err) throw err;
@@ -138,8 +171,9 @@ AttendanceRecord:(attendancedata,id)=>{
 //     resolve(response);
 // })
 
-})
 
-}
-      
+
+
+     
+},
 }

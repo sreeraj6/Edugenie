@@ -57,9 +57,10 @@ console.log("new date is"+newdate);
 
 router.post("/add-Attendance/:id",(req,res)=>{
   id=req.params.id
+ console.log("total hour is",req.body)
 staffController.AttendanceRecord(req.body,id).then((response)=>{
 console.log(response);
-res.redirect("/staff/add-Attendance")
+res.redirect("/staff")
 })
 })
 module.exports = router;

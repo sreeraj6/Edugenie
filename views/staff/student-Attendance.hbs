@@ -19,6 +19,7 @@
                     <th scope="col">4<sup>st</sup> hour</th>
                     <th scope="col">5<sup>st</sup> hour</th>
                     <th scope="col">Total Hour</th>
+                    <th scope="col"></th>
                   </tr>
                 </thead>
                 <tbody>   
@@ -33,7 +34,7 @@
    
                     <td><input type="radio"  value="present{{@index}}" name="firstHour">
                          <label  for="Present" >Present</label> <br>  
-                         <input type="radio"   value="absent{{@index}}" name="firsttHour">
+                         <input type="radio"   value="absent{{@index}}" name="firstHour">
                         <label for="absent">Absent</label></td>
                         
                       <td><input type="radio"  value="present{{@index}}" name="secondHour">
@@ -55,13 +56,13 @@
                          <input type="radio"   value="absent{{@index}}" name="fifthHour">
                         <label for="absent">Absent</label></td>
                         
-                        
+                        <td  id="TotalHour" name="TotalHour">0</td>
                       
                         {{!-- <td>{{#if (isset($_POST['SubmitButton'])) }} 
 
   $_POST['IsMale'] = $_POST['IsMale'] == 'true' ? true : false;
  </td>{{/if}} --}}
- <td   > <button type="submit" onclick="studentAttendence({{this._id}})"   class="btn btn-primary">Submit</button></td>
+ <td><button type="submit" onclick="studentAttendence({{this._id}})"   class="btn btn-primary">Submit</button></td>
      
   
  </form>
@@ -74,6 +75,27 @@
           
             </div>
             </div>
+</section>
+
+
+<script>
+        
+    $("input[type='radio']").on("click", function () {
+        var elm = $("#TotalHour"),
+            count = parseInt(elm.text(), 10);
+        elm.text(count + 1);    
+        console.log(  elm.text(count + 1));
+    })
+    </script>
+  
+
+
+
+
+
+
+
+
 
             {{!-- <script>
     function displayRadioValue() {
@@ -98,4 +120,3 @@ function studentAttendence(stId) {
         });
     }
 
-</section>
