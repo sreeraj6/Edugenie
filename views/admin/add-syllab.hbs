@@ -3,7 +3,7 @@
 
     <div class="form-group">
         <label for="exampleFormControlInput1">Select Department</label>
-        <select id="Dept" name="Dept" onchange="GetSubject(this)" class="form-select"
+        <select id="Dept" name="deptId" onchange="GetSubject(this)" class="form-select"
             aria-label="Default select example">
             <option value='' selected>Select Department</option>
             {{#each dept}}
@@ -30,10 +30,29 @@
 
 
     <div id="modules" class="form-group">
-        <label for="exampleFormControlTextarea3">Rounded corners</label>
-        <textarea class="form-control" id="exampleFormControlTextarea3" rows="7"></textarea>
+        <label for="exampleFormControlTextarea3">Module 1</label>
+        <textarea class="form-control" name="module1" id="exampleFormControlTextarea3" rows="7"></textarea>
     </div>
 
+    <div id="modules" class="form-group">
+        <label for="exampleFormControlTextarea3">Module 2</label>
+        <textarea class="form-control" name="module2" id="exampleFormControlTextarea3" rows="7"></textarea>
+    </div>
+
+    <div id="modules" class="form-group">
+        <label for="exampleFormControlTextarea3">Module 3</label>
+        <textarea class="form-control" name="module3" id="exampleFormControlTextarea3" rows="7"></textarea>
+    </div>
+
+    <div id="modules" class="form-group">
+        <label for="exampleFormControlTextarea3">Module 4</label>
+        <textarea class="form-control" name="module4" id="exampleFormControlTextarea3" rows="7"></textarea>
+    </div>
+
+    <div id="modules" class="form-group">
+        <label for="exampleFormControlTextarea3">Module 5</label>
+        <textarea class="form-control" name="module5" id="exampleFormControlTextarea3" rows="7"></textarea>
+    </div>
     <br><br>
 
     <button type="submit" class="btn btn-primary">Submit</button>
@@ -84,11 +103,5 @@
         })
     }
 
-    function getModule(){
-       // var subId = subj;
-       // var sub = subId.split(",");
-       var subj = document.getElementById("subject");
-        alert(subj);
-    }
 
 </script>

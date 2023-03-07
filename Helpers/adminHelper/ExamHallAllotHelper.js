@@ -87,6 +87,7 @@ module.exports = {
         var examAllocate = []
         for(var i = 0; i < hall.length && cnt < flattened.length; i++){
             var availBench = hall[i].bench;
+            console.log(hall[i]);
             for(var j = 0; j < availBench && cnt < flattened.length; j++){
                 for(var k = 0; k < bench && cnt < flattened.length; k++){
                     var seat = {
@@ -95,6 +96,7 @@ module.exports = {
                         candidateCode : flattened[cnt].candidateCode,
                         Department: flattened[cnt].Department
                     }
+                    console.log(seat);
                     examAllocate.push(seat)
                     cnt++;
                 }

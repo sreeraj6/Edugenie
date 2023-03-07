@@ -30,7 +30,7 @@ async function generatePdf(timetable){
         data: {
           users: timetable,
         },
-        path: "./output.pdf",
+        path: './output.pdf',
         type: "",
       };
     
