@@ -82,12 +82,18 @@ module.exports = {
                 break;
             }
         }
-
+        var remain = []
+        for(var i = 0; i < students.length; i++) {
+            for(var j = 0; j < students[i].length; j++) {
+                if(!flattened.includes(students[i][j])){
+                    remain.push(students[i][j]);
+                }
+            }
+        }
         var cnt = 0;
         var examAllocate = []
         for(var i = 0; i < hall.length && cnt < flattened.length; i++){
             var availBench = hall[i].bench;
-            console.log(hall[i]);
             for(var j = 0; j < availBench && cnt < flattened.length; j++){
                 for(var k = 0; k < bench && cnt < flattened.length; k++){
                     var seat = {
@@ -96,13 +102,11 @@ module.exports = {
                         candidateCode : flattened[cnt].candidateCode,
                         Department: flattened[cnt].Department
                     }
-                    console.log(seat);
                     examAllocate.push(seat)
                     cnt++;
                 }
             }
         }
-        
         var res = {};
         return new Promise(async(resolve,reject) => {
 
@@ -111,7 +115,7 @@ module.exports = {
                 res.code = 'Extra class room need'
                 resolve(res);
             }
-            let val = await generatePdf(examAllocate);
+            let val = await generatePdf(examAllocate,remain);
             console.log(val);
             resolve(res);
         })
