@@ -184,6 +184,12 @@ router.get('/add-syllab',async(req, res) => {
 })
 
 
+router.post('/add-syllab', (req, res) => {
+    departmentController.addSyllabus(req.body).then((response)=>{
+        res.redirect('/admin/add-syllabus')
+    })
+})
+
 router.get('/get-sub/:id', async (req,res) => {
     var subect = await subjectController.getSubject(req.params.id);
 
