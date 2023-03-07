@@ -82,7 +82,14 @@ module.exports = {
                 break;
             }
         }
-
+        var remain = []
+        for(var i = 0; i < students.length; i++) {
+            for(var j = 0; j < students[i].length; j++) {
+                if(!flattened.includes(students[i][j])){
+                    remain.push(students[i][j]);
+                }
+            }
+        }
         var cnt = 0;
         var examAllocate = []
         for(var i = 0; i < hall.length && cnt < flattened.length; i++){
@@ -100,7 +107,6 @@ module.exports = {
                 }
             }
         }
-        
         var res = {};
         return new Promise(async(resolve,reject) => {
 
@@ -109,7 +115,7 @@ module.exports = {
                 res.code = 'Extra class room need'
                 resolve(res);
             }
-            let val = await generatePdf(examAllocate);
+            let val = await generatePdf(examAllocate,remain);
             console.log(val);
             resolve(res);
         })

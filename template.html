@@ -51,6 +51,30 @@
       {{/each}}
     </tbody>
   </table>
+
+
+  <table class="table">
+    <h1>{{count}} students were not allocated .Do manually</h1>
+    <thead>
+      <tr>
+        <th scope="col">SI.no</th>
+        <th scope="col">Name</th>
+        <th scope="col">Candidate Code</th>
+        <th scope="col">Department</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      {{#each remain}}
+      <tr>
+        <th scope="row">{{@index}}</th>
+        <td>{{this.Name}}</td>
+        <td>{{this.candidateCode}}</td>
+        <td>{{this.Department}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
 </body>
 
 </html>
