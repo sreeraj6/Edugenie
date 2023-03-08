@@ -60,7 +60,15 @@ router.post("/add-Attendance/:id",(req,res)=>{
  console.log("total hour is",req.body)
 staffController.AttendanceRecord(req.body,id).then((response)=>{
 console.log(response);
-res.redirect("/staff")
+res.redirect("/staff/add-Attendance")
 })
+})
+
+
+router.get("/get-Notes",(req,res)=>{
+  staffController.GetNotes().then(()=>{
+    
+  })
+  res.render("staff/Get-Notes")
 })
 module.exports = router;

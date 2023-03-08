@@ -2,7 +2,7 @@ const db = require('../../Config/connection');
 const bcrypt = require('bcrypt');
 const { ObjectId } = require('mongodb');
 const objectId  = require('mongodb').ObjectId ;
-
+const { Configuration, OpenAIApi } = require("openai");
 const { response } = require('../../app')
 
 module.exports={
@@ -82,8 +82,8 @@ AttendanceRecord:(attendancedata,id)=>{
   return new Promise(async(resolve, reject) => {
      
 
-    let AttendanceExist= await db.get().collection(process.env.ATTENDANCE).findOne({})
-    console.log("id is",AttendanceExist);
+     let AttendanceExist= await db.get().collection(process.env.ATTENDANCE).findOne({})
+    // console.log("id is",AttendanceExist);
 if(AttendanceExist._id==null){
   db.get().collection(process.env.ATTENDANCE).insertOne({_id:new objectId(id)})
 }else{
@@ -102,78 +102,174 @@ if(AttendanceExist._id==null){
     
      WorkingHours:{
       Name:attendancedata.Name,
-      'Isthour':attendancedata.firstHour,
-      '2ndhour':attendancedata.secondHour,
-      '3rdhour':attendancedata.thirdHour,
-      '4thhour':attendancedata.fourthHour,
-      '5thhour':attendancedata.fifthHour,
-      'totalHour':attendancedata.TotalHour,
-       "TotalHours":`${parseInt(attendancedata.TotalHour*60)}minutes`,
-       "attendancetodayavg":`${parseInt(attendancedata.TotalHours/300*100)}%`
+      'firsthour':attendancedata.firstHour,
+      'secondhour':attendancedata.secondHour,
+      'thirdhour':attendancedata.thirdHour,
+      'fourthhour':attendancedata.fourthHour,
+      'fifththhour':attendancedata.fifthHour,
+      // 'totalHour':attendancedata.TotalHour,
+      //  "TotalHours":`${parseInt(attendancedata.TotalHour*60)}minutes`,
+      //  "attendancetodayavg":`${parseInt(attendancedata.TotalHours/300*100)}%`
      },
     },
   },
 },
      ).then((response)=>{
-      console.log("updated succesfully");
+      
       resolve( response);
      
-     })
+     }) 
+   
+  
+  // let AttendCount=  await  db.get().collection(process.env.ATTENDANCE).aggregate([
+    
+    
+    
+  //       {
+          
+  //         $project: {
+  //           totalHours: {
+  //             $sum: [
+  //               '$AttendanceArray[0].WorkingHours.firstHour',
+  //               // "$AttendanceArray.workingHours.secondhour",
+  //               // "$AttendanceArray.workingHours.thirdhour",
+  //               // "$AttendanceArray.workingHours.fourthhour",
+  //               // "$AttendanceArray.workingHours.fifththhour"
+  //             ]
+  //           }
+  //         }
+  //       },
+  //       {
+  //         $group: {
+  //           _id: AttendanceExist._id,
+  //           total: { $sum: AttendanceExist.AttendanceArray[4].Count}
+  //         }
+  //       }
+  //     ])
+  //     .toArray();
+  //     console.log("Aggregate response is" ,AttendCount)
+  //     console.log(AttendCount);
+  //     resolve(AttendCount);
+   
+
+      
+             
+      
+       
+      
+ 
+
+        // {
 }
-    
-   // else{
-//   db.get().collection(process.env.ATTENDANCE).insertOne(Attendance).then((response) => {
-//     response.user = false;
-//     console.log(response);
-//     resolve(response);
-// })
-// }
-
-//.then((response) => {
-//     response.user = false;
-//     console.log(response);
-//     console.log("'count is",response.insertedCount);
-//     resolve(response);
-// })
-
-    
+ 
     
   
 })
   
-    // run bulk operations
-
-  //  if(WorkingHours==null){
-     
-// }else{
-//    db.get().collection(process.env.ATTENDANCE).insertMany(WorkingHours, function(err, res) {
-//     if (err) throw err;
-//     console.log("Number of documents inserted: " + res.insertedCount);
-//     db.close();
-    
-   
-//  })
-
-// }
-
-// else{
-//   db.get().collection(process.env.ATTENDANCE).insertOne(Attendance).then((response) => {
-//     response.user = false;
-//     console.log(response);
-//     resolve(response);
-// })
-// }
-
-//.then((response) => {
-//     response.user = false;
-//     console.log(response);
-//     console.log("'count is",response.insertedCount);
-//     resolve(response);
-// })
-
+ 
 
 
 
      
 },
+
+GetNotes:()=>{
+return new Promise(async(resolve, reject) => {
+   await db.get().collection(process.env.SYLLABUS).findOne({}).then((Getnotes)=>{
+       console.log("getNotes"+Getnotes.module1);
+       let Subjectmodule={
+        module1:Getnotes.module1,
+        module2:Getnotes.module2,
+        module3:Getnotes.module3,
+        module4:Getnotes.module4,
+        module5:Getnotes.module5
+        
+   }
+   console.log("module is ",Subjectmodule);
+const config = new Configuration({
+    apiKey: "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",
+  });
+   const openai = new OpenAIApi(config);
+   
+
+   var input=Subjectmodule.module1
+   var input1=Subjectmodule.module2
+   var input2=Subjectmodule.module3
+   var input3=Subjectmodule.module4
+   var input4=Subjectmodule.module5
+
+   
+  const runPrompt = async (data) => {
+   
+    const Prompt = 
+     `
+    
+   (${data}).Return response in the following parsable JSON format:
+          {
+              "Q": "question",
+              "A": "answer"
+          }
+  
+      `;
+  
+    const response = await openai.createCompletion({
+      model: "text-davinci-003",
+      prompt: Prompt,
+      max_tokens: 1024,
+      temperature: 1,
+       
+       
+    });
+    // console.log("response data",response.data.choices[0].text)
+    
+  
+    const parsableJSONresponse = response.data.choices[0].text;
+    const parsedResponse = JSON.parse(parsableJSONresponse);
+  
+    console.log("Question: ", parsedResponse.Q);
+    console.log("Answer: ", parsedResponse.A);
+ 
+  };
+  
+  runPrompt(input)
+  
+      runPrompt(input1)
+  runPrompt(input2)
+  runPrompt(input3)
+  runPrompt(input4)
+    
+   })
+ 
+
+})
+}
+
+// attendanceCount:()=>{
+//   return new Promise((resolve, reject) => {
+//     db.get().collection(process.env.ATTENDANCE).aggregate([
+//       {$count:WorkingHours}
+//       // {
+//       //     $project: {
+//       //         item: 1,
+//       //         lessThan10: {  // Set to 1 if value < 10
+//       //             $cond: [ { $lt: ["$value", 10 ] }, 1, 0]
+//       //         },
+//       //         moreThan10: {  // Set to 1 if value > 10
+//       //             $cond: [ { $gt: [ "$value", 10 ] }, 1, 0]
+//       //         }
+//       //     }
+//       // },
+//       // {
+//       //     $group: {
+//       //         _id: "$item",
+//       //         countSmaller: { $sum: "$lessThan10" },
+//       //         countBigger: { $sum: "$moreThan10" }
+//       //     }
+//       // }
+//   ])                                                                                          
+  
+            
+//   })
+// },
+  
 }

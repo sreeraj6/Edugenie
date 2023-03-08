@@ -186,7 +186,8 @@ router.get('/add-syllab',async(req, res) => {
 
 router.post('/add-syllab', (req, res) => {
     departmentController.addSyllabus(req.body).then((response)=>{
-        res.redirect('/admin/add-syllabus')
+        console.log(response);
+        res.redirect('/admin/add-syllab')
     })
 })
 

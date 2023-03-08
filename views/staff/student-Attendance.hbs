@@ -25,7 +25,7 @@
                 <tbody>   
                       {{#each studentDetails}}
                   <tr>
-                        <form method="post"   action="/staff/add-Attendance/{{this._id}}">
+                        <form method="post"  action="/staff/add-Attendance/{{this._id}}"   >
              
                     <th><input name="count"  readonly="readonly" style="border:none; outline: none;" scope="row" value="{{@index}}"></th>
                     <td   ><input name="Name"  readonly="readonly" style="border:none; outline: none;" value="{{this.Name}}"></td>
@@ -56,13 +56,13 @@
                          <input type="radio"   value="absent{{@index}}" name="fifthHour">
                         <label for="absent">Absent</label></td>
                         
-                        <td  id="TotalHour" name="TotalHour">0</td>
+                        {{!-- <td  id="TotalHour" name="TotalHour">0</td> --}}
                       
                         {{!-- <td>{{#if (isset($_POST['SubmitButton'])) }} 
 
   $_POST['IsMale'] = $_POST['IsMale'] == 'true' ? true : false;
  </td>{{/if}} --}}
- <td><button type="submit" onclick="studentAttendence({{this._id}})"   class="btn btn-primary">Submit</button></td>
+ <td><button type="submit"     class="btn btn-primary">Submit</button></td>
      
   
  </form>
@@ -78,7 +78,7 @@
 </section>
 
 
-<script>
+{{!-- <script>
         
     $("input[type='radio']").on("click", function () {
         var elm = $("#TotalHour"),
@@ -87,27 +87,11 @@
         console.log(  elm.text(count + 1));
     })
     </script>
+   --}}
+
+
+
   
-
-
-
-
-
-
-
-
-
-            {{!-- <script>
-    function displayRadioValue() {
-        var ele = document.getElementsByName('radio');
-          
-        for(i = 0; i < ele.length; i++) {
-            if(ele[i].checked)
-            document.getElementById("result").innerHTML
-                    = ": "+ele[i].value;
-        }
-    }
-</script> --}}
 <script>
 function studentAttendence(stId) {
         $.ajax({
