@@ -2,6 +2,9 @@ var express = require('express');
 var router = express.Router();
 var staffController=require('../Helpers/staffHelper/Staff')
 var fs = require("fs");
+const { Configuration, OpenAIApi } = require("openai");
+ 
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('staff/home', { admin:false});
@@ -66,7 +69,67 @@ res.redirect("/staff/add-Attendance")
 
 
 router.get("/get-Notes",(req,res)=>{
-  staffController.GetNotes().then(()=>{
+  staffController.GetNotes().then((Subjectmodule)=>{
+    console.log("get resModule is",Subjectmodule)
+    const config = new Configuration({
+      apiKey:  "Your API_KEy"
+    });
+     const openai = new OpenAIApi(config);
+     
+  
+   
+     
+  
+     
+    const runPrompt = async () => {
+     
+      const Prompt =
+     
+       `
+      
+     (${ [ Subjectmodule.module1,Subjectmodule.module2,Subjectmodule.module3,Subjectmodule.module4,Subjectmodule.module5]}).Return response in the following parsable JSON format:
+            {
+                "Q": "question",
+                "A": "answer"
+            }
+    
+        `;
+    
+      const response = await openai.createCompletion({
+        model: "text-davinci-003",
+        prompt: Prompt ,
+        max_tokens: 1024,
+        temperature: 1,
+        top_p: 1.0,
+        frequency_penalty: 0.0,
+        presence_penalty: 0.0,
+        
+         
+      });
+      console.log("response data",response.data.choices[0].text)
+      
+      const inputText = response.data.choices[0].text;
+const inputArray = inputText.split("\n"); 
+console.log( inputArray);
+for (let i = 0; i < inputArray.length; i++) {
+    inputArray[i]
+    console.log("length is"+inputArray.length);
+  const secondInput = inputArray[i];
+  console.log("second",secondInput);
+    let Content=response.data
+      // const parsableJSONresponse = response.data.choices[0].text;
+      //  const parsedResponse = JSON.stringify(parsableJSONresponse);
+        
+      //  console.log("Question: ", parsedResponse.Q);
+      //  console.log("Answer: ", parsedResponse.A);
+
+       staffController.receivedContent(Content).then(()=>{
+        console.log("content added");
+       })
+   }
+    };
+    
+    runPrompt()
     
   })
   res.render("staff/Get-Notes")

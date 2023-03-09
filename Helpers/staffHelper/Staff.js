@@ -185,63 +185,35 @@ return new Promise(async(resolve, reject) => {
         module5:Getnotes.module5
         
    }
+   resolve(Subjectmodule)
    console.log("module is ",Subjectmodule);
-const config = new Configuration({
-    apiKey: "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",
-  });
-   const openai = new OpenAIApi(config);
-   
-
-   var input=Subjectmodule.module1
-   var input1=Subjectmodule.module2
-   var input2=Subjectmodule.module3
-   var input3=Subjectmodule.module4
-   var input4=Subjectmodule.module5
-
-   
-  const runPrompt = async (data) => {
-   
-    const Prompt = 
-     `
-    
-   (${data}).Return response in the following parsable JSON format:
-          {
-              "Q": "question",
-              "A": "answer"
-          }
-  
-      `;
-  
-    const response = await openai.createCompletion({
-      model: "text-davinci-003",
-      prompt: Prompt,
-      max_tokens: 1024,
-      temperature: 1,
-       
-       
-    });
-    // console.log("response data",response.data.choices[0].text)
-    
-  
-    const parsableJSONresponse = response.data.choices[0].text;
-    const parsedResponse = JSON.parse(parsableJSONresponse);
-  
-    console.log("Question: ", parsedResponse.Q);
-    console.log("Answer: ", parsedResponse.A);
  
-  };
-  
-  runPrompt(input)
-  
-      runPrompt(input1)
-  runPrompt(input2)
-  runPrompt(input3)
-  runPrompt(input4)
-    
    })
  
 
 })
+},
+
+receivedContent :(content)=>{
+   
+    return new Promise(  (resolve, reject) => {
+      
+     
+       
+
+    
+     
+       
+      db.get()
+      .collection('chat-gpt')
+      .insertOne(content)
+      .then((response) => {
+        resolve(response+"content added ss")
+      })
+     
+    });
+ 
+   
 }
 
 // attendanceCount:()=>{
