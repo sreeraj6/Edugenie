@@ -72,7 +72,7 @@ router.get("/get-Notes",(req,res)=>{
   staffController.GetNotes().then((Subjectmodule)=>{
     console.log("get resModule is",Subjectmodule)
     const config = new Configuration({
-      apiKey:  "Your API_KEy"
+      apiKey:  "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"
     });
      const openai = new OpenAIApi(config);
      
@@ -80,14 +80,17 @@ router.get("/get-Notes",(req,res)=>{
    
      
   
-     
+   for(i=0;i<Subjectmodule.module.length;){
+        console.log("module length is",Subjectmodule.module.length);  
     const runPrompt = async () => {
-     
+       
+      
       const Prompt =
+    
      
        `
       
-     (${ [ Subjectmodule.module1,Subjectmodule.module2,Subjectmodule.module3,Subjectmodule.module4,Subjectmodule.module5]}).Return response in the following parsable JSON format:
+     (${ Subjectmodule.module[i]}).Return response in the following parsable JSON format:
             {
                 "Q": "question",
                 "A": "answer"
@@ -108,29 +111,30 @@ router.get("/get-Notes",(req,res)=>{
       });
       console.log("response data",response.data.choices[0].text)
       
-      const inputText = response.data.choices[0].text;
-const inputArray = inputText.split("\n"); 
-console.log( inputArray);
-for (let i = 0; i < inputArray.length; i++) {
-    inputArray[i]
-    console.log("length is"+inputArray.length);
-  const secondInput = inputArray[i];
-  console.log("second",secondInput);
-    let Content=response.data
-      // const parsableJSONresponse = response.data.choices[0].text;
-      //  const parsedResponse = JSON.stringify(parsableJSONresponse);
+//       const inputText = response.data.choices[0].text;
+// const inputArray = inputText.split("\n"); 
+// console.log( inputArray);
+// for (let i = 0; i < inputArray.length; i++) {
+//     inputArray[i]
+//     console.log("length is"+inputArray.length);
+//   const secondInput = inputArray[i];
+//   console.log("second",secondInput);
+     let Content=response.data
+       const parsableJSONresponse = response.data.choices[0].text;
+        const parsedResponse = JSON.parse(parsableJSONresponse);
         
-      //  console.log("Question: ", parsedResponse.Q);
-      //  console.log("Answer: ", parsedResponse.A);
+       console.log("Question: ", parsedResponse.Q);
+       console.log("Answer: ", parsedResponse.A);
 
-       staffController.receivedContent(Content).then(()=>{
-        console.log("content added");
-       })
-   }
+      //  staffController.receivedContent(Content).then(()=>{
+      //   console.log("content added");
+      //  })
+   
     };
-    
+   
     runPrompt()
-    
+    i++
+  } 
   })
   res.render("staff/Get-Notes")
 })

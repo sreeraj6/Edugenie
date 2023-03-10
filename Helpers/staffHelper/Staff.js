@@ -174,21 +174,24 @@ if(AttendanceExist._id==null){
 },
 
 GetNotes:()=>{
-return new Promise(async(resolve, reject) => {
-   await db.get().collection(process.env.SYLLABUS).findOne({}).then((Getnotes)=>{
-       console.log("getNotes"+Getnotes.module1);
-       let Subjectmodule={
-        module1:Getnotes.module1,
-        module2:Getnotes.module2,
-        module3:Getnotes.module3,
-        module4:Getnotes.module4,
-        module5:Getnotes.module5
+  return new Promise(async(resolve, reject) => {
+     await db.get().collection(process.env.SYLLABUS).findOne({_id:new objectId("640b3ec34c144325cdcbde17")}).then((Getnotes)=>{
+         //console.log("getNotes"+Getnotes.module1);
         
-   }
-   resolve(Subjectmodule)
-   console.log("module is ",Subjectmodule);
- 
-   })
+          console.log(Getnotes.module[1]);
+         
+    //      let Subjectmodule={
+    //       module1:Getnotes.module1,
+    //       module2:Getnotes.module2,
+    //       module3:Getnotes.module3,
+    //       module4:Getnotes.module4,
+    //       module5:Getnotes.module5
+          
+    //  }
+     resolve(Getnotes)
+    //  console.log("module is ",Subjectmodule);
+   
+     })
  
 
 })

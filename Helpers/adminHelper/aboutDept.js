@@ -105,20 +105,19 @@ module.exports = {
     //add syllabus
     addSyllabus: (deptSyllab) => {
         
-        var module1 = deptSyllab.module1.split(",");
-        var module2 = deptSyllab.module2.split(",");
-        var module3 = deptSyllab.module3.split(",");
-        var module4 = deptSyllab.module4.split(",");
-        var module5 = deptSyllab.module5.split(",");
+        // var module1 = deptSyllab.module1.split(",");
+        // var module2 = deptSyllab.module2.split(",");
+        // var module3 = deptSyllab.module3.split(",");
+        // var module4 = deptSyllab.module4.split(",");
+        // var module5 = deptSyllab.module5.split(",");
         
         var syllabus = {
             dept_id : deptSyllab.deptId,
             subject_id : deptSyllab.subject,
-            module1 : module1,
-            module2 : module2,
-            module3 : module3,
-            module4 : module4,
-            module5 : module5
+            module:[deptSyllab.module1,deptSyllab.module2,deptSyllab.module3,deptSyllab.module4,deptSyllab.module5]
+            
+           
+          
         }
 
         return new Promise((resolve,reject) => {
