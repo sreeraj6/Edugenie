@@ -3,6 +3,7 @@ var router = express.Router();
 var staffController=require('../Helpers/staffHelper/Staff')
 var fs = require("fs");
 const { Configuration, OpenAIApi } = require("openai");
+const subjectHelper = require('../Helpers/adminHelper/subjectHelper');
  
 
 /* GET home page. */
@@ -70,24 +71,31 @@ res.redirect("/staff/add-Attendance")
 
 router.get("/get-Notes",(req,res)=>{
   staffController.GetNotes().then((Subjectmodule)=>{
-    console.log("get resModule is",Subjectmodule)
+    console.log("get resModule is",Subjectmodule.module[2])
     const config = new Configuration({
-      apiKey:  "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"
+      apiKey:  " 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"
     });
      const openai = new OpenAIApi(config);
      
   
    
      
+   
   
-   for(i=0;i<Subjectmodule.module.length;){
-        console.log("module length is",Subjectmodule.module.length);  
-    const runPrompt = async () => {
+
+    // console.log("value of i is",i)
+      //   if(i=Subjectmodule.module.length){
+      //   break
+      // }// console.log("module length is",Subjectmodule.module[i]);  
+
        
+    const runPrompt = async () => {
+       for(i=0;i<=Subjectmodule.module.length;){
       
+        
       const Prompt =
     
-     
+    // console.log("loop inside for loop is",Subjectmodule.module[i]);
        `
       
      (${ Subjectmodule.module[i]}).Return response in the following parsable JSON format:
@@ -97,7 +105,7 @@ router.get("/get-Notes",(req,res)=>{
             }
     
         `;
-    
+        
       const response = await openai.createCompletion({
         model: "text-davinci-003",
         prompt: Prompt ,
@@ -121,20 +129,26 @@ router.get("/get-Notes",(req,res)=>{
 //   console.log("second",secondInput);
      let Content=response.data
        const parsableJSONresponse = response.data.choices[0].text;
-        const parsedResponse = JSON.parse(parsableJSONresponse);
+        const parsedResponse = JSON.stringify(parsableJSONresponse);
+        console.log("loop inside for loop is",Subjectmodule.module[i]);
+       i++;
         
-       console.log("Question: ", parsedResponse.Q);
-       console.log("Answer: ", parsedResponse.A);
+       
+     //  console.log("Question: ", parsedResponse.Q);
+       console.log("Answer: ", parsedResponse);
 
-      //  staffController.receivedContent(Content).then(()=>{
+      //  staffController.receivedContent(parsedResponse).then(()=>{
       //   console.log("content added");
-      //  })
-   
+       //}) 
+       // for(i=0;i<Subjectmodule.module.length;i++){
+       
+   // }i++
     };
-   
+    
+    } 
     runPrompt()
-    i++
-  } 
+  
+   
   })
   res.render("staff/Get-Notes")
 })
