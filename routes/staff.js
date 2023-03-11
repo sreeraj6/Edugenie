@@ -73,7 +73,7 @@ router.get("/get-Notes",(req,res)=>{
   staffController.GetNotes().then((Subjectmodule)=>{
     console.log("get resModule is",Subjectmodule.module[2])
     const config = new Configuration({
-      apiKey:  " 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"
+      apiKey:  ''
     });
      const openai = new OpenAIApi(config);
      
@@ -92,7 +92,6 @@ router.get("/get-Notes",(req,res)=>{
     const runPrompt = async () => {
        for(i=0;i<=Subjectmodule.module.length;){
       
-        
       const Prompt =
     
     // console.log("loop inside for loop is",Subjectmodule.module[i]);
