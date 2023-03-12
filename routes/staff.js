@@ -7,6 +7,15 @@ router.get('/', function(req, res, next) {
   res.render('staff/home', { admin:false});
 });
 
+//POST stafff login submint
+//route staff/login
+router.post('/login', (req, res) => {
+  req.body.type = 2
+  console.log(req.body);
+
+  res.redirect('/student')
+})
+
 router.get('/view-Assignment/',(req,res)=>{
    staffController.ViewAssignment().then((AssignmentData)=>{;
   res.render("staff/view-assignment",{ Assignmentdata:AssignmentData})
