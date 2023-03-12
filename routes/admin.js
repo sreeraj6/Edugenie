@@ -6,6 +6,7 @@ var studentController=require('../Helpers/adminHelper/addStudent')
 var subjectController = require('../Helpers/adminHelper/subjectHelper');
 var examHallController = require('../Helpers/adminHelper/ExamHallAllotHelper');
 var fs = require("fs");
+const adminAuth = require('../Helpers/adminHelper/adminAuth');
 var router = express.Router();
 
 //GET admin login form
@@ -23,10 +24,16 @@ router.get('/login', (req, res) => {
 //POST admin login submint
 //route admin/login
 router.post('/login', (req, res) => {
-    req.body.type = 1
-    console.log(req.body);
-
-    res.redirect('/admin')
+    req.body.type = 2;
+    adminAuth.doLogin(req.body).then((response)=>{
+        if(response.status){
+            res.redirect('/admin')
+        }
+        else{
+            res.redirect('/login')
+        }
+    })
+   
 })
 
 //GET admin add staff form
