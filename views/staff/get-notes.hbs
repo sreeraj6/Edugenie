@@ -1,0 +1,15 @@
+<form method="post">
+    <h5 class="card-title">Subject</h5>
+
+    <div class="form-group">
+        <label for="exampleFormControlInput1">Select Subject</label>
+        <select id="subject" name="subject_id" onchange="GetSubject(this)" class="form-select" aria-label="Default select example">
+            <option value='' selected>subject</option>
+            {{#each subject}}
+            <option value='{{this._id}}'>{{this.sub_name}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <br> <br>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
