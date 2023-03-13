@@ -7,9 +7,10 @@ module.exports = {
         
         return new Promise(async (resolve, reject) => {
             console.log(subjectId);
-            db.get().collection(process.env.SYLLABUS).findOne({subject_id:subjectId})
+           await db.get().collection(process.env.SYLLABUS).findOne({ })
             .then((response) => {
-                resolve(response);
+                console.log("res");
+                resolve( response);
             })
         })
         

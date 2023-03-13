@@ -7,7 +7,7 @@ var adminAuth = require('../Helpers/adminHelper/adminAuth');
 var syllabusController = require('../Helpers/staffHelper/fetchSyllabus');
 var subjectController = require('../Helpers/adminHelper/subjectHelper');
 const { response } = require('../app');
-
+const { Configuration, OpenAIApi } = require("openai");
 /* GET home page. */
 const verifystaff = (req, res, next) => {
   if (req.session.loggedIn) {
@@ -127,5 +127,70 @@ router.get('/assign-notes/:id',(req, res) => {
     console.log(moduleInfo);
     res.render('staff/assign-notes',{module1 : moduleInfo.module1, module2 : moduleInfo.module2, module3 : moduleInfo.module3, module4 : moduleInfo.module4, module5 : moduleInfo.module5})
   })
+}),
+
+router.post('/assign-notes/',(req,res)=>{
+ 
+
+  if(req.body.Module1){
+    var Question=req.body.Module1
+    console.log("Question is Here",Question);
+  }else if(req.body.Module2){
+      Question=req.body.Module2
+      console.log("Question is Here",Question);
+  }
+  else if(req.body.Module3){
+    Question=req.body.Module3
+    console.log("Question is Here",Question);
+}
+else if(req.body.Module4){
+  Question=req.body.Module4
+  console.log("Question is Here",Question);
+}
+else  {
+  Question=req.body.Module4
+  console.log("Question is Here",Question);
+}
+
+const config = new Configuration({
+	apiKey:  "Your API_key"
+});
+
+const openai = new OpenAIApi(config);
+
+const runPrompt = async (data) => {
+ 
+	const Prompt = 
+	 `
+	
+ (${data}).Return response in the following parsable JSON format:
+        {
+            "Q": "question",
+            "A": "answer"
+        }
+
+    `;
+
+	const response = await openai.createCompletion({
+		model: "text-davinci-003",
+		prompt: Prompt,
+		max_tokens: 2048,
+		temperature: 1,
+		 
+		 
+	});
+	console.log("response data",response.data.choices[0].text );
+
+	
+	const parsableJSONresponse = response.data.choices[0].text;
+	const parsedResponse = JSON.parse(parsableJSONresponse);
+
+	console.log("Question: ", parsedResponse.Q);
+	console.log("Answer: ", parsedResponse.A);
+
+  res.render("staff/assign-notes", {Answer:parsedResponse.A})
+};
+
+runPrompt(Question);
 })
 module.exports = router;

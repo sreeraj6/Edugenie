@@ -1,67 +1,108 @@
-<form method="post">
+<form method="post" action="/staff/assign-notes/">
     <h5 class="card-title">Subject</h5>
 
     <div class="form-group">
-        <label for="exampleFormControlInput1">Select Department</label>
-        <select id="Dept" name="deptId" onchange="GetSubject(this)" class="form-select"
+        <label for="exampleFormControlInput1"></label>
+        <select id="Module1" name="Module1" onchange="this.form.submit()" class="form-select"
             aria-label="Default select example">
-            <option value='' selected>Select Department</option>
+            <option value='' selected>Module 1</option>
             {{#each module1}}
             <option value='{{this}}'>{{this}}</option>
             {{/each}}
         </select>
     </div>
     <div id="modules" class="form-group">
-        <label for="exampleFormControlTextarea3">Module 1</label>
-        <textarea class="form-control" name="module1" id="exampleFormControlTextarea3" rows="7"></textarea>
+        <label for="exampleFormControlTextarea3"> </label>
+        <textarea class="form-control" name=" " id="exampleFormControlTextarea3" rows="7">{{Answer}}</textarea>
     </div>
 
     <div class="form-group">
-        <label for="exampleFormControlInput1">Select Department</label>
-        <select id="Dept" name="deptId" onchange="GetSubject(this)" class="form-select"
+        <label for="exampleFormControlInput1"> </label>
+        <select id="Module2" name="Module2" onchange="this.form.submit()" class="form-select"
             aria-label="Default select example">
-            <option value='' selected>Select Department</option>
+            <option value='' selected>module 2</option>
             {{#each module2}}
             <option value='{{this}}'>{{this}}</option>
             {{/each}}
         </select>
     </div>
     <div id="modules" class="form-group">
-        <label for="exampleFormControlTextarea3">Module 1</label>
-        <textarea class="form-control" name="module1" id="exampleFormControlTextarea3" rows="7"></textarea>
+        <label for="exampleFormControlTextarea3"> </label>
+        <textarea class="form-control" name=" " id="exampleFormControlTextarea3" rows="7">{{Answer2}}</textarea>
     </div>
     <div class="form-group">
-        <label for="exampleFormControlInput1">Select Department</label>
-        <select id="Dept" name="deptId" onchange="GetSubject(this)" class="form-select"
+        <label for="exampleFormControlInput1"> </label>
+        <select id="Module3" name="Module3"  onchange="this.form.submit()" class="form-select"
             aria-label="Default select example">
-            <option value='' selected>Select Department</option>
+            <option value='' selected>module 3 </option>
             {{#each module3}}
             <option value='{{this}}'>{{this}}</option>
             {{/each}}
         </select>
     </div>
     <div id="modules" class="form-group">
-        <label for="exampleFormControlTextarea3">Module 1</label>
-        <textarea class="form-control" name="module1" id="exampleFormControlTextarea3" rows="7"></textarea>
+        <label for="exampleFormControlTextarea3"> </label>
+        <textarea class="form-control" name=" " id="exampleFormControlTextarea3" rows="7">{{Answer3}}</textarea>
     </div>
     <div class="form-group">
-        <label for="exampleFormControlInput1">Select Department</label>
-        <select id="Dept" name="deptId" onchange="GetSubject(this)" class="form-select"
+        <label for="exampleFormControlInput1"> </label>
+   <select id="Module4" name="Module4"  onchange="this.form.submit()" class="form-select"
             aria-label="Default select example">
-            <option value='' selected>Select Department</option>
+            <option value='' selected>module 4</option>  <button>
             {{#each module4}}
-            <option value='{{this}}'>{{this}}</option>
+            <option value='{{this}}'>{{this}}</option></button>  
             {{/each}}
-        </select>
+        </select> 
+    </div>
+ 
+    <div id="modules" class="form-group">
+        <label for="exampleFormControlTextarea3"> </label>
+        <textarea class="form-control" name=" " id="exampleFormControlTextarea3" rows="7">{{Answer4}}</textarea>
+    </div>
+         <div class="form-group">
+        <label for="exampleFormControlInput1"> </label>
+   <select id="Module5" name="Module5"   onchange="this.form.submit()" class="form-select"
+            aria-label="Default select example">
+            <option value='' selected>module 5</option>  <button>
+            {{#each module5}}
+            <option value='{{this}}'>{{this}}</option></button>  
+            {{/each}}
+        </select> 
     </div>
     <div id="modules" class="form-group">
-        <label for="exampleFormControlTextarea3">Module 1</label>
-        <textarea class="form-control" name="module1" id="exampleFormControlTextarea3" rows="7"></textarea>
+        <label for="exampleFormControlTextarea3"> </label>
+        <textarea class="form-control" name=" " id="exampleFormControlTextarea3" rows="7">{{Answer5}}</textarea>
     </div>
     <br><br>
 
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+
+
+<script>
+
+
+   function changeFunc() {
+    var selectBox = document.getElementById("selectBox");
+    var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+    alert(selectedValue);
+
+    submitHandler(selectedValue)
+   }
+
+function submitHandler (data) {
+ 
+
+  $.ajax({
+    url: '/assign-notes/',
+    type:'POST',
+    data: $form.serialize()
+  }).done(response => {
+    console.log(response)
+  })
+}
+</script>
+
 
 
 {{!-- Script for Ajax Refferal --}}
