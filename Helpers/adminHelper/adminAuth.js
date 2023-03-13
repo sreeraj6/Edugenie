@@ -18,7 +18,7 @@ module.exports = {
                 user = await db.get().collection(process.env.ADMINDB).findOne({email: cred.email})
             }
             else if(credential.type == 2){
-                user = await db.get().collection(process.env.STAFFDB).findOne({email: cred.email})
+                user = await db.get().collection(process.env.STAFFDB).findOne({Email: cred.email})
             }
             else if(credential.type == 3){
                 user = await db.get().collection(process.env.STUDENTDB).findOne({email: cred.email})
@@ -36,7 +36,6 @@ module.exports = {
                         resolve(response)
                     }
                     else{
-                        console.log("Something happende");
                         resolve({status: false})
                     }
                 })
