@@ -129,51 +129,25 @@ router.get('/assign-notes/:id',(req, res) => {
   })
 }),
 
-router.post('/assign-notes/',(req,res)=>{
- 
+router.post('/assign-notes',(req,res)=>{
 
-  if(req.body.Module1){
-    var Question=req.body.Module1
-    console.log("Question is Here",Question);
-  }else if(req.body.Module2){
-      Question=req.body.Module2
-      console.log("Question is Here",Question);
-  }
-  else if(req.body.Module3){
-    Question=req.body.Module3
-    console.log("Question is Here",Question);
-}
-else if(req.body.Module4){
-  Question=req.body.Module4
-  console.log("Question is Here",Question);
-}
-else  {
-  Question=req.body.Module4
-  console.log("Question is Here",Question);
-}
-
-const config = new Configuration({
-	apiKey:  "Your API_key"
-});
-
-const openai = new OpenAIApi(config);
+  console.log("question is",req.body)
+  const config = new Configuration({
+    apiKey: "Your API_KEY"
+  });
+  const openai = new OpenAIApi(config);
 
 const runPrompt = async (data) => {
  
-	const Prompt = 
-	 `
+	 
 	
- (${data}).Return response in the following parsable JSON format:
-        {
-            "Q": "question",
-            "A": "answer"
-        }
+  
 
-    `;
+     
 
 	const response = await openai.createCompletion({
 		model: "text-davinci-003",
-		prompt: Prompt,
+		prompt: data,
 		max_tokens: 2048,
 		temperature: 1,
 		 
@@ -183,14 +157,55 @@ const runPrompt = async (data) => {
 
 	
 	const parsableJSONresponse = response.data.choices[0].text;
-	const parsedResponse = JSON.parse(parsableJSONresponse);
+  const JsonString=JSON.stringify(parsableJSONresponse)
+ var parsedResponse = JSON.parse(JsonString);
+    
 
-	console.log("Question: ", parsedResponse.Q);
-	console.log("Answer: ", parsedResponse.A);
+	console.log("Question: ",  parsedResponse);
+	//console.log("Answer: ", parsedResponse.A);
 
-  res.render("staff/assign-notes", {Answer:parsedResponse.A})
+  res.render("staff/assign-notes", {Answer:parsedResponse})
 };
 
-runPrompt(Question);
+
+ 
+
+  if(req.body.Module1){
+    var Question=req.body.Module1
+    console.log("Question is Here",Question);
+    
+    runPrompt(Question)
+  }else if(req.body.Module2){
+      Question=req.body.Module2
+      console.log("Question is Here",Question);
+      
+      runPrompt(Question)
+  }
+  else if(req.body.Module3){
+    Question=req.body.Module3
+    console.log("Question is Here",Question);
+    runPrompt(Question);
+  
+
+
+}
+else if(req.body.Module4){
+  Question=req.body.Module4
+  console.log("Question is Here",Question);
+  runPrompt(Question);
+  
+}
+else if(req.body.Module5) {
+  Question=req.body.Module5
+  console.log("Question is Here",Question);
+  runPrompt(Question);
+  
+}else{
+  console.log("error");
+}
+
+
+
+
 })
 module.exports = router;
