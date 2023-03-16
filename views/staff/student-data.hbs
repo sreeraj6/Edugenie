@@ -1,0 +1,61 @@
+<div class="card mt-5">
+    <div class="card-body">
+        <h5 class="card-title">Department Details</h5>
+        <!-- Active Table -->
+        <form action="/assign-attendance/{{dept_Id}}" method="post">
+            {{!-- <p id="date"></p> --}}
+            <input type="text" class="form-control" id="date" name="date" readonly>
+            <div class="form-group">
+                <label for="exampleFormControlInput1">Select Hour</label>
+                <select id="Dept" name="hour" class="form-select" aria-label="Default select example">
+                    <option value='' selected>Select Hour</option>
+                    {{#each hours}}
+                    <option value='{{this._id}}'>{{this.Name}}</option>
+                    {{/each}}
+                </select>
+            </div>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Department</th>
+                        <th scope="col">candidateCode</th>
+                        <th scope="col">Semesters</th>
+                        <th scope="col">HOD</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each students}}
+                    <tr>
+                        <th scope="row">{{@index}}</th>
+                        <td>{{this.Name}}</td>
+                        <td>
+                            {{!-- {{this.candidateCode}} --}}
+                            <input type="text" class="form-control" id="email" value="{{this.candidateCode}}"name="candiateCode" readonly>
+                        </td>
+                        <td>{{this.Semester}}</td>
+                        {{#if this.HodName}}
+                        <td>{{this.HodName}}</td>
+                        {{else}}
+                        <td>Not assigned</td>
+                        {{/if}}
+                        <td>
+                            <input type="checkbox" name="attendance" value="{{this.candidateCode}}" checked/>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <!-- End Active Table -->
+
+    </div>
+</div>
+
+<script>
+    var todayDate = new Date().toISOString().slice(0, 10);
+    document.getElementById("date").setAttribute('value', todayDate);
+</script>
