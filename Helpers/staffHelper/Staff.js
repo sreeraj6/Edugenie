@@ -214,6 +214,17 @@ receivedContent :(content)=>{
     });
  
    
+},
+
+
+storeNotes :(notes)=>{
+  
+  return new Promise((resolve, reject) => {
+ 
+db.get().collection(process.env.MODULE_NOTES).insertOne(notes).then((response)=>{
+  resolve(response)
+})
+  })
 }
 
 // attendanceCount:()=>{

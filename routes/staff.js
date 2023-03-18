@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var staffController = require('../Helpers/staffHelper/Staff')
+const db = require('../Config/connection');
 var fs = require("fs");
 var departmentController = require('../Helpers/adminHelper/aboutDept')
 var adminAuth = require('../Helpers/adminHelper/adminAuth');
@@ -134,7 +135,7 @@ router.post('/assign-notes',(req,res)=>{
 
   console.log("question is",req.body)
   const config = new Configuration({
-    apiKey: "Your API_KEY"
+    apiKey: "YOUR API_KEY"
   });
   const openai = new OpenAIApi(config);
 
@@ -164,66 +165,71 @@ const runPrompt = async (data,type) => {
 
 	console.log("Question: ",  parsedResponse);
 	//console.log("Answer: ", parsedResponse.A);
- if(type==1){
-    res.render("staff/assign-notes", {Answer:parsedResponse})
- }else if(type==2){
-  res.render("staff/assign-notes", {Answer1:parsedResponse})
- }else if(type==3){
-  res.render("staff/assign-notes", {Answer2:parsedResponse})
- }else if(type==4){
-  res.render("staff/assign-notes", {Answer3:parsedResponse})
- }else if(type==5){
-  res.render("staff/assign-notes", {Answer4:parsedResponse})
- }else{
-  alert("module not found")
- }
+  res.render("staff/assign-notes", {Answer:parsedResponse})
+//  if(type==1){
+//     res.render("staff/assign-notes", {Answer:parsedResponse})
+//  }else if(type==2){
+//   res.render("staff/assign-notes", {Answer1:parsedResponse})
+//  }else if(type==3){
+//   res.render("staff/assign-notes", {Answer2:parsedResponse})
+//  }else if(type==4){
+//   res.render("staff/assign-notes", {Answer3:parsedResponse})
+//  }else if(type==5){
+//   res.render("staff/assign-notes", {Answer4:parsedResponse})
+//  }else{
+//   alert("module not found")
+//  }
 
 };
 
+var Question=req.body.Module_Data
+console.log("Question is Here",Question);
+    
+  runPrompt(Question)
+
+//   if(req.body.Module1){
+//     var Question=req.body.Module1
+//    var type=1
+//     console.log("Question is Here",Question);
+    
+//     runPrompt(Question,type)
+//   }else if(req.body.Module2){
+//       Question=req.body.Module2
+//       type=2
+//       console.log("Question is Here",Question);
+      
+//       runPrompt(Question,type)
+//   }
+//   else if(req.body.Module3){
+//     Question=req.body.Module3
+//     type=3
+//     console.log("Question is Here",Question);
+//     runPrompt(Question,type);
+  
+
+
+// }
+// else if(req.body.Module4){
+//   Question=req.body.Module4
+//   type=4
+//   console.log("Question is Here",Question);
+//   runPrompt(Question,type);
+  
+// }
+// else if(req.body.Module5) {
+//   Question=req.body.Module5
+//   type=5
+//   console.log("Question is Here",Question);
+//   runPrompt(Question,type);
+  
+// }else{
+//   console.log("error");
+// }
+
+
+
+
+}),
 
  
-
-  if(req.body.Module1){
-    var Question=req.body.Module1
-   var type=1
-    console.log("Question is Here",Question);
-    
-    runPrompt(Question,type)
-  }else if(req.body.Module2){
-      Question=req.body.Module2
-      type=2
-      console.log("Question is Here",Question);
-      
-      runPrompt(Question,type)
-  }
-  else if(req.body.Module3){
-    Question=req.body.Module3
-    type=3
-    console.log("Question is Here",Question);
-    runPrompt(Question,type);
-  
-
-
-}
-else if(req.body.Module4){
-  Question=req.body.Module4
-  type=4
-  console.log("Question is Here",Question);
-  runPrompt(Question,type);
-  
-}
-else if(req.body.Module5) {
-  Question=req.body.Module5
-  type=5
-  console.log("Question is Here",Question);
-  runPrompt(Question,type);
-  
-}else{
-  console.log("error");
-}
-
-
-
-
-})
 module.exports = router;
