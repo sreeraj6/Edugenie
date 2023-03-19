@@ -121,7 +121,16 @@ router.get("/select-sub/:id", (req, res) => {
 router.post("/select-sub/:id", (req, res) => {
     res.redirect("/assign-notes/"+req.body.subject_id);
 })
-
+router.post("/module-notes",(req,res)=>{
+  console.log("module note",JSON.stringify(req.body))
+  let notes=req.body
+   staffController.storeNotes(notes).then((response)=>{
+    console.log("response inserted",response);
+   
+      res.redirect('/' )
+   })
+ 
+}),
 //assign 
 //GET /staff/assign-note
 router.get('/assign-notes/:id',(req, res) => {
@@ -131,15 +140,15 @@ router.get('/assign-notes/:id',(req, res) => {
   })
 }),
 
-router.post('/assign-notes',(req,res)=>{
+router.post('/assign-notes/',(req,res)=>{
 
   console.log("question is",req.body)
   const config = new Configuration({
-    apiKey: "YOUR API_KEY"
+    apiKey: " "
   });
   const openai = new OpenAIApi(config);
 
-const runPrompt = async (data,type) => {
+const runPrompt = async (data) => {
  
 	 
 	
@@ -231,5 +240,6 @@ console.log("Question is Here",Question);
 
 }),
 
- 
+
+
 module.exports = router;

@@ -1,5 +1,4 @@
-<form method="post" action="/staff/assign-notes/">
-    <h5 class="card-title">Subject</h5>
+<form method="post"  action="/staff/assign-notes/">
 
      <div class="row mb-12">
         <label for="exampleFormControlInput1"></label>
@@ -15,37 +14,55 @@
            </select>
           
  
-
+            
              
-           <select class="form-select mt-3" id="mediaSel2" onclick=" this.form.submit()" name="Module_Data"></select>
+           <select class="form-select mt-3" id="mediaSel2" onclick="this.form.submit()" name="Module_Data"></select>
                 </td><td class="buttonRow">
-           <div id="addRow" class="addButton" onclick="addSelection()"><span class="plus"></span></div>
+                 
+
+                 
+           {{!-- <div id="addRow" class="addButton" onclick="addSelection()"><span class="plus"></span></div> --}}
             {{!-- {{#each module1}}
             <option value='{{this}}'>{{this}}</option>
 
 
-
+{}
             {{/each}} --}}
-     
+      </form> 
+ 
+<div>
+      <form  id="my-form" method="post" action="/staff/module-notes">
             <div id="modules" class="form-group">
         <label for="exampleFormControlTextarea3"> </label>
         <textarea class="form-control" name="notes " id="exampleFormControlTextarea3" rows="7">{{Answer}}</textarea>
+        {{#if Answer}}
+         <label>Save Notes as</label>
+        <input type="text" name="notes name">
+
+         <button  type="submit"   class="btn btn-success">+</button>  
+               {{/if}}
      <br><br>
-     </div>
-   
-   <button type="submit" class="btn btn-success">Add</button>
+     </div> 
+     
+    </form>
+ </div>
  
-  </form>     
+ 
+     
     </div>
     
+
+
+
+
  
-
-
 
 
       <script>
 
 function dropDownSelect(s1,s2) {
+
+  
     var s1 = document.getElementById(s1);
     var s2 = document.getElementById(s2);
     var hideSel = document.getElementById("mediaSel2");
@@ -53,6 +70,7 @@ function dropDownSelect(s1,s2) {
 
     if(s1.value == "module1") {
              var optionArray = [`{{module1}}|{{module1}}` ];
+           
     }
      else if(s1.value == "module2") {
              var optionArray = [`{{module2}}|{{module2}}` ];
@@ -102,10 +120,10 @@ function dropDownSelect(s1,s2) {
     
 
 
-<script>
+{{!-- <script>
 
 
-   function changeFunc() {
+   //function changeFunc() {
     var selectBox = document.getElementById("mediaSel2");
     var selectedValue = selectBox.options[selectBox.selectedIndex].value;
     alert(selectedValue);
@@ -113,10 +131,10 @@ function dropDownSelect(s1,s2) {
     submitHandler(selectedValue)
    }
 
-function submitHandler (data) {
+//function submitHandler (data) {
  
 
-  $.ajax({
+
     url: '/assign-notes/',
     type:'POST',
     data: $form.serialize()
@@ -124,55 +142,64 @@ function submitHandler (data) {
     console.log(response)
   })
 }
-</script>
-
-
-
-{{!-- Script for Ajax Refferal --}}
-{{!-- <script>
-
-
-    function GetSubject(deptId) {
-        var id = deptId.value;
-
-        //alert(id);
-        selectSub(id);
-    }
-
-    function selectSub(deptId) {
-
-        var id = deptId
-        $.ajax({
-            url: '/admin/get-sub/' + id,
-            method: "GET",
-            success: ((response) => {
-                if(document.getElementById("subject").disabled == true){
-                    location.reload();
-                }
-                if (response.length == 0) {
-                    alert("NO subject found")
-                    document.getElementById("subject").disabled = true;
-                }
-                else if (response) {
-                    document.getElementById("subject").disabled = false;
-                    var dropdown = document.getElementById("subject");
-                    //add each options to dropdown
-                    for (var i = 0; i < response.length; i++) {
-                        var opt = document.createElement("option");
-                        opt.text = response[i].sub_name;
-                        opt.value = response[i]._id+","+response[i].modules;
-                        dropdown.options.add(opt);
-                    }
-
-                    //insert the drop generated drop down
-                    var container = document.getElementById("subject");
-                    container.appendChild(dropdown);
-                } else {
-                    alert("Something error occured");
-                }
-            })
-        })
-    }
-
-
 </script> --}}
+
+
+{{!-- 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+//$(document).ready(function() {
+  $('#mySelect').change(function() {
+    // Get the selected option value
+    var selectedOption = $(this).val();
+
+    // Collect the form data
+    var formData = {
+      selectedOption: selectedOption
+    };
+
+    // Send an AJAX request to the server
+    $.ajax({
+      type: 'POST',
+      url: '/assign-notes',
+      data: formData
+    })
+    .done(function(response) {
+      // Handle the successful response
+      console.log(response);
+    })
+    .fail(function(xhr, status, error) {
+      // Handle the failed response
+      console.log(xhr.responseText);
+    });
+  });
+});
+</script> --}}
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  function postFormData() {
+    // Serialize form data
+    var formData = $('form#my-form').serialize();
+
+    $.ajax({
+      type: 'POST',
+      url: '/module-notes',
+      data: formData,
+      success: function(response) {
+        // Handle success response here
+        console.log(response);
+        alert(response)
+      },
+      error: function(xhr, status, error) {
+        // Handle error response here
+        console.log(error);
+      }
+    });
+  }
+
+  $(document).ready(function() {
+    $('button#submit-btn').click(function() {
+      postFormData();
+    });
+  });
+</script>

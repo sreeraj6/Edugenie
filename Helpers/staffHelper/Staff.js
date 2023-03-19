@@ -221,6 +221,8 @@ storeNotes :(notes)=>{
   
   return new Promise((resolve, reject) => {
  
+
+    //let Module_Exist=await db.get().collection(process.env.MODULE_NOTES).findOne({})
 db.get().collection(process.env.MODULE_NOTES).insertOne(notes).then((response)=>{
   resolve(response)
 })
