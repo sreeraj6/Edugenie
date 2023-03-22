@@ -1,12 +1,13 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
+/**
+* Template Name: NiceAdmin - v2.5.0
+* Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
+* Author: BootstrapMade.com
+* License: https://bootstrapmade.com/license/
+*/
 
-a {
-  color: #00B7FF;
-}
-
+/*--------------------------------------------------------------
+# General
+--------------------------------------------------------------*/
 :root {
   scroll-behavior: smooth;
 }

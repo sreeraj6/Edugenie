@@ -223,3 +223,106 @@
     </nav><!-- End Icons Navigation -->
 
   </header><!-- End Header -->
+<aside id="sidebar  " class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+      <li class="nav-item">
+        <a class="nav-link " href="/staff">
+          <i class="bi bi-grid"></i>
+          <span>Dashboard</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-menu-button-wide"></i><span> Course</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="">
+              <i class="bi bi-circle"></i><span>Manage course</span>
+            </a>
+          </li>
+          <li>
+            <a href="">
+              <i class="bi bi-circle"></i><span>view course</span>
+            </a>
+          </li>
+          <li>
+            <a href="/staff/select-sub/{{dept_id}}">
+              <i class="bi bi-circle"></i><span>Verify-notes</span>
+            </a>
+          </li>
+        </ul>
+  </li>
+      <li class="nav-item">
+          <a class="nav-link collapsed" data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-gem"></i><span>Syllabus</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="icons-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="/staff/Get-Notes">
+              <i class="bi bi-circle"></i><span>Find Notes</span>
+            </a>
+          </li>
+          <li>
+            <a href="">
+              <i class="bi bi-circle"></i><span>view notes</span>
+            </a>
+          </li>
+
+        </ul>
+  </li>
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-journal-text"></i><span>Assignments</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="/staff/view-Assignment">
+              <i class="bi bi-circle"></i><span>View Assignments</span>
+            </a>
+          </li>
+
+          {{!-- <li>
+            <a href="admin/add-dept">
+              <i class="bi bi-circle"></i><span>Add-Department</span>
+            </a>
+          </li> --}}
+
+         
+        
+        </ul>
+      </li>
+      
+      <li class="nav-item">
+       <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-bar-chart"></i><span>Student Attendance</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="/staff/add-Attendance">
+              <i class="bi bi-circle"></i><span>upload Attendence</span>
+            </a>
+          </li>
+
+          {{!-- <li>
+            <a href="admin/add-dept">
+              <i class="bi bi-circle"></i><span>Add-Department</span>
+            </a>
+          </li> --}}
+
+         
+        
+        </ul>
+      </li>
+  
+      <!-- End Components Nav -->
+
+
+
+
+
+
+  </aside><!-- End Sidebar-->

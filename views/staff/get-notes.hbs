@@ -1,15 +1,52 @@
-<form method="post">
+<section class="search-bar mt-5 align-items-center " style="
+    padding-left: 2rem;
+" >
+
+<form method="post"   >
     <h5 class="card-title">Subject</h5>
 
-    <div class="form-group">
+    <div class="">
         <label for="exampleFormControlInput1">Select Subject</label>
-        <select id="subject" name="subject_id" onchange="GetSubject(this)" class="form-select" aria-label="Default select example">
+ 
+        <select id="subject" name="subject_id" onchange="alertMessage()" class="form-select " aria-label="Default select example">
             <option value='' selected>subject</option>
             {{#each subject}}
-            <option value='{{this._id}}'>{{this.sub_name}}</option>
+            <option value='{{this.sub_name}}'>{{this.sub_name}}</option>
             {{/each}}
+          
         </select>
+
     </div>
+
+     
+    
+
     <br> <br>
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+     
+    <button type="submit" class="btn btn-outline-primary">Submit</button>
+</form> 
+
+ 
+<script>
+
+ 
+ 
+ 
+function alertMessage()
+{
+    
+  var selectBox = document.getElementById("subject");
+    var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+   alert(selectedValue);
+ 
+ 
+    
+}
+   
+    
+
+
+</script>
+
+
+</section>
