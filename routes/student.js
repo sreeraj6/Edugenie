@@ -3,24 +3,28 @@ var router = express.Router();
 var fs = require("fs");
 var studentController = require('../Helpers/studentHelper/Student')
 var adminAuth = require('../Helpers/adminHelper/adminAuth');
+var studentMonitor = require('../Helpers/studentHelper/monitorFunctions');
+const { log } = require('console');
+const { response } = require('../app');
 
-
-const verifyadmin = (req, res, next) => {
+const verifyLogin = (req, res, next) => {
   if (req.session.loggedIn) {
     username = req.session.user.username,
-      next()
+    candidatecode = req.session.user.candidateCode
+    next()
   } else {
     res.redirect('/student/login')
   }
 }
 
 /* GET users listing. */
-router.get('/', (req, res) => {
-  res.render('student/home', { student: true })
+router.get('/', verifyLogin, (req, res) => {
+  console.log(candidatecode)
+  res.render('student/home', { student: true ,candidatecode})
 });
 
 
-router.get('/upl-assignment/', (req, res) => {
+router.get('/upl-assignment/', verifyLogin, (req, res) => {
   res.render("student/add-assignments")
 })
   ;
@@ -34,7 +38,7 @@ router.post("/upl-assignment/:id", (req, res) => {
   })
 }),
 
-  router.get("/Assignment-status/", (req, res) => {
+  router.get("/Assignment-status/", verifyLogin, (req, res) => {
     userID = req.params.id
     studentController.assignmentStatus(userID).then((AssignmentData) => {
       ;
@@ -66,4 +70,24 @@ router.post('/login', (req, res) => {
 
 })
 
+
+//GET monitor attendance
+router.get('/attendance/:id', (req, res) => {
+  console.log(req.params.id);
+  studentMonitor.monitorAttendance(req.params.id).then((attendanceRecord) => {
+    console.log(attendanceRecord)
+    var percent = attendanceRecord.no_present/attendanceRecord.total  * 100;
+    var color;
+    if(percent >= 75) color = "bg-success";
+    else if (percent <75 && percent >= 65) color = "bg-warning";
+    else color = "bg-danger";
+
+    var percentdata = {
+      percent : percent,
+      color : color
+    }
+    
+    res.render('student/attendance-monitor',{attendanceRecord, percentdata, student: true})
+  })
+})
 module.exports = router;

@@ -1,0 +1,91 @@
+<section>
+    <div class="card">
+        <div class="card-body">
+            <h1 class="card-title">Attendance</h1>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title">Attendance Attendance Statistics</h3>
+            <h5>Total Hour : {{attendanceRecord.total}}</h5>
+            <h5>Present Hour : {{attendanceRecord.no_present}}</h5>
+            <div class="progress m-2">
+                <div class="progress-bar {{percentdata.color}}" role="progressbar" style="width: {{percentdata.percent}}%;" aria-valuemin="0"
+                    aria-valuemax="100">{{percentdata.percent}}%</div>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Detailed Report</h5>
+            <p><code><th scope="col">Any Queried DM Class Teacher</th></code></p>
+            <!-- Bordered Table -->
+
+            <table class="table table-bordered text-center">
+                <thead>
+
+                    <tr>
+                        <th scope="col">Date</th>
+                        <th scope="col">0</th>
+                        <th scope="col">1</th>
+
+                        <th scope="col">
+                            2
+                        </th>
+                        <th scope="col">3</th>
+                        <th scope="col">4</th>
+                        <th scope="col">5</th>
+                        <th scope="col">6</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each attendanceRecord.presentedonclass}}
+                    <tr>
+                        <td>{{this.date}}</td>
+
+                        {{#if this.zero}}
+                        <td class="bg-success bg-gradient text-light align-middle">Present</td>
+                        {{else}}
+                        <td>Free Hour</td>
+                        {{/if}}
+
+                        {{#if this.one}}
+                        <td class="bg-success bg-gradient text-light align-middle">Present</td>
+                        {{else}}
+                        <td>Free Hour</td>
+                        {{/if}}
+                        {{#if this.two}}
+                        <td class="bg-success bg-gradient text-light align-middle">Present</td>
+                        {{else}}
+                        <td>Free Hour</td>
+                        {{/if}}
+                        {{#if this.three}}
+                        <td class="bg-success bg-gradient text-light align-middle">Present</td>
+                        {{else}}
+                        <td>Free Hour</td>
+                        {{/if}}
+                        {{#if this.four}}
+                        <td class="bg-success bg-gradient text-light align-middle">Present</td>
+                        {{else}}
+                        <td>Free Hour</td>
+                        {{/if}}
+                        {{#if this.five}}
+                        <td class="bg-success bg-gradient text-light align-middle">Present</td>
+                        {{else}}
+                        <td>Free Hour</td>
+                        {{/if}}
+                        {{#if this.six}}
+                        <td class="bg-success bg-gradient text-light align-middle">Present</td>
+                        {{else}}
+                        <td>Free Hour</td>
+                        {{/if}}
+                    </tr>
+
+                    {{/each}}
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</section>
