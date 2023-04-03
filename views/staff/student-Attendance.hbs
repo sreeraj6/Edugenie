@@ -2,7 +2,7 @@
 <div class="card">
             <div class="card-body">
               <h5 class="card-title">upload daily Attendence</h5>
-              <p><code><th scope="col">Date :{{date}} </th></code>add Attendance  for UG students .</p>
+              <p><code><th scope="col">Date :{{attendanceRecord}} </th></code>add Attendance  for UG students .</p>
               <!-- Bordered Table -->
           
               <table class=" table table-bordered border-primary">
@@ -22,7 +22,7 @@
                   </tr>
                 </thead>
                 <tbody>   
-                      {{#each studentDetails}}
+                      {{#each attendanceRecord.presentedonclass}}
                   <tr>
                         <form method="post"   action="/staff/add-Attendance/{{this._id}}">
              

@@ -2,19 +2,23 @@
     <div class="card-body">
         <h5 class="card-title">Department Details</h5>
         <!-- Active Table -->
+        {{#if students}}
         <form action="/assign-attendance/{{dept_Id}}" method="post">
             {{!-- <p id="date"></p> --}}
             <input type="text" class="form-control" id="date" name="date" readonly>
+            <label for="exampleFormControlInput1">Semester</label>
+            <input type="text" class="form-control" id="semester" name="semester" value="{{semester}}" readonly>
+            <input type="hidden" name="subjectid" value="{{subjectId}}">
             <div class="form-group">
                 <label for="exampleFormControlInput1">Select Hour</label>
-                <select id="Dept" name="hour" class="form-select" aria-label="Default select example">
-                    <option value='' selected>Select Hour</option>
+                <select id="Dept" name="hour" class="form-select" aria-label="Default select example" required>
                     {{#each hours}}
-                    <option value='{{this._id}}'>{{this.Name}}</option>
+                    {{#if this}}
+                    <option value='{{@index}}'>{{@index}}</option>
+                    {{/if}}
                     {{/each}}
                 </select>
             </div>
-
             <table class="table">
                 <thead>
                     <tr>
@@ -33,7 +37,8 @@
                         <td>{{this.Name}}</td>
                         <td>
                             {{!-- {{this.candidateCode}} --}}
-                            <input type="text" class="form-control" id="email" value="{{this.candidateCode}}"name="candiateCode" readonly>
+                            <input type="text" class="form-control" id="email" value="{{this.candidateCode}}"
+                                name="candidateCode" readonly>
                         </td>
                         <td>{{this.Semester}}</td>
                         {{#if this.HodName}}
@@ -42,7 +47,7 @@
                         <td>Not assigned</td>
                         {{/if}}
                         <td>
-                            <input type="checkbox" name="attendance" value="{{this.candidateCode}}" checked/>
+                            <input type="checkbox" name="attendance" value="{{this.candidateCode}}" checked />
                         </td>
                     </tr>
                     {{/each}}
@@ -51,6 +56,14 @@
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
         <!-- End Active Table -->
+        {{else}}
+        <div class="alert alert-danger" role="alert">
+            <h3>OOPS!.........</h3>
+            <p class="alert-heading">Currently no Students is study on this subject</p>
+            <hr>
+            <p class="mb-0">please go through another</p>
+        </div>
+        {{/if}}
 
     </div>
 </div>

@@ -13,7 +13,7 @@ const attendanceHelper = require('../Helpers/staffHelper/attendanceHelper');
 /* GET home page. */
 const verifystaff = (req, res, next) => {
   if (req.session.loggedIn) {
-    username = req.session.staff.Name,
+      username = req.session.staff.Name,
       deptId = req.session.staff.Dept_Id
     next()
   } else {
@@ -22,7 +22,7 @@ const verifystaff = (req, res, next) => {
 }
 
 router.get('/', verifystaff, (req, res) => {
-  res.render('staff/home', { staff: true, dept_id: deptId });
+  res.render('staff/home', { staff: true, dept_id: deptId, username });
 });
 
 //GET staff login
@@ -51,7 +51,7 @@ router.post('/login', (req, res) => {
 router.get('/view-Assignment/', (req, res) => {
   staffController.ViewAssignment().then((AssignmentData) => {
     ;
-    res.render("staff/view-assignment", { Assignmentdata: AssignmentData })
+    res.render("staff/view-assignment", { staff: true,Assignmentdata: AssignmentData, username })
   })
 })
 
@@ -59,7 +59,7 @@ router.get('/mark-Assignment/:id', async (req, res) => {
   let userid = req.params.id;
   let CheckAssignment = await staffController.getAssignmentDetails(userid)
   console.log("Check assignment name" + CheckAssignment.NameofAssignment);
-  res.render('staff/mark-assignment', { CheckAssignment: CheckAssignment })
+  res.render('staff/mark-assignment', { staff: true,CheckAssignment: CheckAssignment, username })
 })
 
 router.post('/mark-Assignment/:id', (req, res) => {
@@ -81,25 +81,28 @@ router.post('/mark-Assignment/:id', (req, res) => {
 
 router.get("/add-Attendance/", async (req, res) => {
   var dept = await departmentController.getDepartment();
-  res.render('staff/select-class', { dept })
+  res.render('staff/select-class', { dept, username })
 }),
 
 //POST select departmnent subject
-router.post("/add-Attendance/", (req, res) => {
+router.post("/add-Attendance/", async(req, res) => {
   const date = new Date();
   const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
   var subject = req.body.subject.split(",");
   var todayDate = date.toISOString().slice(0, 10);
   var dept_Id = req.body.deptId;
+  var hours = await attendanceController.getHours(dept_Id,subject[1],todayDate);
   attendanceHelper.getStudents(subject[1],dept_Id).
   then((students)=>{
-    res.render('staff/student-data',{students, day: weekday[date.getDay()], dept_Id});
+    res.render('staff/student-data',{students, day: weekday[date.getDay()], dept_Id,hours,'semester':subject[1], 'subjectId' : subject[0], staff: true, username});
   })
 })
 
 //POST
 router.post("/assign-attendance/:id", (req, res) => {
-  console.log(req.body);
+  attendanceController.recordeAttendance(req.body,req.params.id).then((response)=> {
+    res.redirect('/staff')
+  })
 })
 
 //get subject from db
@@ -107,7 +110,7 @@ router.post("/assign-attendance/:id", (req, res) => {
 router.get("/select-sub/:id", (req, res) => {
   subjectController.getSubject(req.params.id).then((subject) => {
     console.log(subject);
-    res.render('staff/get-notes', { subject });
+    res.render('staff/get-notes', { staff: true,subject, username });
   })
 })
 
@@ -120,8 +123,7 @@ router.post("/select-sub/:id", (req, res) => {
 //GET /staff/assign-note
 router.get('/assign-notes/:id', (req, res) => {
   syllabusController.getModule(req.params.id).then((moduleInfo) => {
-    console.log(moduleInfo);
-    res.render('staff/assign-notes', { module1: moduleInfo.module1, module2: moduleInfo.module2, module3: moduleInfo.module3, module4: moduleInfo.module4, module5: moduleInfo.module5 })
+    res.render('staff/assign-notes', {staff: true, module1: moduleInfo.module1, module2: moduleInfo.module2, module3: moduleInfo.module3, module4: moduleInfo.module4, module5: moduleInfo.module5, username })
   })
 })
 module.exports = router;
