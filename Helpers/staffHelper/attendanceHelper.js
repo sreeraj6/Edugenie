@@ -41,16 +41,25 @@ module.exports = {
         })
     },
 
-    recordeAttendance: (attendanceData, deptId) => {
+    recordeAttendance: (attendanceData, deptId, staffId) => {
 
-        function assignpresent(candidatecode, availstud) {
+        function assignpresent(candidatecode, availstud, remarks) {
             var arr = []
             for (var i = 0; i < candidatecode.length; i++) {
                 var attendance = {}
                 if (availstud.includes(candidatecode[i])) {
-                    attendance = {
-                        present: candidatecode[i]
+                    if(remarks[i] == 2){
+                        attendance = {
+                            present: candidatecode[i],
+                            remarks: 'poor'
+                        }
                     }
+                    else{
+                        attendance = {
+                            present: candidatecode[i]
+                        }
+                    }
+                    
                 }
                 else {
                     attendance = {
@@ -66,31 +75,33 @@ module.exports = {
             date: attendanceData.date,
             semester: attendanceData.semester,
             Dept_Id: deptId,
+            staffId: staffId,
+            subject : attendanceData.subject,
             subjectId: attendanceData.subjectid
         }
 
 
         switch (attendanceData.hour) {
             case '0':
-                newrecord.zero = assignpresent(attendanceData.candidateCode, attendanceData.attendance);
+                newrecord.zero = assignpresent(attendanceData.candidateCode, attendanceData.attendance, attendanceData.remarks);
                 break;
             case '1':
-                newrecord.one = assignpresent(attendanceData.candidateCode, attendanceData.attendance);
+                newrecord.one = assignpresent(attendanceData.candidateCode, attendanceData.attendance, attendanceData.remarks);
                 break;
             case '2':
-                newrecord.two = assignpresent(attendanceData.candidateCode, attendanceData.attendance);
+                newrecord.two = assignpresent(attendanceData.candidateCode, attendanceData.attendance, attendanceData.remarks);
                 break;
             case '3':
-                newrecord.three = assignpresent(attendanceData.candidateCode, attendanceData.attendance);
+                newrecord.three = assignpresent(attendanceData.candidateCode, attendanceData.attendance, attendanceData.remarks);
                 break;
             case '4':
-                newrecord.four = assignpresent(attendanceData.candidateCode, attendanceData.attendance);
+                newrecord.four = assignpresent(attendanceData.candidateCode, attendanceData.attendance, attendanceData.remarks);
                 break;
             case '5':
-                newrecord.five = assignpresent(attendanceData.candidateCode, attendanceData.attendance);
+                newrecord.five = assignpresent(attendanceData.candidateCode, attendanceData.attendance, attendanceData.remarks);
                 break;
             case '6':
-                newrecord.six = assignpresent(attendanceData.candidateCode, attendanceData.attendance);
+                newrecord.six = assignpresent(attendanceData.candidateCode, attendanceData.attendance, attendanceData.remarks);
                 break;
         }
 
@@ -98,7 +109,6 @@ module.exports = {
         return new Promise((resolve, reject) => {
             db.get().collection(process.env.ATTENDANCE).insertOne(newrecord).then((response) => {
                 response.status = true;
-                console.log(response);
                 resolve(response);
             })
         })

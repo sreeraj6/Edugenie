@@ -18,7 +18,7 @@
     <div class="card">
         <div class="card-body">
             <h5 class="card-title">Detailed Report</h5>
-            <p><code><th scope="col">Any Queried DM Class Teacher</th></code></p>
+            <p><code><th scope="col">Any Queries DM Class Teacher</th></code></p>
             <!-- Bordered Table -->
 
             <table class="table table-bordered text-center">
@@ -42,40 +42,39 @@
                     {{#each attendanceRecord.presentedonclass}}
                     <tr>
                         <td>{{this.date}}</td>
-
                         {{#if this.zero}}
-                        <td class="bg-success bg-gradient text-light align-middle">Present</td>
+                        <td class="bg-success bg-gradient text-light align-middle">Present <br> {{this.subject}}</td>
                         {{else}}
                         <td>Free Hour</td>
                         {{/if}}
 
                         {{#if this.one}}
-                        <td class="bg-success bg-gradient text-light align-middle">Present</td>
+                        <td class="bg-success bg-gradient text-light align-middle">Present <br> {{this.subject}}</td>
                         {{else}}
                         <td>Free Hour</td>
                         {{/if}}
                         {{#if this.two}}
-                        <td class="bg-success bg-gradient text-light align-middle">Present</td>
+                        <td class="bg-success bg-gradient text-light align-middle">Present<br> {{this.subject}}</td>
                         {{else}}
                         <td>Free Hour</td>
                         {{/if}}
                         {{#if this.three}}
-                        <td class="bg-success bg-gradient text-light align-middle">Present</td>
+                        <td class="bg-success bg-gradient text-light align-middle">Present<br> {{this.subject}}</td>
                         {{else}}
                         <td>Free Hour</td>
                         {{/if}}
                         {{#if this.four}}
-                        <td class="bg-success bg-gradient text-light align-middle">Present</td>
+                        <td class="bg-success bg-gradient text-light align-middle">Present<br> {{this.subject}}</td>
                         {{else}}
                         <td>Free Hour</td>
                         {{/if}}
                         {{#if this.five}}
-                        <td class="bg-success bg-gradient text-light align-middle">Present</td>
+                        <td class="bg-success bg-gradient text-light align-middle">Present<br> {{this.subject}}</td>
                         {{else}}
                         <td>Free Hour</td>
                         {{/if}}
                         {{#if this.six}}
-                        <td class="bg-success bg-gradient text-light align-middle">Present</td>
+                        <td class="bg-success bg-gradient text-light align-middle">Present<br> {{this.subject}}</td>
                         {{else}}
                         <td>Free Hour</td>
                         {{/if}}
