@@ -1,6 +1,7 @@
-<form method="post"  action="/staff/assign-notes/">
+<form method="post"  action="/staff/assign-notes/" style="margin-top: 3rem;width: 92%;
+    margin-left: 2rem" >
 
-     <div class="row mb-12">
+     <div class="">
         <label for="exampleFormControlInput1"></label>
         
          
@@ -24,8 +25,6 @@
            {{!-- <div id="addRow" class="addButton" onclick="addSelection()"><span class="plus"></span></div> --}}
             {{!-- {{#each module1}}
             <option value='{{this}}'>{{this}}</option>
-
-
 {}
             {{/each}} --}}
       </form> 
@@ -59,15 +58,12 @@
 
 
       <script>
-
 function dropDownSelect(s1,s2) {
-
   
     var s1 = document.getElementById(s1);
     var s2 = document.getElementById(s2);
     var hideSel = document.getElementById("mediaSel2");
     s2.innerHTML = "";
-
     if(s1.value == "module1") {
              var optionArray = [`{{module1}}|{{module1}}` ];
            
@@ -84,13 +80,11 @@ function dropDownSelect(s1,s2) {
     else if(s1.value == "module5"){
           var optionArray = [`{{module5}}|{{module5}}` ];
     }
-
     if(s1.value == "module1" || s1.value == "module2" || s1.value == "module3" || s1.value == "module4" || s1.value == "module5") {
       s2.style.display="inline-block";
     } else {
       s2.style.display="none"; 
     }
-
     for(var option in optionArray) {
         var pair = optionArray[option].split("|");
         var newOption = document.createElement("option");
@@ -104,37 +98,26 @@ function dropDownSelect(s1,s2) {
     <script>
         function addSelection() {
     var html = '... onchange='this.form.submit()';
-
     $('tbody').append(html);
 }
     </script>
-
     
            <script>
         function addSelection() {
     var html = '... onchange="dropDownSelect2(this.id, \"topic\")"><option ...';
-
     $('tbody').append(html);
 }
     </script>
     
-
-
 {{!-- <script>
-
-
    //function changeFunc() {
     var selectBox = document.getElementById("mediaSel2");
     var selectedValue = selectBox.options[selectBox.selectedIndex].value;
     alert(selectedValue);
-
     submitHandler(selectedValue)
    }
-
 //function submitHandler (data) {
  
-
-
     url: '/assign-notes/',
     type:'POST',
     data: $form.serialize()
@@ -143,8 +126,6 @@ function dropDownSelect(s1,s2) {
   })
 }
 </script> --}}
-
-
 {{!-- 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
@@ -152,12 +133,10 @@ function dropDownSelect(s1,s2) {
   $('#mySelect').change(function() {
     // Get the selected option value
     var selectedOption = $(this).val();
-
     // Collect the form data
     var formData = {
       selectedOption: selectedOption
     };
-
     // Send an AJAX request to the server
     $.ajax({
       type: 'POST',
@@ -180,7 +159,6 @@ function dropDownSelect(s1,s2) {
   function postFormData() {
     // Serialize form data
     var formData = $('form#my-form').serialize();
-
     $.ajax({
       type: 'POST',
       url: '/module-notes',
@@ -196,7 +174,6 @@ function dropDownSelect(s1,s2) {
       }
     });
   }
-
   $(document).ready(function() {
     $('button#submit-btn').click(function() {
       postFormData();
