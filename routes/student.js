@@ -9,7 +9,7 @@ const { response } = require('../app');
 
 const verifyLogin = (req, res, next) => {
   if (req.session.loggedIn) {
-    username = req.session.user.username,
+    username = req.session.user.Name,
     candidatecode = req.session.user.candidateCode
     next()
   } else {
@@ -18,9 +18,20 @@ const verifyLogin = (req, res, next) => {
 }
 
 /* GET users listing. */
-router.get('/', verifyLogin, (req, res) => {
-  console.log(candidatecode)
-  res.render('student/home', { student: true ,candidatecode})
+router.get('/', verifyLogin, async(req, res) => {
+  var attendanceRecord = await studentMonitor.monitorAttendance(candidatecode);
+  var percent = attendanceRecord.no_present/attendanceRecord.total  * 100;
+  percent = Number((percent).toFixed(1));
+    var color;
+    if(percent >= 75) color = "success";
+    else if (percent <75 && percent >= 65) color = "warning";
+    else color = "danger";
+    
+    var percentdata = {
+      percent : percent,
+      color : color
+    }
+  res.render('student/home', { student: true ,candidatecode , username, percentdata,attendanceRecord})
 });
 
 
@@ -73,9 +84,7 @@ router.post('/login', (req, res) => {
 
 //GET monitor attendance
 router.get('/attendance/:id', (req, res) => {
-  console.log(req.params.id);
   studentMonitor.monitorAttendance(req.params.id).then((attendanceRecord) => {
-    console.log(attendanceRecord)
     var percent = attendanceRecord.no_present/attendanceRecord.total  * 100;
     var color;
     if(percent >= 75) color = "bg-success";
@@ -86,7 +95,7 @@ router.get('/attendance/:id', (req, res) => {
       percent : percent,
       color : color
     }
-    
+    // res.send(attendanceRecord)
     res.render('student/attendance-monitor',{attendanceRecord, percentdata, student: true})
   })
 })

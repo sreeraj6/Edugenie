@@ -9,10 +9,12 @@ var subjectController = require('../Helpers/adminHelper/subjectHelper');
 var attendanceController = require('../Helpers/staffHelper/attendanceHelper');
 const { response } = require('../app');
 const attendanceHelper = require('../Helpers/staffHelper/attendanceHelper');
+const { log } = require('console');
 
 /* GET home page. */
 const verifystaff = (req, res, next) => {
   if (req.session.loggedIn) {
+      staffId = req.session.staff._id,
       username = req.session.staff.Name,
       deptId = req.session.staff.Dept_Id
     next()
@@ -22,6 +24,7 @@ const verifystaff = (req, res, next) => {
 }
 
 router.get('/', verifystaff, (req, res) => {
+  console.log(staffId);
   res.render('staff/home', { staff: true, dept_id: deptId, username });
 });
 
@@ -48,21 +51,21 @@ router.post('/login', (req, res) => {
   })
 })
 
-router.get('/view-Assignment/', (req, res) => {
+router.get('/view-Assignment/',verifystaff, (req, res) => {
   staffController.ViewAssignment().then((AssignmentData) => {
     ;
     res.render("staff/view-assignment", { staff: true,Assignmentdata: AssignmentData, username })
   })
 })
 
-router.get('/mark-Assignment/:id', async (req, res) => {
+router.get('/mark-Assignment/:id',verifystaff, async (req, res) => {
   let userid = req.params.id;
   let CheckAssignment = await staffController.getAssignmentDetails(userid)
   console.log("Check assignment name" + CheckAssignment.NameofAssignment);
   res.render('staff/mark-assignment', { staff: true,CheckAssignment: CheckAssignment, username })
 })
 
-router.post('/mark-Assignment/:id', (req, res) => {
+router.post('/mark-Assignment/:id',verifystaff, (req, res) => {
   let userid = req.params.id;
   console.log("checked file is", req.body.assignFile);
   var checkedState = req.body.checked
@@ -79,13 +82,14 @@ router.post('/mark-Assignment/:id', (req, res) => {
 });
 
 
-router.get("/add-Attendance/", async (req, res) => {
+router.get("/add-Attendance/", verifystaff, async (req, res) => {
   var dept = await departmentController.getDepartment();
   res.render('staff/select-class', { dept, username })
 }),
 
 //POST select departmnent subject
-router.post("/add-Attendance/", async(req, res) => {
+router.post("/add-Attendance/", verifystaff, async(req, res) => {
+  console.log(req.body);
   const date = new Date();
   const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
   var subject = req.body.subject.split(",");
@@ -94,20 +98,20 @@ router.post("/add-Attendance/", async(req, res) => {
   var hours = await attendanceController.getHours(dept_Id,subject[1],todayDate);
   attendanceHelper.getStudents(subject[1],dept_Id).
   then((students)=>{
-    res.render('staff/student-data',{students, day: weekday[date.getDay()], dept_Id,hours,'semester':subject[1], 'subjectId' : subject[0], staff: true, username});
+    res.render('staff/student-data',{students, day: weekday[date.getDay()], dept_Id,hours,'semester':subject[1], 'subjectId' : subject[0],'subject' : subject[2] , staff: true, username});
   })
 })
 
 //POST
-router.post("/assign-attendance/:id", (req, res) => {
-  attendanceController.recordeAttendance(req.body,req.params.id).then((response)=> {
+router.post("/assign-attendance/:id", verifystaff, (req, res) => {
+  attendanceController.recordeAttendance(req.body,req.params.id,staffId).then((response)=> {
     res.redirect('/staff')
   })
 })
 
 //get subject from db
 //GET /staff/select-sub
-router.get("/select-sub/:id", (req, res) => {
+router.get("/select-sub/:id", verifystaff, (req, res) => {
   subjectController.getSubject(req.params.id).then((subject) => {
     console.log(subject);
     res.render('staff/get-notes', { staff: true,subject, username });
@@ -115,13 +119,13 @@ router.get("/select-sub/:id", (req, res) => {
 })
 
 //POST /staff/select-sub
-router.post("/select-sub/:id", (req, res) => {
+router.post("/select-sub/:id", verifystaff, (req, res) => {
   res.redirect("/assign-notes/" + req.body.subject_id);
 })
 
 //assign 
 //GET /staff/assign-note
-router.get('/assign-notes/:id', (req, res) => {
+router.get('/assign-notes/:id',verifystaff, (req, res) => {
   syllabusController.getModule(req.params.id).then((moduleInfo) => {
     res.render('staff/assign-notes', {staff: true, module1: moduleInfo.module1, module2: moduleInfo.module2, module3: moduleInfo.module3, module4: moduleInfo.module4, module5: moduleInfo.module5, username })
   })

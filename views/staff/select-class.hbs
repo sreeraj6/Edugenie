@@ -64,7 +64,7 @@
                         var opt = document.createElement("option");
                         console.log(response[i]);
                         opt.text = response[i].sub_name;
-                        opt.value = response[i]._id+","+response[i].semester;
+                        opt.value = response[i]._id+","+response[i].semester+","+response[i].sub_name;
                         dropdown.options.add(opt);
                     }
 

@@ -8,6 +8,8 @@
             <input type="text" class="form-control" id="date" name="date" readonly>
             <label for="exampleFormControlInput1">Semester</label>
             <input type="text" class="form-control" id="semester" name="semester" value="{{semester}}" readonly>
+            <label for="exampleFormControlInput1">Subject</label>
+            <input type="text" class="form-control" id="subject" name="subject" value="{{subject}}" readonly>
             <input type="hidden" name="subjectid" value="{{subjectId}}">
             <div class="form-group">
                 <label for="exampleFormControlInput1">Select Hour</label>
@@ -23,10 +25,10 @@
                 <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Department</th>
-                        <th scope="col">candidateCode</th>
-                        <th scope="col">Semesters</th>
-                        <th scope="col">HOD</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Candidate Code</th>
+                        <th scope="col">Semester</th>
+                        <th scope="col">Remarks</th>
                         <th scope="col"></th>
                     </tr>
                 </thead>
@@ -41,11 +43,12 @@
                                 name="candidateCode" readonly>
                         </td>
                         <td>{{this.Semester}}</td>
-                        {{#if this.HodName}}
-                        <td>{{this.HodName}}</td>
-                        {{else}}
-                        <td>Not assigned</td>
-                        {{/if}}
+
+                        <td><select id="remarks" name="remarks" class="form-select" aria-label="Default select example"required>
+                                <option selected value='0'>Good</option>
+                                <option  value='1'>Average</option>
+                                <option  value='2'>Poor</option>
+                            </select></td>
                         <td>
                             <input type="checkbox" name="attendance" value="{{this.candidateCode}}" checked />
                         </td>
