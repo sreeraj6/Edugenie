@@ -1,4 +1,4 @@
-<form action="/assign-notes" method="post" >
+<form method="post" >
     <h5 class="card-title">Subject</h5>
 
     <div class="form-group">
@@ -32,3 +32,43 @@
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 
+<script>
+    function GetSubject(deptId) {
+        var id = deptId.value;
+        //alert(id);
+        selectSub(id);
+    }
+    function selectSub(deptId) {
+        var id = deptId
+        $.ajax({
+            url: '/admin/get-sub/' + id,
+            method: "GET",
+            success: ((response) => {
+                if(document.getElementById("subject").disabled == true){
+                    location.reload();
+                }
+                if (response.length == 0) {
+                    alert("NO subject found")
+                    document.getElementById("subject").disabled = true;
+                }
+                else if (response) {
+                    document.getElementById("subject").disabled = false;
+                    var dropdown = document.getElementById("subject");
+                    //add each options to dropdown
+                    for (var i = 0; i < response.length; i++) {
+                        var opt = document.createElement("option");
+                        console.log(response[i]);
+                        opt.text = response[i].sub_name;
+                        opt.value = response[i]._id+","+response[i].semester+","+response[i].sub_name;
+                        dropdown.options.add(opt);
+                    }
+                    //insert the drop generated drop down
+                    var container = document.getElementById("subject");
+                    container.appendChild(dropdown);
+                } else {
+                    alert("Something error occured");
+                }
+            })
+        })
+    }
+</script>

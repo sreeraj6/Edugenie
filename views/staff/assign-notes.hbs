@@ -1,9 +1,9 @@
-<form method="post">
+<form action="/staff/save-note" method="post">
     <h5 class="card-title">Subject</h5>
 
     <div class="form-group">
         <label for="exampleFormControlInput1">Select Department</label>
-        <select id="Dept" name="deptId" onchange="getNote(this)" class="form-select"
+        <select id="topic" name="topic" onchange="getNote(this)" class="form-select"
             aria-label="Default select example">
             <option value='' selected>Select Department</option>
             {{#each module}}
@@ -13,14 +13,14 @@
     </div>
     <div id="modules" class="form-group">
         <label for="exampleFormControlTextarea3">Notes</label>
-        <textarea class="form-control" name="module1" id="moduleData" rows="7"></textarea>
+        <textarea class="form-control" name="notes" id="moduleData" rows="7"></textarea>
     </div>
 
-    <button type="submit" id="sub" class="btn btn-primary" disabled="true">Submit</button>
+    <button type="submit" id="sub" class="btn btn-primary" >Submit</button>
 </form>
 
 
-<script>
+{{!-- <script>
     function getNote(keyword) {
         var topic = keyword.value;
         alert(topic);
@@ -34,4 +34,4 @@
             })
         })
     }
-</script>
+</script> --}}

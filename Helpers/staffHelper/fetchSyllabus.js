@@ -15,7 +15,7 @@ module.exports = {
         
     },
 
-    getSyllabusInfo : (deptId) => {
+    saveNotes: (notes) => {
         
     }
 }

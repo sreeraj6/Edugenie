@@ -9,9 +9,8 @@ var subjectController = require('../Helpers/adminHelper/subjectHelper');
 var attendanceController = require('../Helpers/staffHelper/attendanceHelper');
 const { response } = require('../app');
 const attendanceHelper = require('../Helpers/staffHelper/attendanceHelper');
-const { log } = require('console');
+const { log, error } = require('console');
 const openai = require('../Helpers/staffHelper/openai')
-
 /* GET home page. */
 const verifystaff = (req, res, next) => {
   if (req.session.loggedIn) {
@@ -158,11 +157,24 @@ router.get('/assign-notes/:id', verifystaff, (req, res) => {
 })
 
 
-router.get('/abcd/:id', (req, res) => {
-  console.log(req.params.id);
-  openai.runPrompt(req.params.id).then((response) => {
-    console.log(response)
-  })
+router.get('/abcd/:id', async(req, res) => {
+const { Configuration, OpenAIApi } = require("openai");
+
+const configuration = new Configuration({
+  apiKey: process.env.OPENAIAPI,
+});
+const openai = new OpenAIApi(configuration);
+
+try {
+  const completion = await openai.createCompletion({
+    model: "text-davinci-003",
+    prompt: "Hello world",
+  });
+  console.log(completion.data.choices[0].text);
+}
+catch (err) {
+  console.log(err.message);
+}
   // res.json("hoie")
 })
 
@@ -171,6 +183,12 @@ router.get('/assigned-notes/:id', (req, res) => {
   openai.runPrompt(req.params.id).then((response) => {
     res.json(response)
   })
+})
+
+
+//save generated notes to db
+router.post('/save-note', (req, res) => {
+  console.log(req.body);
 })
 
 
