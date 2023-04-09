@@ -9,9 +9,8 @@ var subjectController = require('../Helpers/adminHelper/subjectHelper');
 var attendanceController = require('../Helpers/staffHelper/attendanceHelper');
 const { response } = require('../app');
 const attendanceHelper = require('../Helpers/staffHelper/attendanceHelper');
-const { log } = require('console');
+const { log, error } = require('console');
 const openai = require('../Helpers/staffHelper/openai')
-
 /* GET home page. */
 const verifystaff = (req, res, next) => {
   if (req.session.loggedIn) {
@@ -153,16 +152,29 @@ router.get('/assign-notes/:id', verifystaff, (req, res) => {
     }
     // console.log(module);
     // res.send(module)
-    res.render('staff/assign-notes', { staff: true, module, username })
+    res.render('staff/assign-notes', { staff: true, module, username, 'subId' : params[0] })
   })
 })
 
 
-router.get('/abcd/:id', (req, res) => {
-  console.log(req.params.id);
-  openai.runPrompt(req.params.id).then((response) => {
-    console.log(response)
-  })
+router.get('/abcd/:id', async(req, res) => {
+const { Configuration, OpenAIApi } = require("openai");
+
+const configuration = new Configuration({
+  apiKey: process.env.OPENAIAPI,
+});
+const openai = new OpenAIApi(configuration);
+
+try {
+  const completion = await openai.createCompletion({
+    model: "text-davinci-003",
+    prompt: "Hello world",
+  });
+  console.log(completion.data.choices[0].text);
+}
+catch (err) {
+  console.log(err.message);
+}
   // res.json("hoie")
 })
 
@@ -174,4 +186,57 @@ router.get('/assigned-notes/:id', (req, res) => {
 })
 
 
+//save generated notes to db
+router.post('/save-note/:id', (req, res) => {
+  req.body.sub_id = req.params.id;
+  syllabusController.saveNotes(req.body).then((response) => {
+    res.redirect('/staff')
+  })
+})
+
+
+router.get('/get-note/:id', (req, res) => {
+  subjectController.getSubject(req.params.id).then((subject) => {
+    res.render('staff/get-notes', { staff: true, subject, username });
+  })
+})
+
+router.post('/get-note/:id', (req,res) => {
+  console.log(req.body);
+  syllabusController.getModule(req.body.subject_id).then((moduleInfo) => {
+    var module;
+    switch (req.body.module) {
+      case "1":
+        module = moduleInfo.module1;
+        break;
+      case "2":
+        module = moduleInfo.module2;
+        break;
+      case "3":
+        module = moduleInfo.module3;
+        break;
+      case "4":
+        module = moduleInfo.module4;
+        break;
+      case "5":
+        module = moduleInfo.module5;
+        break;
+      case "6":
+        module = moduleInfo.module6;
+        break;
+      default:
+        module = ["Something error OCcured"]
+    }
+    // console.log(module);
+    // res.send(module)
+    res.render('staff/note-picker', { staff: true, module,  'subId' : req.body.subject_id })
+  })
+})
+
+router.get('/get-note-topic/:id',(req,res) => {
+  syllabusController.getNote(req.params.id).then((response)=>{
+    console.log(response);
+    res.json(response.notes);
+  })
+})
 module.exports = router;

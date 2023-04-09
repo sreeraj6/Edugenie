@@ -1,9 +1,9 @@
-<form action="/staff/save-note/{{subId}}" method="post">
+<form  method="post">
     <h5 class="card-title">Subject</h5>
 
     <div class="form-group">
         <label for="exampleFormControlInput1">Select Department</label>
-        <select id="topic" name="topic" onchange="getNote(this)" class="form-select"
+        <select id="topic" name="topic" onchange="getNotes(this,'{{subId}}')" class="form-select"
             aria-label="Default select example">
             <option value='' selected>Select Department</option>
             {{#each module}}
@@ -13,25 +13,28 @@
     </div>
     <div id="modules" class="form-group">
         <label for="exampleFormControlTextarea3">Notes</label>
-        <textarea class="form-control" name="notes" id="moduleData" rows="7"></textarea>
+        <h3 name="notes" id="moduleData"></h3>
     </div>
 
-    <button type="submit" id="sub" class="btn btn-primary" >Submit</button>
+    {{!-- <button type="submit" id="sub" class="btn btn-primary" >Submit</button> --}}
 </form>
 
 
-{{!-- <script>
-    function getNote(keyword) {
-        var topic = keyword.value;
-        alert(topic);
+<script>
+    function getNotes(keyword,subjectId) {
+        var notepicker = {
+            topic : keyword.value,
+            sub_id: subjectId
+        }
+        alert(notepicker.topic);
         $.ajax({
-            url:'/assigned-notes/'+topic,
+            url:'/get-note-topic/'+notepicker.sub_id+","+notepicker.topic,
             method: "GET",
             success: ((response) => {
-                document.getElementById("moduleData").value = response;
+                document.getElementById("moduleData").innerHTML = response;
                 alert(response);
                 document.getElementById("sub").disabled = false;
             })
         })
     }
-</script> --}}
+</script>
