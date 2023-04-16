@@ -7,28 +7,26 @@
       <thead>
         <tr>
           <th scope="col">#</th>
-          <th scope="col">Name</th>
-          <th scope="col">AssignmentName</th>
-          <th scope="col">Assignment  </th>
-          <th scope="col">CheckAssignment</th>
-          <th scope="col">AssignmentStatus</th>
+          <th scope="col">Topic</th>
+          <th scope="col">Subject Name</th>
+          <th scope="col">Date of Submission</th>
+          <th scope="col">Assignment Status</th>
            
         </tr>
       </thead>
       <tbody>
 
-        {{#each Assignmentdata}}
+        {{#each assigmentdata}}
         <tr>
           <th scope="row">{{@index}}</th>
  
-          <td>{{this.NameofStudent}}</td>
-          <td>{{this.NameofAssignment}}</td>
-          <td>{{this.Assignment}}</td>
-           <td> <a href="/staff/mark-Assignment/{{this._id}}"  class="btn btn-primary ">Edit Your Assignment</a></td>
-         {{#if checkedState}}
-           <td><i class="fa-solid fa-check"></i>{{this.checkedState}}</td>
+          <td>{{this.topic}}</td>
+          <td>{{this.sub_name}}</td>
+          <td>{{this.last_date}}</td>
+          {{#if statuscode}}
+           <td>active</td>
           {{else}}
-          <td>Pending</td>
+          <td>not active</td>
 
           {{/if}}
         </tr>

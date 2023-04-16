@@ -16,7 +16,7 @@ async function run() {
       
     // Establish and verify connection
     await client.db(dbname).command({ ping: 1 });
-    console.log("Connected successfully to server");
+    console.log("Connected successfully to cloud DB");
     state.db = client.db(dbname)
   }
   catch{

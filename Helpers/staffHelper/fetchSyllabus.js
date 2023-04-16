@@ -49,7 +49,12 @@ module.exports = {
                 {sub_id:subid}
             ]})
             .then((response) => {
-                resolve(response);
+                if(response){
+                    resolve(response);
+                }
+                else{
+                    resolve(response)
+                }
             })
         })
     }
