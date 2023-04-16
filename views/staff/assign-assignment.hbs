@@ -1,0 +1,40 @@
+<form method="post">
+    <h5 class="card-title">Subject</h5>
+
+    <div class="form-group">
+        <label for="exampleFormControlInput1">Select Subject</label>
+        <select id="subject" name="subject_id" onchange="GetSubject(this)" class="form-select"
+            aria-label="Default select example">
+            <option value='' selected>subject</option>
+            {{#each subject}}
+            <option value='{{this._id}}'>{{this.sub_name}}</option>
+            {{/each}}
+        </select>
+        <label for="exampleFormControlInput1">Select Module</label>
+        <select name="module" id="module" class="form-select" aria-label="Default select example">
+            <option value="1" selected>1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+        </select>
+    </div>
+
+    <div class="form-outline">
+        <label class="form-label" for="form12">Topic</label>
+        <input type="text" id="form12" name="topic" class="form-control" />
+    </div>
+    <div>
+        <label for="form12" class="form-label">Last Date</label>
+    <div id="date-picker-example" class="md-form md-outline input-with-post-icon datepicker" inline="true">
+        <input placeholder="Select date" type="text" name="last_date" id="example" class="form-control">
+    </div>
+    </div>
+    <br> <br>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<script>
+
+</script>

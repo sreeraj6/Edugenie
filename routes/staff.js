@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var staffController = require('../Helpers/staffHelper/Staff')
+var assignmentController = require('../Helpers/staffHelper/assignmentHelper')
 var fs = require("fs");
 var departmentController = require('../Helpers/adminHelper/aboutDept')
 var adminAuth = require('../Helpers/adminHelper/adminAuth');
@@ -14,7 +14,7 @@ const openai = require('../Helpers/staffHelper/openai')
 /* GET home page. */
 const verifystaff = (req, res, next) => {
   if (req.session.loggedIn) {
-    staffId = req.session.staff._id,
+      staffId = req.session.staff._id,
       username = req.session.staff.Name,
       deptId = req.session.staff.Dept_Id
     next()
@@ -23,9 +23,10 @@ const verifystaff = (req, res, next) => {
   }
 }
 
-router.get('/', verifystaff, (req, res) => {
-  console.log(staffId);
-  res.render('staff/home', { staff: true, dept_id: deptId, username });
+router.get('/', verifystaff, async(req, res) => {
+  var pendingdoubt = await assignmentController.getRaisedDoubts(deptId);
+  var solved = await assignmentController.solvedDoubt(staffId);
+  res.render('staff/home', { staff: true, dept_id: deptId, username, "doubt":pendingdoubt.length, 'solved':solved.length});
 });
 
 //GET staff login
@@ -50,37 +51,6 @@ router.post('/login', (req, res) => {
     }
   })
 })
-
-router.get('/view-Assignment/', verifystaff, (req, res) => {
-  staffController.ViewAssignment().then((AssignmentData) => {
-    ;
-    res.render("staff/view-assignment", { staff: true, Assignmentdata: AssignmentData, username })
-  })
-})
-
-router.get('/mark-Assignment/:id', verifystaff, async (req, res) => {
-  let userid = req.params.id;
-  let CheckAssignment = await staffController.getAssignmentDetails(userid)
-  console.log("Check assignment name" + CheckAssignment.NameofAssignment);
-  res.render('staff/mark-assignment', { staff: true, CheckAssignment: CheckAssignment, username })
-})
-
-router.post('/mark-Assignment/:id', verifystaff, (req, res) => {
-  let userid = req.params.id;
-  console.log("checked file is", req.body.assignFile);
-  var checkedState = req.body.checked
-  if (checkedState == undefined) {
-    console.log("not checked");
-  } else {
-    console.log("marked", checkedState);
-  }
-  staffController.markAssignments(req.body, userid).then((response) => {
-    console.log(response);
-    res.redirect('/staff')
-  })
-
-});
-
 
 router.get("/add-Attendance/", verifystaff, async (req, res) => {
   var dept = await departmentController.getDepartment();
@@ -150,33 +120,10 @@ router.get('/assign-notes/:id', verifystaff, (req, res) => {
       default:
         module = ["Something error OCcured"]
     }
-    // console.log(module);
-    // res.send(module)
     res.render('staff/assign-notes', { staff: true, module, username, 'subId' : params[0] })
   })
 })
 
-
-router.get('/abcd/:id', async(req, res) => {
-const { Configuration, OpenAIApi } = require("openai");
-
-const configuration = new Configuration({
-  apiKey: process.env.OPENAIAPI,
-});
-const openai = new OpenAIApi(configuration);
-
-try {
-  const completion = await openai.createCompletion({
-    model: "text-davinci-003",
-    prompt: "Hello world",
-  });
-  console.log(completion.data.choices[0].text);
-}
-catch (err) {
-  console.log(err.message);
-}
-  // res.json("hoie")
-})
 
 //openai note generation
 router.get('/assigned-notes/:id', (req, res) => {
@@ -234,9 +181,33 @@ router.post('/get-note/:id', (req,res) => {
 })
 
 router.get('/get-note-topic/:id',(req,res) => {
-  syllabusController.getNote(req.params.id).then((response)=>{
-    console.log(response);
-    res.json(response.notes);
+  try{
+    syllabusController.getNote(req.params.id).then((response)=>{
+    if(!response){
+      res.json('no note exist');
+    }
+    else{
+      res.json(response.notes);
+    }
+    })
+  }
+  catch(err){
+    res.json(err.message);
+  }
+})
+
+router.get('/assign-assignment',(req, res) => {
+  subjectController.getSubject(deptId).then((subject) => {
+    res.render('staff/assign-assignment', { staff: true, subject, username });
   })
 })
+
+router.post('/assign-assignment', (req, res) => {
+  assignmentController.giveAssignment(req.body).then((response) => {
+    res.redirect('/')
+  })
+
+})
+
+
 module.exports = router;

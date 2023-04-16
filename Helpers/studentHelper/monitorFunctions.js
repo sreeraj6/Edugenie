@@ -37,5 +37,14 @@ module.exports = {
             }
             resolve(res)
         })
+    },
+
+    getAssignment: (deptId) => {
+
+        return new Promise(async(resolve, reject) => {
+
+            var assignment = await db.get().collection(process.env.ASSIGNMENT).find({$and:[{deptId:deptId},{statuscode:1}]}).toArray();
+            resolve(assignment);
+        })
     }
 }

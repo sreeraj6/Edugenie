@@ -1,0 +1,23 @@
+<form action="/student/doubt-raised" method="post">
+    <h5 class="card-title">Subject</h5>
+
+    <div class="form-group">
+        <label for="exampleFormControlInput1">Select Topic</label>
+        <select id="topic" name="topic" class="form-select"
+            aria-label="Default select example">
+            <option value='' selected>Topic</option>
+            {{#each module}}
+            <option value='{{this}}'>{{this}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <input type="text" name="sub_id" value="{{subId}}" hidden>
+    <div id="modules" class="form-group">
+        <label for="exampleFormControlTextarea3">Describe your doubt</label>
+        <input type="text" name="description" id="form12" class="form-control" />
+    </div>
+
+    <button type="submit" id="sub" class="btn btn-primary" >Submit</button>
+</form>
+
+
