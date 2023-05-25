@@ -66,33 +66,21 @@
       </li>
 
       
-      <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-menu-button-wide"></i><span>Time Table</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="/admin/staff-data">
-              <i class="bi bi-circle"></i><span>Assign Time Table</span>
-            </a>
-          </li>
-          <li>
-            <a href="/admin/add-staff">
-              <i class="bi bi-circle"></i><span>Add-Staff</span>
-            </a>
-          </li>
-
-        </ul>
-      </li>
+      {{!-- image.png --}}
 
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+        <a class="nav-link collapsed" data-bs-target="#hall-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-menu-button-wide"></i><span>Exam Hall Allotment</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
-        <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <ul id="hall-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
             <a href="/admin/add-hall">
               <i class="bi bi-circle"></i><span>Add Hall</span>
+            </a>
+          </li>
+          <li>
+            <a href="/admin/get-hall">
+              <i class="bi bi-circle"></i><span>View Hall Details</span>
             </a>
           </li>
           <li>
@@ -110,10 +98,10 @@
 
 
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+        <a class="nav-link collapsed" data-bs-target="#student-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-journal-text"></i><span>Students</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
-        <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <ul id="student-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
             <a href="/admin/get-student">
               <i class="bi bi-circle"></i><span>Students</span>
@@ -129,7 +117,14 @@
         </ul>
       </li>
 
-      
+      <li class="nav-item">
+        <a class="nav-link collapsed"  href="/staff/logout" onclick="return confirm('are you sure to logout')" onload="preventBack()">
+          <i class="bi bi-grid"></i>
+          <span>Logout</span>
+          <i class="bi bi-grid"></i>
+          <img width="15" height="15" src="https://img.icons8.com/ios/50/exit--v1.png" alt="exit--v1"/>
+        </a>
+      </li>
       <!-- End Components Nav -->
 
 
@@ -289,7 +284,7 @@
                   <h5 class="card-title">Reports <span>/Today</span></h5>
 
                   <!-- Line Chart -->
-                  <div id="reportsChart"></div>
+                  <div id="reportsChart"></div> --}}
 
                   <script>
                     document.addEventListener("DOMContentLoaded", () => {
@@ -344,7 +339,7 @@
                     });
                   </script>
                   <!-- End Line Chart -->
-
+                {{!-- 
                 </div>
 
               </div>

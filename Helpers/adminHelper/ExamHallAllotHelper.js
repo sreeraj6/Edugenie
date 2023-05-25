@@ -23,6 +23,12 @@ module.exports = {
         })
     },
 
+    getHall: () => {
+        return new Promise(async (resolve, reject) => {
+            var halls = await db.get().collection(process.env.HALLDB).find().toArray();
+            resolve(halls)
+        })
+    },
 
     generateAllotment: async (studentData, hallData) => {
         let bench = studentData.studperBench;

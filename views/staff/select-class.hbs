@@ -35,13 +35,13 @@
 <script>
     function GetSubject(deptId) {
         var id = deptId.value;
-        //alert(id);
+        alert(id);
         selectSub(id);
     }
     function selectSub(deptId) {
         var id = deptId
         $.ajax({
-            url: '/admin/get-sub/' + id,
+            url: '/staff/get-sub/' + id,
             method: "GET",
             success: ((response) => {
                 if(document.getElementById("subject").disabled == true){

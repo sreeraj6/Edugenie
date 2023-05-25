@@ -18,7 +18,7 @@ const verifyLogin = (req, res, next) => {
     deptId = req.session.user.Dept_Id;
     next()
   } else {
-    res.redirect('/student/login')
+    res.redirect('/student/login',{student: true})
   }
 }
 
@@ -44,7 +44,7 @@ router.get('/', verifyLogin, async(req, res) => {
 //GET admin login form
 //route admin/login
 router.get('/login', (req, res) => {
-  res.render('admin/login',{'logerr':req.session.loginError})
+  res.render('admin/login',{'logerr':req.session.loginError,student: true})
 });
 
 //POST admin login submint
@@ -96,28 +96,31 @@ router.post('/get-note', (req, res) => {
   try{
     syllabusController.getModule(req.body.subject_id).then((moduleInfo) => {
       var module;
-      switch (req.body.module) {
-        case "1":
-          module = moduleInfo.module1;
-          break;
-        case "2":
-          module = moduleInfo.module2;
-          break;
-        case "3":
-          module = moduleInfo.module3;
-          break;
-        case "4":
-          module = moduleInfo.module4;
-          break;
-        case "5":
-          module = moduleInfo.module5;
-          break;
-        case "6":
-          module = moduleInfo.module6;
-          break;
-        default:
-          module = ["Something error OCcured"]
+      if(moduleInfo){
+        switch (req.body.module) {
+          case "1":
+            module = moduleInfo.module1;
+            break;
+          case "2":
+            module = moduleInfo.module2;
+            break;
+          case "3":
+            module = moduleInfo.module3;
+            break;
+          case "4":
+            module = moduleInfo.module4;
+            break;
+          case "5":
+            module = moduleInfo.module5;
+            break;
+          case "6":
+            module = moduleInfo.module6;
+            break;
+          default:
+            module = ["Something error OCcured"]
+        }
       }
+      
   
       res.render('staff/note-picker', { student: true, module,  'subId' : req.body.subject_id })
     })
@@ -139,29 +142,31 @@ router.post('/doubt', (req, res) => {
   try{
     syllabusController.getModule(req.body.subject_id).then((moduleInfo) => {
       var module;
-      switch (req.body.module) {
-        case "1":
-          module = moduleInfo.module1;
-          break;
-        case "2":
-          module = moduleInfo.module2;
-          break;
-        case "3":
-          module = moduleInfo.module3;
-          break;
-        case "4":
-          module = moduleInfo.module4;
-          break;
-        case "5":
-          module = moduleInfo.module5;
-          break;
-        case "6":
-          module = moduleInfo.module6;
-          break;
-        default:
-          module = ["Something error OCcured"]
+      if(moduleInfo) {
+        switch (req.body.module) {
+          case "1":
+            module = moduleInfo.module1;
+            break;
+          case "2":
+            module = moduleInfo.module2;
+            break;
+          case "3":
+            module = moduleInfo.module3;
+            break;
+          case "4":
+            module = moduleInfo.module4;
+            break;
+          case "5":
+            module = moduleInfo.module5;
+            break;
+          case "6":
+            module = moduleInfo.module6;
+            break;
+          default:
+            module = ["Something error OCcured"]
+        }
       }
-  
+      
       res.render('student/doubt-page', { student: true, module,  'subId' : req.body.subject_id })
     })
   }
@@ -169,7 +174,6 @@ router.post('/doubt', (req, res) => {
     res.send(err);
   }
 })
-
 
 
 router.post('/doubt-raised', (req, res) => {
@@ -185,4 +189,33 @@ router.get('/get-assigment', (req, res) => {
   })
 })
 
+
+//@GET /student/doubt-history/candidatecode
+//@DESC get student previous doubt history and status
+router.get('/doubt-history/:id',verifyLogin, async(req, res) => {
+  studentController.getDoubtHistory(req.params.id)
+  .then((history) => {
+    res.render('student/doubt-history', {history, student: true})
+  })
+})
+
+
+//@POST /studnet/rate-instructor/{{this._id}},0"
+//@DESC /rate instructor based on doubt solved
+router.get('/rate-instructor/:id', (req, res) => {
+  var data = req.params.id.split(",");
+
+  studentController.rateDoubt(data[0],data[1]).then((response) =>{
+    res.redirect('/student');
+  })
+})
+
+
+//@LOGOUT the user
+//logout student
+router.get('/logout', (req, res) => {
+  req.session.destroy(()=>{
+    res.redirect('/student/login')
+  })
+})
 module.exports = router;

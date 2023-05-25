@@ -1,0 +1,40 @@
+<section>
+    <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Subject</th>
+      <th scope="col">Topic</th>
+      <th scope="col">Description</th>
+      <th scope="col">Update Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each pendingdoubt}}
+    <tr>
+      <th scope="row">{{@index}}</th>
+      <td></td>
+      <td>{{this.topic}}</td>
+      <td>{{this.description}}</td>
+      <td></td>
+      <td><button onclick="updateStatus('{{this._id}}')" class="btn btn-success"> <span class="btn-label"><i class="fa fa-check"></i></span> Solved</button></td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+</section>
+
+<script>
+    function updateStatus(doubtId) {
+        var datapair = {'doubt_id':doubtId};
+        alert(doubtId);
+        $.ajax({
+            method: 'post',
+            url: '/update-doubt',
+            data: datapair,
+            success: ((response) => {
+                location.reload();
+            })
+        })
+    }
+</script>

@@ -41,63 +41,32 @@
     </li>
 
     <li class="nav-item">
-      <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+      <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
         <i class="bi bi-journal-text"></i><span>Doubt</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
-      <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+      <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
           <a href="/student/doubt">
             <i class="bi bi-circle"></i><span>Raise Doubt</span>
           </a>
         </li>
-        
-
-        {{!-- <li>
-          <a href="admin/add-dept">
-            <i class="bi bi-circle"></i><span>Add-Department</span>
+        <li>
+          <a href="/student/doubt-history/{{candidatecode}}">
+            <i class="bi bi-circle"></i><span>History</span>
           </a>
-        </li> --}}
-
-
-
+        </li>
       </ul>
     </li>
 
-    <li class="nav-item">
-      <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-journal-text"></i><span>Assignments</span><i class="bi bi-chevron-down ms-auto"></i>
-      </a>
-      <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-        <li>
-          <a href="/student/upl-assignment/">
-            <i class="bi bi-circle"></i><span>Upload Assignments</span>
-          </a>
-        </li>
-        <li>
-          <a href="/student/Assignment-status/">
-            <i class="bi bi-circle"></i><span> Assignments Status</span>
-          </a>
-        </li>
-
-        {{!-- <li>
-          <a href="admin/add-dept">
-            <i class="bi bi-circle"></i><span>Add-Department</span>
-          </a>
-        </li> --}}
-
-
-
-      </ul>
-    </li>
-
-
-
+      <li class="nav-item">
+        <a class="nav-link collapsed"  href="/student/logout" onclick="return confirm('are you sure to logout')" onload="preventBack()">
+          <i class="bi bi-grid"></i>
+          <span>Logout</span>
+          <i class="bi bi-grid"></i>
+          <img width="15" height="15" src="https://img.icons8.com/ios/50/exit--v1.png" alt="exit--v1"/>
+        </a>
+      </li>
     <!-- End Components Nav -->
-
-
-
-
-
 
 </aside><!-- End Sidebar-->
 
@@ -209,7 +178,7 @@
                 </ul>
               </div>
 
-              <div class="card-body">
+              {{!-- <div class="card-body">
                 <h5 class="card-title">Customers <span>| This Year</span></h5>
 
                 <div class="d-flex align-items-center">
@@ -224,7 +193,7 @@
                   </div>
                 </div>
 
-              </div>
+              </div> --}}
             </div>
 
           </div><!-- End Customers Card -->
@@ -299,5 +268,8 @@
   </div>
 </footer><!-- End Footer -->
 
-<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
-    class="bi bi-arrow-up-short"></i></a>
+<script type="text/javascript">
+        function preventBack() { window.history.forward(); }
+        setTimeout("preventBack()", 0);
+        window.onunload = function () { null };
+  </script>

@@ -1,0 +1,44 @@
+<div class="card mt-5">
+    <div class="card-body">
+        <h5 class="card-title">Doubt History</h5>
+        <!-- Active Table -->
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Topic</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Instructor rating</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                {{#each history}}
+                <tr>
+                    <th scope="row">{{@index}}</th>
+                    <td>{{this.topic}}</td>
+                    <td>{{this.description}}</td>
+                    <td>{{this.statuscode}}</td>
+                    {{#if this.alert}}
+                    <td>
+                        <a href="/student/rate-instructor/{{this._id}},0" class="btn btn-danger">Bad</a>
+                        <a href="/student/rate-instructor/{{this._id}},1" class="btn btn-warning">Below Average</a>
+                        <a href="/student/rate-instructor/{{this._id}},2" class="btn btn-info">Average</a>
+                        <a href="/student/rate-instructor/{{this._id}},3" class="btn btn-primary">Good</a>
+                        <a href="/student/rate-instructor/{{this._id}},4" class="btn btn-success">Excellent</a>
+                    </td>
+                    {{else}}
+                    <td>{{this.rate}}</td>
+                    {{/if}}
+                </tr>
+
+
+                {{/each}}
+            </tbody>
+        </table>
+        <!-- End Active Table -->
+
+    </div>
+</div>

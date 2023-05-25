@@ -12,11 +12,12 @@ const attendanceHelper = require('../Helpers/staffHelper/attendanceHelper');
 const { log, error } = require('console');
 const openai = require('../Helpers/staffHelper/openai')
 /* GET home page. */
-const verifystaff = (req, res, next) => {
+const verifystaff = async (req, res, next) => {
   if (req.session.loggedIn) {
       staffId = req.session.staff._id,
       username = req.session.staff.Name,
-      deptId = req.session.staff.Dept_Id
+      deptId = req.session.staff.Dept_Id,
+      rate = await assignmentController.getRating(staffId);
     next()
   } else {
     res.redirect('/staff/login')
@@ -26,7 +27,8 @@ const verifystaff = (req, res, next) => {
 router.get('/', verifystaff, async(req, res) => {
   var pendingdoubt = await assignmentController.getRaisedDoubts(deptId);
   var solved = await assignmentController.solvedDoubt(staffId);
-  res.render('staff/home', { staff: true, dept_id: deptId, username, "doubt":pendingdoubt.length, 'solved':solved.length});
+  var rating = await assignmentController.getRating(staffId);
+  res.render('staff/home', { staff: true, dept_id: deptId, username, "doubt":pendingdoubt.length, 'solved':solved.length, rating, rate});
 });
 
 //GET staff login
@@ -54,7 +56,7 @@ router.post('/login', (req, res) => {
 
 router.get("/add-Attendance/", verifystaff, async (req, res) => {
   var dept = await departmentController.getDepartment();
-  res.render('staff/select-class', { dept, username })
+  res.render('staff/select-class', { dept, username,rate })
 }),
 
   //POST select departmnent subject
@@ -68,7 +70,7 @@ router.get("/add-Attendance/", verifystaff, async (req, res) => {
     var hours = await attendanceController.getHours(dept_Id, subject[1], todayDate);
     attendanceHelper.getStudents(subject[1], dept_Id).
       then((students) => {
-        res.render('staff/student-data', { students, day: weekday[date.getDay()], dept_Id, hours, 'semester': subject[1], 'subjectId': subject[0], 'subject': subject[2], staff: true, username });
+        res.render('staff/student-data', { students, day: weekday[date.getDay()], dept_Id, hours,rate, 'semester': subject[1], 'subjectId': subject[0], 'subject': subject[2], staff: true, username });
       })
   })
 
@@ -83,7 +85,7 @@ router.post("/assign-attendance/:id", verifystaff, (req, res) => {
 //GET /staff/select-sub
 router.get("/select-sub/:id", verifystaff, (req, res) => {
   subjectController.getSubject(req.params.id).then((subject) => {
-    res.render('staff/get-notes', { staff: true, subject, username });
+    res.render('staff/get-notes', { staff: true, subject, rate, username });
   })
 })
 
@@ -120,7 +122,7 @@ router.get('/assign-notes/:id', verifystaff, (req, res) => {
       default:
         module = ["Something error OCcured"]
     }
-    res.render('staff/assign-notes', { staff: true, module, username, 'subId' : params[0] })
+    res.render('staff/assign-notes', { staff: true, module, rate, username, 'subId' : params[0] })
   })
 })
 
@@ -144,7 +146,7 @@ router.post('/save-note/:id', (req, res) => {
 
 router.get('/get-note/:id', (req, res) => {
   subjectController.getSubject(req.params.id).then((subject) => {
-    res.render('staff/get-notes', { staff: true, subject, username });
+    res.render('staff/get-notes', { staff: true, rate, subject, username });
   })
 })
 
@@ -176,7 +178,7 @@ router.post('/get-note/:id', (req,res) => {
     }
     // console.log(module);
     // res.send(module)
-    res.render('staff/note-picker', { staff: true, module,  'subId' : req.body.subject_id })
+    res.render('staff/note-picker', { staff: true, module, rate, 'subId' : req.body.subject_id })
   })
 })
 
@@ -198,7 +200,7 @@ router.get('/get-note-topic/:id',(req,res) => {
 
 router.get('/assign-assignment',(req, res) => {
   subjectController.getSubject(deptId).then((subject) => {
-    res.render('staff/assign-assignment', { staff: true, subject, username });
+    res.render('staff/assign-assignment', { staff: true, rate, subject, username });
   })
 })
 
@@ -210,4 +212,32 @@ router.post('/assign-assignment', (req, res) => {
 })
 
 
+router.get('/get-sub/:id',verifystaff, async (req,res) => {
+  var subect = await subjectController.getSubject(req.params.id);
+  res.json(subect);
+})
+
+
+router.get('/doubt-session', verifystaff, async (req, res) => {
+  var pendingdoubt = await assignmentController.getRaisedDoubts(deptId);
+  // res.send(pendingdoubt)
+  res.render('staff/doubt-viewer', {pendingdoubt, rate, username})
+})
+
+router.post('/update-doubt', verifystaff, (req, res) => {
+  assignmentController.updateDoubtStatus(req.body.doubt_id,staffId).then(
+    (response) =>{
+      console.log(response);
+      res.json({'status':true});
+    }
+  )
+})
+
+//@LOGOUT the user
+//logout staff
+router.get('/logout', (req, res) => {
+  req.session.destroy(()=>{
+    res.redirect('/');
+  })
+})
 module.exports = router;

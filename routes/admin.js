@@ -7,6 +7,7 @@ var subjectController = require('../Helpers/adminHelper/subjectHelper');
 var examHallController = require('../Helpers/adminHelper/ExamHallAllotHelper');
 var fs = require("fs");
 const adminAuth = require('../Helpers/adminHelper/adminAuth');
+const { log } = require('console');
 var router = express.Router();
 
 const verifyLogin = (req, res, next) => {
@@ -212,6 +213,7 @@ router.post('/add-syllab',verifyLogin, (req, res) => {
 })
 
 router.get('/get-sub/:id',verifyLogin, async (req,res) => {
+    console.log(req.params.id);
     var subect = await subjectController.getSubject(req.params.id);
 
     res.json(subect);
@@ -261,5 +263,17 @@ router.post('/generate-allocation',verifyLogin, (req,res) => {
 //2.3 insert the shuffled into hall and remove from the queue
 //3.Generate excel or pdf from the allocation
 
+//get hall
+router.get('/get-hall', (req, res) => {
+    examHallController.getHall().then((halls) => {
+        res.render('admin/hall-details',{halls})
+    })
+})
 
+//logout
+router.get('/logout', (req, res) => {
+    req.session.destroy(()=>{
+      res.redirect('/');
+    })
+  })
 module.exports = router;
