@@ -32,7 +32,7 @@ module.exports = {
   getRaisedDoubts: (deptId) => {
 
     return new Promise(async(resolve,reject) => {
-      var doubt = await db.get().collection(process.env.DOUBTDB).find({deptId:deptId}).toArray();
+      var doubt = await db.get().collection(process.env.DOUBTDB).find({$and:[{deptId:deptId},{statuscode:1}]}).toArray();
       resolve(doubt)
     })
   },
@@ -43,7 +43,53 @@ module.exports = {
       var solved = await db.get().collection(process.env.DOUBTDB).find({staffId: staffId}).toArray();
       resolve(solved)
     })
-  }
+  },
 
+  updateDoubtStatus: (doubtId,staff_id) => {
+
+    return new Promise((resolve,reject) => {
+      db.get().collection(process.env.DOUBTDB).updateOne({_id:new ObjectId(doubtId)}, 
+        {
+          $set: {
+          statuscode:0,
+          staffId: staff_id,
+          alert: true
+        }
+        }).then((response) =>{
+        resolve(response)
+      })
+    })
+  },
+
+  getRating: (staffId) => {
+
+    return new Promise(async (resolve, reject) => {
+      var doubts = await db.get().collection(process.env.DOUBTDB).find({staffId: staffId}).toArray();
+      var rate;
+      for(var i = 0; i < doubts.length; i++) {
+        rate += doubts[i].rate;
+      }
+
+      var total = doubts * 4;
+      var ans = {}
+      if(rate < total*0.25) {
+        ans.rating = 1;
+        ans.badge = 'Novice'
+      }
+      else if(rate < total * 0.5) {
+        ans.rating = 2;
+        ans.badge = 'Expert Answerer'
+      }
+      else if(rate < total * 0.75) {
+        ans.rating = 3;
+        ans.badge = 'Experienced'
+      }
+      else {
+        ans.rating = 4;
+        ans.badge = 'Rising Star'
+      }
+      resolve(ans)
+    })
+  }
 
 }
