@@ -11,27 +11,38 @@
             {{/each}}
         </select>
     </div>
+    <div id="loader" class="pe-4">
+        <div class="d-flex align-items-center">
+            <strong>Loading...</strong>
+            <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
+        </div>
+    </div>
     <div id="modules" class="form-group">
         <label for="exampleFormControlTextarea3">Notes</label>
         <textarea class="form-control" name="notes" id="moduleData" rows="7"></textarea>
     </div>
 
-    <button type="submit" id="sub" class="btn btn-primary" >Submit</button>
+    <button type="submit" id="sub" class="btn btn-primary">Submit</button>
 </form>
 
 
 <script>
+    $('#loader').hide();
     function getNote(keyword) {
         var topic = keyword.value;
         alert(topic);
+        $('#loader').show();
         $.ajax({
-            url:'/assigned-notes/'+topic,
+            url: '/assigned-notes/' + topic,
             method: "GET",
             success: ((response) => {
                 document.getElementById("moduleData").value = response;
                 alert(response);
                 document.getElementById("sub").disabled = false;
-            })
+            }),
+            complete: function () {
+                $('#loader').hide();
+            }
         })
     }
 </script>
