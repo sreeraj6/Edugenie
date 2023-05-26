@@ -100,28 +100,33 @@ router.get('/assign-notes/:id', verifystaff, (req, res) => {
   var params = req.params.id.split(",");
   syllabusController.getModule(params[0]).then((moduleInfo) => {
     var module;
-    switch (params[1]) {
-      case "1":
-        module = moduleInfo.module1;
-        break;
-      case "2":
-        module = moduleInfo.module2;
-        break;
-      case "3":
-        module = moduleInfo.module3;
-        break;
-      case "4":
-        module = moduleInfo.module4;
-        break;
-      case "5":
-        module = moduleInfo.module5;
-        break;
-      case "6":
-        module = moduleInfo.module6;
-        break;
-      default:
-        module = ["Something error OCcured"]
+    try {
+      switch (params[1]) {
+        case "1":
+          module = moduleInfo.module1;
+          break;
+        case "2":
+          module = moduleInfo.module2;
+          break;
+        case "3":
+          module = moduleInfo.module3;
+          break;
+        case "4":
+          module = moduleInfo.module4;
+          break;
+        case "5":
+          module = moduleInfo.module5;
+          break;
+        case "6":
+          module = moduleInfo.module6;
+          break;
+        default:
+          module = ["Something error OCcured"]
+      }
+    } catch (error) {
+      module = ['Please update syllabus']
     }
+    
     res.render('staff/assign-notes', { staff: true, module, rate, username, 'subId' : params[0] })
   })
 })
@@ -154,28 +159,36 @@ router.post('/get-note/:id', (req,res) => {
   console.log(req.body);
   syllabusController.getModule(req.body.subject_id).then((moduleInfo) => {
     var module;
-    switch (req.body.module) {
-      case "1":
-        module = moduleInfo.module1;
-        break;
-      case "2":
-        module = moduleInfo.module2;
-        break;
-      case "3":
-        module = moduleInfo.module3;
-        break;
-      case "4":
-        module = moduleInfo.module4;
-        break;
-      case "5":
-        module = moduleInfo.module5;
-        break;
-      case "6":
-        module = moduleInfo.module6;
-        break;
-      default:
-        module = ["Something error OCcured"]
+    try {
+      if(req.body.module){
+        switch (req.body.module) {
+          case "1":
+            module = moduleInfo.module1;
+            break;
+          case "2":
+            module = moduleInfo.module2;
+            break;
+          case "3":
+            module = moduleInfo.module3;
+            break;
+          case "4":
+            module = moduleInfo.module4;
+            break;
+          case "5":
+            module = moduleInfo.module5;
+            break;
+          case "6":
+            module = moduleInfo.module6;
+            break;
+          default:
+            module = ["Something error OCcured"]
+        }
+      }
+    } catch (error) {
+      module = ['Syllabus not found']
     }
+    
+    
     // console.log(module);
     // res.send(module)
     res.render('staff/note-picker', { staff: true, module, rate, 'subId' : req.body.subject_id })
@@ -212,6 +225,34 @@ router.post('/assign-assignment', (req, res) => {
 })
 
 
+//view assignment  dates
+//@GET /staff/assignment-status
+router.get('/assignment-status', verifystaff, (req, res) => { 
+  assignmentController.getAssignment(deptId)
+  .then((assignments) => {
+      res.render('staff/assigment-status', {assignments})
+    }
+  )
+})
+
+//update assignment status : active to inactive
+router.post('/update-assignment', (req, res) => {
+  assignmentController.updateAssignmentStatus(req.body.assignId).then(
+    (response) => {
+      res.json(response);
+    }
+  )
+})
+
+//delete assignment 
+//@GET /staff/delete-assignment/(id)
+router.post('/delete-assignment', (req, res) => {
+  assignmentController.deleteAssignment(req.body.assignId).then(
+    (response) => {
+      res.json(response);
+    }
+  )
+})
 router.get('/get-sub/:id',verifystaff, async (req,res) => {
   var subect = await subjectController.getSubject(req.params.id);
   res.json(subect);

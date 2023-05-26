@@ -39,11 +39,11 @@ module.exports = {
         })
     },
 
-    getAssignment: (deptId) => {
+    getAssignment: (deptId,semester) => {
 
         return new Promise(async(resolve, reject) => {
-
-            var assignment = await db.get().collection(process.env.ASSIGNMENT).find({$and:[{deptId:deptId},{statuscode:1}]}).toArray();
+            console.log(semester);
+            var assignment = await db.get().collection(process.env.ASSIGNMENT).find({$and:[{deptId:deptId},{statuscode:1},{semester:semester}]}).toArray();
             resolve(assignment);
         })
     }

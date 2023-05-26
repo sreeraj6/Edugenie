@@ -25,7 +25,7 @@ const verifyLogin = (req, res, next) => {
 /* GET users listing. */
 router.get('/', verifyLogin, async(req, res) => {
   var attendanceRecord = await studentMonitor.monitorAttendance(candidatecode);
-  var assigment = await studentMonitor.getAssignment(deptId);
+  var assigment = await studentMonitor.getAssignment(deptId,req.session.user.Semester);
   var percent = attendanceRecord.no_present/attendanceRecord.total  * 100;
   percent = Number((percent).toFixed(1));
     var color;
@@ -184,7 +184,7 @@ router.post('/doubt-raised', (req, res) => {
 })
 
 router.get('/get-assigment', (req, res) => {
-  studentMonitor.getAssignment(deptId).then((assigmentdata) => {
+  studentMonitor.getAssignment(deptId,req.session.user.Semester).then((assigmentdata) => {
     res.render('student/assignment-status', {assigmentdata,student: true})
   })
 })

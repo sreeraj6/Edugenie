@@ -1,0 +1,76 @@
+<div class="card mt-5">
+  <div class="card-body">
+    <h5 class="card-title">view-assignments</h5>
+    <!-- Active Table -->
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Topic</th>
+          <th scope="col">Subject Name</th>
+          <th scope="col">Date of Submission</th>
+          <th scope="col">Assignment Status</th>
+           
+        </tr>
+      </thead>
+      <tbody>
+
+        {{#each assignments}}
+        <tr>
+          <th scope="row">{{@index}}</th>
+ 
+          <td>{{this.topic}}</td>
+          <td>{{this.sub_name}}</td>
+          <td>{{this.last_date}}</td>
+          {{#if statuscode}}
+           <td>active</td>
+          {{else}}
+          <td>not active</td>
+          {{/if}}
+
+          {{#if statuscode}}
+           <td><button onclick="updateStatus('{{this._id}}')"  class="btn btn-primary"> <span class="btn-label"><i class="fa fa-check"></i></span>Completed</button></td>
+          {{/if}}
+          
+          <td><button onclick="deleteAssignment('{{this._id}}')" class="btn btn-danger"> <span class="btn-label"><i class="fa fa-check"></i></span>Delete</button></td>
+        </tr>
+       
+
+        {{/each}}
+      </tbody>
+    </table>
+    <!-- End Active Table -->
+
+  </div>
+</div>
+
+
+<script>
+    function updateStatus(assignmentId) {
+        var dataset = {'assignId':assignmentId};
+        $.ajax({
+            method: 'POST',
+            url: '/update-assignment',
+            data: dataset,
+            success: ((response) => {
+                location.reload();
+            })
+        })
+    }
+
+
+    function deleteAssignment(assignId) {
+        var datapair = {'assignId' : assignId};
+        if(confirm('Are you sure to delete')){
+            $.ajax({
+            method : 'POST',
+            url: '/delete-assignment',
+            data : datapair,
+            success: ((response) => {
+                location.reload();
+                })
+            })
+        }
+        
+    }
+</script>

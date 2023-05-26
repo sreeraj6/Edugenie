@@ -1,8 +1,8 @@
-<form  method="post">
+<form method="post">
     <h5 class="card-title">Subject</h5>
 
     <div class="form-group">
-        <label for="exampleFormControlInput1">Select Department</label>
+        <label for="exampleFormControlInput1">Select Topic</label>
         <select id="topic" name="topic" onchange="getNotes(this,'{{subId}}')" class="form-select"
             aria-label="Default select example">
             <option value='' selected>Select Department</option>
@@ -16,19 +16,19 @@
         <textarea class="form-control" name="notes" id="moduleData" rows="7" disabled></textarea>
     </div>
 
-    {{!-- <button type="submit" id="sub" class="btn btn-primary" >Submit</button> --}}
+    {{!-- <button type="submit" id="sub" class="btn btn-primary">Submit</button> --}}
 </form>
 
 
 <script>
-    function getNotes(keyword,subjectId) {
+    function getNotes(keyword, subjectId) {
         var notepicker = {
-            topic : keyword.value,
+            topic: keyword.value,
             sub_id: subjectId
         }
         alert(notepicker.topic);
         $.ajax({
-            url:'/get-note-topic/'+notepicker.sub_id+","+notepicker.topic,
+            url: '/get-note-topic/' + notepicker.sub_id + "," + notepicker.topic,
             method: "GET",
             success: ((response) => {
                 document.getElementById("moduleData").innerHTML = response;

@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const { ObjectId, Timestamp } = require('mongodb');
 const objectId = require('mongodb').ObjectId;
 
-const { response } = require('../../app')
+const { response, resource } = require('../../app')
 
 module.exports = {
 
@@ -89,6 +89,34 @@ module.exports = {
         ans.badge = 'Rising Star'
       }
       resolve(ans)
+    })
+  },
+
+  getAssignment: (deptId) => {
+    return new Promise(async (resolve, reject) => {
+      var assignment = await db.get().collection(process.env.ASSIGNMENT).find({deptId: deptId}).toArray();
+      resolve(assignment);
+    })
+  },
+
+  updateAssignmentStatus: (assignmentId) => {
+
+    return new Promise((resolve, reject) => {
+      db.get().collection(process.env.ASSIGNMENT).updateOne({_id: new ObjectId(assignmentId)},{
+        $set:{
+          statuscode:0
+        }
+      })
+    })
+  },
+
+  deleteAssignment: (assignmentId) => {
+
+    return new Promise((resolve, reject) => {
+      db.get().collection(process.env.ASSIGNMENT).deleteOne({_id: new ObjectId(assignmentId)})
+      .then((response) => {
+        resolve(response);
+      })
     })
   }
 
