@@ -266,7 +266,7 @@ router.post('/generate-allocation',verifyLogin, (req,res) => {
 //get hall
 router.get('/get-hall', (req, res) => {
     examHallController.getHall().then((halls) => {
-        res.render('admin/hall-details',{halls})
+        res.render('admin/hall-details',{halls, admin:true})
     })
 })
 
